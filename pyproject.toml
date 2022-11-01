@@ -3,9 +3,9 @@ requires      = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sha"
+name = "stockhold"
 version = "0.1.0"
-description = "leveraged multi family housing analysis"
+description = "stock hold analysis"
 readme = "README.md"
 authors = [{ name = "Vamsee Achanta", email = "vamsee.achanta@aceengineer.com" }]
 license = { file = "LICENSE" }
@@ -14,7 +14,7 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]
-keywords = ["realestate", "multifamily", "leverage", "investments"]
+keywords = ["stock analysis", "stock hold", "back analysis", "investment"]
 dependencies = ["numpy_financial", "pyyaml", "pandas", "numpy", "plotly", 'tomli; python_version < "3.11"']
 requires-python = ">=3.7"
 
@@ -23,11 +23,11 @@ requires-python = ">=3.7"
     dev   = ["black", "bumpver", "isort", "mypy", "pytest"]
 
     [project.scripts]
-    multifamily = "lmfa.multifamily"
+    stock_hold = "stockhold.stock_analysis"
 
     [project.urls]
-    repository    = "https://github.com/vamseeachanta/leveraged-multi-family-analysis"
-    documentation = "https://github.com/vamseeachanta/leveraged-multi-family-analysis/blob/main/README.md"
+    repository    = "https://github.com/vamseeachanta/stockhold"
+    documentation = "https://github.com/vamseeachanta/stockhold/blob/main/README.md"
 
 
 [tool.bumpver]
@@ -43,8 +43,8 @@ push            = false
         'current_version = "{version}"',
         'version = "{version}"',
     ]
-    "src/lmfa/__init__.py" = ["{version}"]
-    "src/lmfa/__main__.py" = ["- leveraged-multi-family-analysis v{version}"]
+    "src/stockhold/__init__.py" = ["{version}"]
+    "src/stockhold/__main__.py" = ["- stockhold v{version}"]
 
 [tool.isort]
 profile                   = "black"

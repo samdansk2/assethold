@@ -1,4 +1,5 @@
 import datetime
+import pytz
 import pandas as pd
 
 from data import get_initials_from_name, transform_df_datetime_to_str
@@ -341,7 +342,7 @@ class FinanceAnalysis():
 
     def check_if_price_above_1p3_52wk_low(self, df, close='Close'):
         description = 'Price 30% Above 52 wk low [% above]'
-        fiftyTwoWeekLow = df[df['Date'] > datetime.datetime.now() +
+        fiftyTwoWeekLow = df[df['Date'] > datetime.datetime.now(pytz.timezone('America/New_York')) +
                              datetime.timedelta(days=-365)].Close.min()
         percent_above_52wklow = ((df.iloc[-1][close] / fiftyTwoWeekLow - 1) *
                                  100).__round__(0)
@@ -357,7 +358,7 @@ class FinanceAnalysis():
 
     def check_if_price_near_52wk_high_range(self, df, close='Close'):
         description = 'Price within 25% of 52 wk high range [% value]'
-        fiftyTwoWeekHigh = df[df['Date'] > datetime.datetime.now() +
+        fiftyTwoWeekHigh = df[df['Date'] > datetime.datetime.now(pytz.timezone('America/New_York')) +
                               datetime.timedelta(days=-365)].Close.max()
         percent_above_52wkhigh = ((df.iloc[-1][close] / fiftyTwoWeekHigh - 1) *
                                   100).__round__(0)
