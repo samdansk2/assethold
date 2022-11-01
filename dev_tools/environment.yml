@@ -1,0 +1,24 @@
+name: stockhold
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - pandas
+  - pip
+  - pip:
+    - pyyaml
+    - numpy_financial
+    - bumpver
+    - plotly
+    - dash==2.5.1
+    - dash_bootstrap_components
+    - urllib3
+    - xmltodict
+    - bs4
+    - sqlalchemy
+    - yfinance
+    - yahoo_fin
+    - finvizfinance
+    - sec_edgar_downloader
+    - ta
