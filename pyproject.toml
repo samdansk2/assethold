@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stockhold"
-version = "0.1.0"
+version = "0.0.1"
 description = "stock hold analysis"
 readme = "README.md"
 authors = [{ name = "Vamsee Achanta", email = "vamsee.achanta@aceengineer.com" }]
@@ -15,7 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 keywords = ["stock analysis", "stock hold", "back analysis", "investment"]
-dependencies = ["numpy_financial", "pyyaml", "pandas", "numpy", "plotly", 'tomli; python_version < "3.11"']
+dependencies = ["pandas", "pyyaml", "numpy_financial", "bumpver", "plotly", "dash", "dash_bootstrap_components", "urllib3", "xmltodict", "bs4", "sqlalchemy", "yfinance", "yahoo_fin", "finvizfinance", "sec_edgar_downloader", "ta"]
 requires-python = ">=3.7"
 
     [project.optional-dependencies]
@@ -31,7 +31,7 @@ requires-python = ">=3.7"
 
 
 [tool.bumpver]
-current_version = "0.1.5"
+current_version = "0.0.1"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message  = "bump version {old_version} -> {new_version}"
 commit          = true

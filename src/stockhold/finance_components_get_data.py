@@ -6,7 +6,7 @@ import yfinance as yf
 from finvizfinance.quote import finvizfinance
 from yahoo_fin.stock_info import tickers_dow, tickers_nasdaq, tickers_sp500
 
-from finance_components_get_SEC_data import SECDataForm, SECDataTicker
+from stockhold.finance_components_get_SEC_data import SECDataForm, SECDataTicker
 
 sec_ticker = SECDataTicker()
 
