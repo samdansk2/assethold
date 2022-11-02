@@ -23,7 +23,7 @@ requires-python = ">=3.7"
     dev   = ["black", "bumpver", "isort", "mypy", "pytest"]
 
     [project.scripts]
-    stock_hold = "stockhold.stock_analysis"
+    stock_hold = "stockhold.stock_analysis.stock_analysis"
 
     [project.urls]
     repository    = "https://github.com/vamseeachanta/stockhold"
