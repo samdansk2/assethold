@@ -9,7 +9,6 @@ from sqlalchemy import text
 
 import stockhold
 from stockhold.common.data import transform_df_datetime_to_str, transform_df_None_to_NULL
-from stockhold.common.database import get_db_connection, get_db_properties_for_service
 from stockhold.finance_components_analysis import FinanceAnalysis
 from stockhold.finance_components_get_data import FinanceGetData
 
@@ -59,11 +58,6 @@ class FinanceComponents():
             'data': self.fdata.status,
             'analysis': self.fanalysis.status
         })
-
-    def get_database_connection(self):
-        db_properties = get_db_properties_for_service(service='StockAnalysis')
-        self.dbe, self.dbe_connection_status = get_db_connection(
-            db_properties=db_properties)
 
     def get_data_exist_status_in_db(self):
         db_latest_data_exist_status = False
