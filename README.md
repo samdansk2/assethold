@@ -7,6 +7,8 @@ Helps manage a stock as a stand-alone portfolio
 # Summary
 
 **TODO**
+- Logic Flowchart
+- Add tests
 - Troubleshoot SEC data import. Advise users to put appropriate headers to avoid lock-out by SEC websites
 - Dashboard pending. 
 

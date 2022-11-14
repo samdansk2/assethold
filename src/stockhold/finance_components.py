@@ -7,7 +7,6 @@ import traceback
 import pandas as pd
 from sqlalchemy import text
 
-import stockhold
 from stockhold.common.data import transform_df_datetime_to_str, transform_df_None_to_NULL
 from stockhold.finance_components_analysis import FinanceAnalysis
 from stockhold.finance_components_get_data import FinanceGetData
@@ -215,7 +214,7 @@ class FinanceComponents():
         option_analysis = data_dict.get('option_analysis', None)
         call_analysis = option_analysis.get(
             'call_analysis', None) if option_analysis is not None else None
-        institution_data = data_dict.get('institution_data', None)
+        institution_data = data_dict.get('institution_data', {})
         institutional_holders = institution_data.get('institutional_holders',
                                                      None)
 

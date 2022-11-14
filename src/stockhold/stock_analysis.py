@@ -1,5 +1,8 @@
 from stockhold.common.data import AttributeDict
 from stockhold.finance_components import FinanceComponents
+from stockhold.StockCharts import StockCharts
+
+stock_charts = StockCharts()
 
 
 def stock_analysis(ticker, dashboard_flag=True):
@@ -9,6 +12,9 @@ def stock_analysis(ticker, dashboard_flag=True):
     fc.fdata.get_data()
     stock_data_dict = fc.get_data_dict()
     fc.perform_analysis(stock_data_dict)
+    # cfg = fc.get_stock_analysis_UI_cfg(stock_data_dict)
+    plot_cfg = fc.get_stock_analysis_plot_cfg(stock_data_dict)
+    plot_data = stock_charts.get_plot_data(plot_cfg)
 
     if cfg['dashboard']:
         fc.dashboard()

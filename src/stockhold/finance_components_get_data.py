@@ -54,7 +54,7 @@ class FinanceGetData():
         self.status['insider']['finviz'] = {}
         try:
             self.fv_ticker = finvizfinance(stock_ticker)
-            insider_info_finviz = self.fv_ticker.TickerInsideTrader()
+            insider_info_finviz = self.fv_ticker.ticker_inside_trader()
             current_year = datetime.datetime.now().year
             insider_info_finviz['SEC Form 4'] = insider_info_finviz[
                 'SEC Form 4'].apply(lambda x: str(current_year) + ' ' + x)
