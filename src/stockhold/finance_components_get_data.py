@@ -219,9 +219,12 @@ class FinanceGetData():
             self.stock_data_array.append(df)
 
     def get_sec_data(self, ticker):
-        sec_form4 = self.sec_form.get_sec_form_data(ticker,
-                                                    cfg_sec=self.cfg["cfg_sec"])
-        sec_data = {'sec_form4': sec_form4}
+        try:
+            sec_form4 = self.sec_form.get_sec_form_data(
+                ticker, cfg_sec=self.cfg["cfg_sec"])
+            sec_data = {'sec_form4': sec_form4}
+        except:
+            sec_data = {'sec_form4': []}
         return sec_data
 
     def get_tickers_dow(self):

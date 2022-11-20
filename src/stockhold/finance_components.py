@@ -7,6 +7,7 @@ import traceback
 import pandas as pd
 from sqlalchemy import text
 
+from stockhold.common.data import AttributeDict
 from stockhold.common.data import transform_df_datetime_to_str, transform_df_None_to_NULL
 from stockhold.finance_components_analysis import FinanceAnalysis
 from stockhold.finance_components_get_data import FinanceGetData
@@ -18,7 +19,16 @@ if 'tests' in script_working_dir:
 
 class FinanceComponents():
 
-    def __init__(self, cfg):
+    def __init__(self, cfg=None):
+
+        if cfg is None:
+            cfg = AttributeDict({
+                'source': 'yfinance',
+                'stocks': [{
+                    'ticker': None
+                }],
+                'period': '5y'
+            })
 
         self.cfg = cfg
 
