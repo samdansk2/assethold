@@ -39,9 +39,16 @@ def stock_analysis_by_ticker(ticker):
         df_data = fc.fdata.stock_data_array[0]
         assert (len(df_data) > 0)
         df_ta = fc.fanalysis.ta
-        assert (len(df_ta) >= 0)
-        df_insider = fc.fanalysis.insider_analysis_by_relation_df
-        assert (len(df_insider) >= 0)
+        assert (len(df_ta) > 0)
+        if fc.fdata.company_info['stock_ticker'] == 'RIG':
+            df_insider_sell = fc.fanalysis.insider_df_sell
+            assert (len(df_insider_sell) > 0)
+            df_insider_buy = fc.fanalysis.insider_df_buy
+            assert (len(df_insider_buy) > 0)
+            df_insider_by_timeline = fc.fanalysis.insider_analysis_by_timeline_df
+            assert (len(df_insider_by_timeline) > 0)
+            df_insider_by_relation = fc.fanalysis.insider_analysis_by_relation_df
+            assert (len(df_insider_by_relation) > 0)
 
     print("Analysis for ticker: {}  ... COMPLETED".format(ticker))
 

@@ -39,3 +39,4 @@ def get_detailed_cfg(ticker, dashboard_flag):
     cfg.update({"cfg_sec": cfg_sec})
 
     return cfg
+

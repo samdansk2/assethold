@@ -38,6 +38,7 @@ class FinanceComponents():
             self.fdata = FinanceGetData(self.cfg)
             self.fanalysis = FinanceAnalysis(self.cfg)
             self.status = {}
+            self.UI_cfg = None
 
     def valid_ticker(self, ticker=None):
         return self.fdata.valid_ticker()

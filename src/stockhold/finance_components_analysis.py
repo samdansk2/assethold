@@ -14,6 +14,8 @@ class FinanceAnalysis():
         self.insider_analysis_by_timeline_df = pd.DataFrame()
         self.call_effective_value_df = pd.DataFrame()
         self.call_effective_value_df_filtered = pd.DataFrame()
+        self.insider_df_buy = pd.DataFrame()
+        self.insider_df_sell = pd.DataFrame()
         self.status = {'insider': {}}
 
     def assign_data(self, data_dict):
@@ -66,13 +68,15 @@ class FinanceAnalysis():
             insider_df['Tooltip'] = insider_df.apply(
                 lambda row: self.get_tootip_for_insider_summary_row(row),
                 axis=1)
-            insider_df_buy = insider_df[insider_df.share_holding_ratio >= 1]
-            insider_df_sell = insider_df[insider_df.share_holding_ratio < 1]
+            self.insider_df_buy = insider_df[
+                insider_df.share_holding_ratio >= 1]
+            self.insider_df_sell = insider_df[
+                insider_df.share_holding_ratio < 1]
         else:
-            insider_df_buy = insider_df.copy()
-            insider_df_sell = insider_df.copy()
-        insider_df_buy_dict = insider_df_buy.to_dict(orient='records')
-        insider_df_sell_dict = insider_df_sell.to_dict(orient='records')
+            self.insider_df_buy = insider_df.copy()
+            self.insider_df_sell = insider_df.copy()
+        insider_df_buy_dict = self.insider_df_buy.to_dict(orient='records')
+        insider_df_sell_dict = self.insider_df_sell.to_dict(orient='records')
         insider_summary = {
             'insider_df_buy': insider_df_buy_dict,
             'insider_df_sell': insider_df_sell_dict
