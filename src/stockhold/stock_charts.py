@@ -950,3 +950,146 @@ class StockCharts:
 
         plotly_data = viz.get_plotly_data(cfg_plot_data)
         return plotly_data
+
+    def get_figure_0(self, fc, selected_dropdown_value):
+        ta = fc.fanalysis.ta.copy()
+        plot_cfg = {'ta': ta, 'ticker': selected_dropdown_value}
+        plotly_data = self.create_price_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_1(self, fc, selected_dropdown_value):
+        ta = fc.fanalysis.ta.copy()
+        plot_cfg = {'ta': ta, 'ticker': selected_dropdown_value}
+        plotly_data = self.create_volume_on_balance(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_2(self, fc, selected_dropdown_value):
+
+        ta = fc.fanalysis.ta.copy()
+        plot_cfg = {'ta': ta, 'ticker': selected_dropdown_value}
+        plotly_data = self.create_eom_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_3(self, fc, selected_dropdown_value):
+
+        ta = fc.fanalysis.ta.copy()
+        plot_cfg = {'ta': ta, 'ticker': selected_dropdown_value}
+        plotly_data = self.create_cfm_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_4(self, fc, selected_dropdown_value):
+
+        ta = fc.fanalysis.ta.copy()
+        plot_cfg = {'ta': ta, 'ticker': selected_dropdown_value}
+        plotly_data = self.create_wt_price_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_5(self, fc, selected_dropdown_value):
+
+        df_insider_by_timeline = fc.fanalysis.insider_analysis_by_timeline_df.copy(
+        )
+        plot_cfg = {
+            'df_insider_by_timeline': df_insider_by_timeline,
+            'ticker': selected_dropdown_value
+        }
+        plotly_data = self.create_insider_by_timeline_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_6(self, fc, selected_dropdown_value):
+
+        df_insider_by_relation = fc.fanalysis.insider_analysis_by_relation_df.copy(
+        )
+        plot_cfg = {
+            'df_insider_by_relation': df_insider_by_relation,
+            'ticker': selected_dropdown_value
+        }
+        plotly_data = self.create_insider_by_relation_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_7(self, fc, selected_dropdown_value):
+
+        ta = fc.fanalysis.ta.copy()
+        df_insider_sell = fc.fanalysis.insider_df_sell.copy()
+        df_insider_buy = fc.fanalysis.insider_df_buy.copy()
+        plot_cfg = {
+            'ta': ta,
+            'df_insider_sell': df_insider_sell,
+            'df_insider_buy': df_insider_buy,
+            'ticker': selected_dropdown_value
+        }
+        plotly_data = self.create_insider_relative_sale_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_8(self, fc, selected_dropdown_value):
+
+        ta = fc.fanalysis.ta.copy()
+        df_insider_sell = fc.fanalysis.insider_df_sell.copy()
+        df_insider_buy = fc.fanalysis.insider_df_buy.copy()
+        plot_cfg = {
+            'ta': ta,
+            'df_insider_sell': df_insider_sell,
+            'df_insider_buy': df_insider_buy,
+            'ticker': selected_dropdown_value
+        }
+        plotly_data = self.create_insider_relative_buy_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_9(self, fc, selected_dropdown_value):
+
+        df_institutional_holders = fc.fanalysis.df_institutional_holders.copy()
+        plot_cfg = {
+            'df_institutional_holders': df_institutional_holders,
+            'ticker': selected_dropdown_value
+        }
+        plotly_data = self.create_institution_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_10(self, fc, selected_dropdown_value):
+
+        ta = fc.fanalysis.ta.copy()
+        plot_cfg = {'ta': ta, 'ticker': selected_dropdown_value}
+        plotly_data = self.create_volatility_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_11(self, fc, selected_dropdown_value):
+
+        ta = fc.fanalysis.ta.copy()
+        plot_cfg = {'ta': ta, 'ticker': selected_dropdown_value}
+        plotly_data = self.create_volatility_width_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_12(self, fc, selected_dropdown_value):
+
+        ta = fc.fanalysis.ta.copy()
+        plot_cfg = {'ta': ta, 'ticker': selected_dropdown_value}
+        plotly_data = self.create_volatility_high_low_band_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_13(self, fc, selected_dropdown_value):
+
+        ta = fc.fanalysis.ta.copy()
+        plot_cfg = {'ta': ta, 'ticker': selected_dropdown_value}
+        plotly_data = self.create_ulcer_chart(plot_cfg)
+
+        return plotly_data
+
+    def get_figure_14(self, fc, selected_dropdown_value):
+
+        ta = fc.fanalysis.ta.copy()
+        plot_cfg = {'ta': ta, 'ticker': selected_dropdown_value}
+        plotly_data = self.create_strength_all_chart(plot_cfg)
+
+        return plotly_data

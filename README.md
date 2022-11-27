@@ -6,13 +6,11 @@ Helps manage a stock as a stand-alone portfolio
 
 # Summary
 
-**TODO**
-- Logic Flowchart
-- Add tests
-- Troubleshoot SEC data import. Advise users to put appropriate headers to avoid lock-out by SEC websites
-- Dashboard pending. 
 
 # Usage
+
+See 
+
 
 See a [test file](https://github.com/vamseeachanta/stockhold/blob/master/src/stockhold/test/test_all_analysis_xom.py) to see how to perform analysis
 
@@ -43,6 +41,23 @@ Mapping Dashboard UI to the financial analysis
 | Option <br> Call | fc.fanalysis | df_call_analysis | done | - [x] ok?
 | Option <br> Put | fc.fanalysis | TBA | done | - [x] ok?
 
+## Debt
+
+Library TODO list to keep track of ideas.
+
+**TODO**
+- Add summary for all key analysis to help make faster decisions.
+- Troubleshoot SEC data import. Advise users to put appropriate headers to avoid lock-out by SEC websites
+- Add Logic Flowchart
+- Improve to run visualization analysis only once per ticker. Currently running inefficiently. See example analysis output below
+<code>
+Analysis for ticker: RIG  ... COMPLETED
+Analysis for ticker: RIG  ... COMPLETED
+RIG
+Analysis for ticker: RIG  ... COMPLETED
+Analysis for ticker: RIG  ... COMPLETED
+Analysis for ticker: RIG  ... COMPLETED
+RIG</code>
 
 ## References
 

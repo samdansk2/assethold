@@ -69,6 +69,34 @@ class FinanceComponents():
             'analysis': self.fanalysis.status
         })
 
+    def stock_analysis_by_ticker(self, ticker):
+        print("Analysis for ticker: {}  ... START".format(ticker))
+        self.cfg.update({
+            'stocks': [{
+                'ticker': ticker
+            }],
+        })
+        data_dict = None
+        if self.valid_ticker():
+            try:
+                self.get_data()
+                data_dict = self.get_data_dict()
+            except:
+                self.fdata.status.update({"Getting data": "Failed"})
+                logging.info("StockAnalysis Data Error: (%s)" %
+                             traceback.format_exc())
+                print("StockAnalysis, Getting data ... FAILED")
+            try:
+                if data_dict is not None:
+                    self.perform_analysis(data_dict)
+            except:
+                self.fanalysis.status.update({"Analysis": "Failed"})
+                logging.info("StockAnalysis Data Error: (%s)" %
+                             traceback.format_exc())
+                print("StockAnalysis, Performing analysis  ... FAILED")
+
+        print("Analysis for ticker: {}  ... COMPLETED".format(ticker))
+
     def get_data_exist_status_in_db(self):
         db_latest_data_exist_status = False
         if self.dbe_connection_status:
