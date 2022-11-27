@@ -61,7 +61,6 @@ def run_analysis_if_required(selected_dropdown_value):
 
 
 def get_table_0_df(fc, selected_dropdown_value):
-    run_analysis_if_required(selected_dropdown_value)
     df = fc.fdata.company_info['breakout_trend_indicators'].copy()
     return df
 
