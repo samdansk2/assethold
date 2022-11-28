@@ -22,3 +22,6 @@ dependencies:
     - finvizfinance
     - sec_edgar_downloader
     - ta
+    - flask_wtf
+    - flask_httpauth
+    - flask_restful
