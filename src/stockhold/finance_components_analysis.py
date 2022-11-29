@@ -14,6 +14,7 @@ class FinanceAnalysis():
         self.insider_analysis_by_timeline_df = pd.DataFrame()
         self.call_effective_value_df = pd.DataFrame()
         self.call_effective_value_df_filtered = pd.DataFrame()
+        self.insider_info = None
         self.insider_df_buy = pd.DataFrame()
         self.insider_df_sell = pd.DataFrame()
         self.status = {'insider': {}}
@@ -53,13 +54,13 @@ class FinanceAnalysis():
         insider_analysis_by_timeline_dict = self.get_insider_analysis_by_timeline(
             insider_df.copy())
 
-        insider_info = {
+        self.insider_info = {
             'insider_summary': insider_summary_dict,
             'insider_by_relation': insider_analysis_by_relation_dict,
             'insider_by_timeline': insider_analysis_by_timeline_dict
         }
 
-        return insider_info
+        return self.insider_info
 
     def get_insider_summary(self, insider_df):
         if len(insider_df) > 0:
@@ -210,6 +211,9 @@ class FinanceAnalysis():
                     self.insider_analysis_by_timeline_df.loc[len(
                         self.insider_analysis_by_timeline_df)] = row_array
 
+            self.insider_analysis_by_timeline_df[
+                'tradeDate'] = self.insider_analysis_by_timeline_df[
+                    'tradeDate'].dt.strftime('%Y-%m-%d %H:%M:%S')
             insider_analysis_by_timeline_df_dict = self.insider_analysis_by_timeline_df.to_dict(
                 orient='records')
             return insider_analysis_by_timeline_df_dict
@@ -263,7 +267,7 @@ class FinanceAnalysis():
         df.loc[len(df)] = self.check_if_price_above_1p3_52wk_low(df_data)
         df.loc[len(df)] = self.check_if_price_near_52wk_high_range(df_data)
 
-        return df
+        return df.to_dict(orient='records')
 
     def check_if_price_above_150_and_200_moving(self, df, close="Close"):
         description = 'Price Above 150 & 200 day avgs.'

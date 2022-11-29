@@ -41,6 +41,7 @@ class FinanceGetData():
             self.cfg['stocks'][0]['ticker'])
         self.get_ratings()
         self.get_options_data()
+        self.get_yf_institutions(self.cfg['stocks'][0]['ticker'])
 
     def get_stock_price_data(self):
         try:
@@ -319,8 +320,5 @@ class FinanceGetData():
 
     def get_yf_institutions(self, ticker):
         self.yf_ticker = yf.Ticker(str(ticker))
-        institutional_holders = self.yf_ticker.get_institutional_holders()
-        major_holders = self.yf_ticker.get_major_holders()
-        # mf_holders = self.yf_ticker.get_mutualfund_holders()
-
-        return institutional_holders, major_holders
+        self.institutional_holders = self.yf_ticker.get_institutional_holders()
+        self.major_holders = self.yf_ticker.get_major_holders()

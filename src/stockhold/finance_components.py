@@ -190,27 +190,55 @@ class FinanceComponents():
 
         return df
 
-    def get_stock_analysis_UI_cfg(self, data_dict):
+    def get_output_dict(self):
 
-        ticker = data_dict.get('ticker', None)
-        daily_data = data_dict.get('daily_data', None)
-        ta = data_dict.get('ta', None)
-        breakout_trends = data_dict.get('breakout_trends', None)
-        status = data_dict.get('status', None)
-        updated_time = data_dict.get('updated_time', None)
-        sector = data_dict.get('sector', None)
+        ticker = self.fdata.company_info['stock_ticker']
+        daily_data = self.fanalysis.df_data
+        ta = self.fanalysis.ta
+        breakout_trends = self.fdata.company_info['breakout_trend_indicators']
+        status = self.fanalysis.status
+        updated_time = datetime.datetime.now()
+        sector = self.fdata.company_info['info']['sector']
+        insider_info = self.fanalysis.insider_info
+        option_analysis = self.fdata.company_info['optionanalysis']
+        ticker_list_in_sector = []
+        # ticker_list_in_sector = self.get_tickers_list_in_same_sector(sector=sector)
+        # ticker_list_in_sector.remove(ticker)
 
-        insider_info = data_dict.get('insider_info', None)
+        output_dict = {
+            'ticker': ticker,
+            'daily_data': daily_data,
+            'ta': ta,
+            'breakout_trends': breakout_trends,
+            'status': status,
+            'updated_time': updated_time,
+            'sector': sector,
+            'insider_info': insider_info,
+            'ticker_list_in_sector': ticker_list_in_sector,
+            'option_analysis': option_analysis
+        }
+
+        return output_dict
+
+    def get_stock_analysis_UI_cfg(self, output_dict):
+
+        ticker = output_dict.get('ticker', None)
+        daily_data = output_dict.get('daily_data', None)
+        ta = output_dict.get('ta', None)
+        breakout_trends = output_dict.get('breakout_trends', None)
+        status = output_dict.get('status', None)
+        updated_time = output_dict.get('updated_time', None)
+        sector = output_dict.get('sector', None)
+        insider_info = output_dict.get('insider_info', None)
+
         insider_by_relation = insider_info.get(
             'insider_by_relation', None) if insider_info is not None else None
         insider_by_timeline = insider_info.get(
             'insider_by_timeline', None) if insider_info is not None else None
 
         ticker_list_in_sector = []
-        # ticker_list_in_sector = self.get_tickers_list_in_same_sector(sector=sector)
-        # ticker_list_in_sector.remove(ticker)
 
-        option_analysis = data_dict.get('option_analysis', None)
+        option_analysis = output_dict.get('option_analysis', None)
         call_analysis = option_analysis.get(
             'call_analysis', None) if option_analysis is not None else None
         cfg = {

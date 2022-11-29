@@ -49,18 +49,11 @@ Mapping Dashboard UI to the financial analysis
 Library TODO list to keep track of ideas.
 
 **TODO**
+
 - Add summary for all key analysis to help make faster decisions.
+- Add insider ranking for relative comparison between tickers
 - Troubleshoot SEC data import. Advise users to put appropriate headers to avoid lock-out by SEC websites
 - Add Logic Flowchart
-- Improve to run visualization analysis only once per ticker. Currently running inefficiently. See example analysis output below
-<code>
-Analysis for ticker: RIG  ... COMPLETED
-Analysis for ticker: RIG  ... COMPLETED
-RIG
-Analysis for ticker: RIG  ... COMPLETED
-Analysis for ticker: RIG  ... COMPLETED
-Analysis for ticker: RIG  ... COMPLETED
-RIG</code>
 
 ## References
 

@@ -115,57 +115,68 @@ def get_form_submitted_value():
 
 
 def assign_stock_data_and_update_menu_items(ticker=None, test_flag=False):
-    if ticker in ticker_list:
-        context['data'] = {}
-        context['title'] = ticker
-        context['error'] = True
-        if ticker is None:
-            ticker = context['form_submitted_value']
-        try:
-            data_dict = fc.get_data_for_UI(ticker=ticker)
-            if not test_flag:
-                current_app.logger.debug(
-                    f"{AppName} UI, Data from database for :{ticker} ... SUCCESS"
-                    .format(AppName, ticker))
-        except:
-            if not test_flag:
-                current_app.logger.debug(
-                    f"{AppName} UI, Data from database for :{ticker} ... FAIL".
-                    format(AppName, ticker))
-
-        try:
-            context['cfg'] = fc.get_stock_analysis_UI_cfg(data_dict)
-            if not test_flag:
-                current_app.logger.debug(
-                    f"{AppName} UI, Data assignment for :{ticker} ... SUCCESS".
-                    format(AppName, ticker))
-        except:
-            if not test_flag:
-                current_app.logger.debug(
-                    f"{AppName} UI, Data assignment for :{ticker} ... FAIL".
-                    format(AppName, ticker))
-
-        try:
-            plot_cfg = fc.get_stock_analysis_plot_cfg(data_dict)
-            context['plot_data'] = stock_charts.get_plot_data(plot_cfg)
-            context['error'] = False
-            if not test_flag:
-                current_app.logger.debug(
-                    f"{AppName} UI, Plot data assignment for :{ticker} ... SUCCESS"
-                    .format(AppName, ticker))
-        except:
-            if not test_flag:
-                current_app.logger.debug(
-                    f"{AppName} UI, Plot data assignment for :{ticker} ... FAIL"
-                    .format(AppName, ticker))
-
+    context['data'] = {}
+    context['title'] = ticker
+    context['error'] = True
+    if ticker is None:
+        ticker = context['form_submitted_value']
+    try:
+        fc.cfg['stocks'][0]['ticker'] = ticker
+        fc.get_data()
+        data_dict = fc.get_data_dict()
         if not test_flag:
-            context['menu_items'] = get_menu_items(ticker)
-    else:
+            current_app.logger.debug(
+                f"{AppName} UI, Data for :{ticker} ... SUCCESS".format(
+                    AppName, ticker))
+    except:
         if not test_flag:
-            current_app.logger.error(
-                f"{AppName} UI, No ticker ticker found :{ticker} ... FAIL".
+            current_app.logger.debug(
+                f"{AppName} UI, Data for :{ticker} ... FAIL".format(
+                    AppName, ticker))
+
+    try:
+        if data_dict is not None:
+            fc.fanalysis.assign_data(data_dict)
+            fc.fanalysis.run_long_term_analysis()
+        if not test_flag:
+            current_app.logger.debug(
+                f"{AppName} UI, Analysis for :{ticker} ... SUCCESS".format(
+                    AppName, ticker))
+    except:
+        if not test_flag:
+            current_app.logger.debug(
+                f"{AppName} UI, Analysis for :{ticker} ... FAIL".format(
+                    AppName, ticker))
+
+    try:
+        output_dict = fc.get_output_dict()
+        context['cfg'] = fc.get_stock_analysis_UI_cfg(output_dict)
+        if not test_flag:
+            current_app.logger.debug(
+                f"{AppName} UI, Data assignment for :{ticker} ... SUCCESS".
                 format(AppName, ticker))
+    except:
+        if not test_flag:
+            current_app.logger.debug(
+                f"{AppName} UI, Data assignment for :{ticker} ... FAIL".format(
+                    AppName, ticker))
+
+    try:
+        plot_cfg = fc.get_stock_analysis_plot_cfg(output_dict)
+        context['plot_data'] = stock_charts.get_plot_data(plot_cfg)
+        context['error'] = False
+        if not test_flag:
+            current_app.logger.debug(
+                f"{AppName} UI, Plot data assignment for :{ticker} ... SUCCESS".
+                format(AppName, ticker))
+    except:
+        if not test_flag:
+            current_app.logger.debug(
+                f"{AppName} UI, Plot data assignment for :{ticker} ... FAIL".
+                format(AppName, ticker))
+
+    if not test_flag:
+        context['menu_items'] = get_menu_items(ticker)
 
 
 def get_menu_items(ticker):
@@ -186,11 +197,11 @@ def get_menu_items(ticker):
             'href': '{}/institution',
             'alias': 'Institution Info',
         },
-    # {
-    #     'id': 'technical',
-    #     'href': '{}/technical',
-    #     'alias': 'Technical Analysis',
-    # },
+        {
+            'id': 'technical',
+            'href': '{}/technical',
+            'alias': 'Technical Analysis',
+        },
     # {
     #     'id': 'options',
     #     'href': '{}/options',

@@ -50,7 +50,7 @@ class Visualization():
             self.assign_grouped_data()
         self.assign_layout()
 
-        if format in cfg.keys() and cfg['format'] == 'json':
+        if 'format' in cfg.keys() and cfg['format'] == 'json':
             plotly_data = json.dumps(self.plot_data,
                                      cls=plotly.utils.PlotlyJSONEncoder)
         else:

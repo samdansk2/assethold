@@ -8,7 +8,7 @@ from wtforms.validators import DataRequired
 # Flask app object
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
-app.secret_key = b'm\xb7\x12\x97\xb4\x98\x88~\xf4o'
+app.secret_key = b'm\xb7\x12\xf4o'
 
 
 def register_blueprint(mod_name, is_service=True):

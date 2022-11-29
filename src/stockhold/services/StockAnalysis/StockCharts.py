@@ -1,6 +1,8 @@
 import datetime
 import json
 
+from stockhold.common.visualization import Visualization
+
 
 class StockCharts:
 
@@ -54,13 +56,13 @@ class StockCharts:
         plotly_data3 = json.loads(self.create_insider_share_price_chart(cfg))
 
         plotly_data = plotly_data1.copy()
-        plotly_data['data'] = plotly_data1['data'] + plotly_data2['data'] + plotly_data3['data']
+        plotly_data['data'] = plotly_data1['data'] + plotly_data2[
+            'data'] + plotly_data3['data']
         plotly_data_json_str = json.dumps(plotly_data)
 
         return plotly_data_json_str
 
     def create_insider_buy_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         ticker = cfg['ticker']
@@ -100,7 +102,8 @@ class StockCharts:
             'name': ['Bought'],
             'x': ['Date'],
             'y': ['Cost'],
-            'text': ['Tooltip']
+            'text': ['Tooltip'],
+            'format': 'json'
         }
         cfg_plot_data.update({'layout': layout})
 
@@ -108,7 +111,6 @@ class StockCharts:
         return plotly_data
 
     def create_insider_relative_sale_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
         plotly_group_data = None
 
@@ -145,7 +147,8 @@ class StockCharts:
             'name': ['Shares at Start'],
             'x': ['Date'],
             'y': ['Cost'],
-            'text': ['Tooltip']
+            'text': ['Tooltip'],
+            'format': 'json'
         }
         cfg_plot_data.update({'layout': layout})
         plotly_data = viz.get_plotly_data(cfg_plot_data)
@@ -153,7 +156,8 @@ class StockCharts:
         if plotly_group_data is None:
             plotly_group_data = json.loads(plotly_data).copy()
         else:
-            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(plotly_data)['data']
+            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(
+                plotly_data)['data']
 
         cfg_plot_data = {
             'data_source': df,
@@ -171,6 +175,7 @@ class StockCharts:
             'name': ['Sold'],
             'x': ['Date'],
             'y': ['Cost'],
+            'format': 'json'
         }
         cfg_plot_data.update({'layout': layout})
         plotly_data = viz.get_plotly_data(cfg_plot_data)
@@ -178,18 +183,19 @@ class StockCharts:
         if plotly_group_data is None:
             plotly_group_data = json.loads(plotly_data).copy()
         else:
-            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(plotly_data)['data']
+            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(
+                plotly_data)['data']
 
         plotly_data = self.create_insider_share_price_chart(cfg)
         if plotly_group_data is None:
             plotly_group_data = json.loads(plotly_data).copy()
         else:
-            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(plotly_data)['data']
+            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(
+                plotly_data)['data']
 
         return plotly_group_data
 
     def create_insider_relative_buy_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
         plotly_group_data = None
 
@@ -226,7 +232,8 @@ class StockCharts:
             'name': ['Shares at End'],
             'x': ['Date'],
             'y': ['Cost'],
-            'text': ['Tooltip']
+            'text': ['Tooltip'],
+            'format': 'json'
         }
         cfg_plot_data.update({'layout': layout})
         plotly_data = viz.get_plotly_data(cfg_plot_data)
@@ -234,7 +241,8 @@ class StockCharts:
         if plotly_group_data is None:
             plotly_group_data = json.loads(plotly_data).copy()
         else:
-            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(plotly_data)['data']
+            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(
+                plotly_data)['data']
 
         cfg_plot_data = {
             'data_source': df,
@@ -252,7 +260,8 @@ class StockCharts:
             'name': ['Buy'],
             'x': ['Date'],
             'y': ['Cost'],
-            'text': ['Tooltip']
+            'text': ['Tooltip'],
+            'format': 'json'
         }
         cfg_plot_data.update({'layout': layout})
         plotly_data = viz.get_plotly_data(cfg_plot_data)
@@ -260,18 +269,19 @@ class StockCharts:
         if plotly_group_data is None:
             plotly_group_data = json.loads(plotly_data).copy()
         else:
-            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(plotly_data)['data']
+            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(
+                plotly_data)['data']
 
         plotly_data = self.create_insider_share_price_chart(cfg)
         if plotly_group_data is None:
             plotly_group_data = json.loads(plotly_data).copy()
         else:
-            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(plotly_data)['data']
+            plotly_group_data['data'] = plotly_group_data['data'] + json.loads(
+                plotly_data)['data']
 
         return plotly_group_data
 
     def create_insider_sell_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         ticker = cfg['ticker']
@@ -311,7 +321,8 @@ class StockCharts:
             'name': ['Sold'],
             'x': ['Date'],
             'y': ['Cost'],
-            'text': ['Tooltip']
+            'text': ['Tooltip'],
+            'format': 'json'
         }
         cfg_plot_data.update({'layout': layout})
 
@@ -319,7 +330,6 @@ class StockCharts:
         return plotly_data
 
     def create_insider_share_price_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         ticker = cfg['ticker']
@@ -337,7 +347,9 @@ class StockCharts:
             df_insider_sell_min_date = datetime.datetime.now()
 
         min_date = min(df_insider_buy_min_date, df_insider_sell_min_date)
-        df = df[df.Date >= min_date]
+        df["Date_compare"] = [x.to_pydatetime().date() for x in df.Date]
+        # df = df[df.Date >= min_date]
+        df = df[df["Date_compare"] >= min_date.to_pydatetime().date()]
 
         cfg_plot_data = {
             'data_source': df,
@@ -348,7 +360,8 @@ class StockCharts:
             'y': ['Close'],
             'line': {
                 'color': None
-            }
+            },
+            'format': 'json'
         }
         layout = {
             'title': 'Stock Price Timeline: {}'.format(ticker),
@@ -365,7 +378,6 @@ class StockCharts:
         return plotly_data
 
     def create_insider_by_relation_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg['df_insider_by_relation']
@@ -377,7 +389,8 @@ class StockCharts:
             'name': ['Share Holding Ratio'],
             'x': ['Relationship'],
             'y': ['Share Holding Ratio'],
-            'text': ['Tooltip']
+            'text': ['Tooltip'],
+            'format': 'json'
         }
         layout = {
             'title':
@@ -409,7 +422,6 @@ class StockCharts:
         return plotly_data
 
     def create_insider_by_timeline_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg['df_insider_by_timeline']
@@ -422,10 +434,13 @@ class StockCharts:
             'name_column_legend_groups': ['Actions'],
             'x': ['tradeDate'],
             'y': ['Share Holding Ratio'],
-            'text': ['Tooltip']
+            'text': ['Tooltip'],
+            'format': 'json'
         }
         layout = {
-            'title': 'Share Holding (End/Start) Ratio by Timeline : {}'.format(ticker),
+            'title':
+                'Share Holding (End/Start) Ratio by Timeline : {}'.format(ticker
+                                                                         ),
             'xaxis': {
                 'tickangle': -45,
                 'type': 'category',
@@ -448,7 +463,8 @@ class StockCharts:
                     'dash': 'dash'
                 }
             }],
-            'barmode': 'group'
+            'barmode':
+                'group'
         }
         cfg_plot_data.update({'layout': layout})
 
@@ -460,13 +476,18 @@ class StockCharts:
         plotly_data2 = json.loads(self.create_insider_share_price_chart(cfg))
 
         plotly_data = plotly_data1.copy()
-        plotly_data['data'] = plotly_data1['data'] + plotly_data2['data']
+        if plotly_data1['data'] is not None and plotly_data2['data'] is not None:
+            plotly_data['data'] = plotly_data1['data'] + plotly_data2['data']
+        elif plotly_data1['data'] is not None:
+            plotly_data['data'] = plotly_data1['data']
+        elif plotly_data2['data'] is not None:
+            plotly_data['data'] = plotly_data2['data']
+
         plotly_data_json_str = json.dumps(plotly_data)
 
         return plotly_data_json_str
 
     def create_institution_volume_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         ticker = cfg['ticker']
@@ -506,7 +527,8 @@ class StockCharts:
             'name': ['Institution Volume(#)'],
             'x': ['end_date'],
             'y': ['Shares'],
-            'text': ['Holder']
+            'text': ['Holder'],
+            'format': 'json'
         }
         cfg_plot_data.update({'layout': layout})
 
@@ -514,7 +536,6 @@ class StockCharts:
         return plotly_data
 
     def create_price_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg['df_daily_data']
@@ -526,10 +547,13 @@ class StockCharts:
             'mode': "lines",
             'name': ['Close', '50 day avg.', '150 day avg.', '200 day avg.'],
             'x': ['Date'],
-            'y': ['Close', '50_day_rolling', '150_day_rolling', '200_day_rolling'],
+            'y': [
+                'Close', '50_day_rolling', '150_day_rolling', '200_day_rolling'
+            ],
             'line': {
                 'color': None
-            }
+            },
+            'format': 'json'
         }
         layout = {
             'title': 'Stock Price Timeline: {}'.format(ticker),
@@ -546,7 +570,6 @@ class StockCharts:
         return plotly_data
 
     def create_volume_all_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg.get('ta', None)
@@ -557,22 +580,34 @@ class StockCharts:
             'type': "scatter",
             'mode': "lines",
             'name': [
-                'On Balance Volume', 'Chaikin Money Flow', 'Ease of Movement (EoM)', 'EoM SMA.', 'Vol. Wt. Avg Price'
+                'On Balance Volume', 'Chaikin Money Flow',
+                'Ease of Movement (EoM)', 'EoM SMA.', 'Vol. Wt. Avg Price'
             ],
             'x': ['index'],
-            'y': ['volume_obv', 'volume_cmf', 'volume_em', 'volume_sma_em', 'volume_vwap'],
+            'y': [
+                'volume_obv', 'volume_cmf', 'volume_em', 'volume_sma_em',
+                'volume_vwap'
+            ],
             'line': {
                 'color': None
+            },
+            'format': 'json'
+        }
+        layout = {
+            'title': 'Stock : {}'.format(ticker),
+            'xaxis': {
+                'title': 'Date'
+            },
+            'yaxis': {
+                'title': 'Value'
             }
         }
-        layout = {'title': 'Stock : {}'.format(ticker), 'xaxis': {'title': 'Date'}, 'yaxis': {'title': 'Value'}}
         cfg_plot_data.update({'layout': layout})
 
         plotly_data = viz.get_plotly_data(cfg_plot_data)
         return plotly_data
 
     def create_ob_volume_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg.get('ta', None)
@@ -587,7 +622,8 @@ class StockCharts:
             'y': ['volume_obv'],
             'line': {
                 'color': None
-            }
+            },
+            'format': 'json'
         }
         layout = {
             'title': 'On balance Volume : {}'.format(ticker),
@@ -604,7 +640,6 @@ class StockCharts:
         return plotly_data
 
     def create_cfm_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg.get('ta', None)
@@ -619,16 +654,24 @@ class StockCharts:
             'y': ['volume_cmf'],
             'line': {
                 'color': None
+            },
+            'format': 'json'
+        }
+        layout = {
+            'title': 'Money Flow : {}'.format(ticker),
+            'xaxis': {
+                'title': 'Date'
+            },
+            'yaxis': {
+                'title': 'Value'
             }
         }
-        layout = {'title': 'Money Flow : {}'.format(ticker), 'xaxis': {'title': 'Date'}, 'yaxis': {'title': 'Value'}}
         cfg_plot_data.update({'layout': layout})
 
         plotly_data = viz.get_plotly_data(cfg_plot_data)
         return plotly_data
 
     def create_eom_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg.get('ta', None)
@@ -643,7 +686,8 @@ class StockCharts:
             'y': ['volume_em', 'volume_sma_em'],
             'line': {
                 'color': None
-            }
+            },
+            'format': 'json'
         }
         layout = {
             'title': 'Ease of Movement : {}'.format(ticker),
@@ -660,7 +704,6 @@ class StockCharts:
         return plotly_data
 
     def create_wt_price_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg.get('ta', None)
@@ -675,16 +718,24 @@ class StockCharts:
             'y': ['volume_vwap'],
             'line': {
                 'color': None
+            },
+            'format': 'json'
+        }
+        layout = {
+            'title': 'Stock : {}'.format(ticker),
+            'xaxis': {
+                'title': 'Date'
+            },
+            'yaxis': {
+                'title': 'Value'
             }
         }
-        layout = {'title': 'Stock : {}'.format(ticker), 'xaxis': {'title': 'Date'}, 'yaxis': {'title': 'Value'}}
         cfg_plot_data.update({'layout': layout})
 
         plotly_data = viz.get_plotly_data(cfg_plot_data)
         return plotly_data
 
     def create_volatility_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg.get('ta', None)
@@ -695,28 +746,38 @@ class StockCharts:
             'type': "scatter",
             'mode': "lines",
             'name': [
-                'Bollinger (Boll.) % Width', 'Boll Highband Ind.', 'Boll Lowband Ind.',
-                'Keltner ATR Channel (KC) % Width', 'KC Highband Ind.', 'KC Lowband Ind.', 'Doncian Channel % Width',
-                'Ulcer Index'
+                'Bollinger (Boll.) % Width', 'Boll Highband Ind.',
+                'Boll Lowband Ind.', 'Keltner ATR Channel (KC) % Width',
+                'KC Highband Ind.', 'KC Lowband Ind.',
+                'Doncian Channel % Width', 'Ulcer Index'
             ],
             'x': ['index'],
             'y': [
-                'volatility_bbp', 'volatility_bbhi', 'volatility_bbli', 'volatility_kcp', 'volatility_kchi',
-                'volatility_bbli', 'volatility_dcp', 'volatility_ui'
+                'volatility_bbp', 'volatility_bbhi', 'volatility_bbli',
+                'volatility_kcp', 'volatility_kchi', 'volatility_bbli',
+                'volatility_dcp', 'volatility_ui'
             ],
             'line': {
                 'color': None
-            }
+            },
+            'format': 'json'
         }
 
-        layout = {'title': 'Stock : {}'.format(ticker), 'xaxis': {'title': 'Date'}, 'yaxis': {'title': 'Value'}}
+        layout = {
+            'title': 'Stock : {}'.format(ticker),
+            'xaxis': {
+                'title': 'Date'
+            },
+            'yaxis': {
+                'title': 'Value'
+            }
+        }
         cfg_plot_data.update({'layout': layout})
 
         plotly_data = viz.get_plotly_data(cfg_plot_data)
         return plotly_data
 
     def create_volatility_width_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg.get('ta', None)
@@ -726,12 +787,16 @@ class StockCharts:
             'data_source': df,
             'type': "scatter",
             'mode': "lines",
-            'name': ['Bollinger (Boll.) % Width', 'Keltner ATR Channel (KC) % Width', 'Doncian Channel % Width'],
+            'name': [
+                'Bollinger (Boll.) % Width', 'Keltner ATR Channel (KC) % Width',
+                'Doncian Channel % Width'
+            ],
             'x': ['index'],
             'y': ['volatility_bbp', 'volatility_kcp', 'volatility_dcp'],
             'line': {
                 'color': None
-            }
+            },
+            'format': 'json'
         }
 
         layout = {
@@ -749,7 +814,6 @@ class StockCharts:
         return plotly_data
 
     def create_volatility_high_low_band_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg.get('ta', None)
@@ -759,12 +823,19 @@ class StockCharts:
             'data_source': df,
             'type': "scatter",
             'mode': "lines",
-            'name': ['Boll Highband Ind.', 'Boll Lowband Ind.', 'KC Highband Ind.', 'KC Lowband Ind.'],
+            'name': [
+                'Boll Highband Ind.', 'Boll Lowband Ind.', 'KC Highband Ind.',
+                'KC Lowband Ind.'
+            ],
             'x': ['index'],
-            'y': ['volatility_bbhi', 'volatility_bbli', 'volatility_kchi', 'volatility_kcli'],
+            'y': [
+                'volatility_bbhi', 'volatility_bbli', 'volatility_kchi',
+                'volatility_kcli'
+            ],
             'line': {
                 'color': None
-            }
+            },
+            'format': 'json'
         }
         layout = {
             'title': 'Volatility Hi-Low Bands : {}'.format(ticker),
@@ -781,7 +852,6 @@ class StockCharts:
         return plotly_data
 
     def create_ulcer_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg.get('ta', None)
@@ -796,17 +866,25 @@ class StockCharts:
             'y': ['volatility_ui'],
             'line': {
                 'color': None
-            }
+            },
+            'format': 'json'
         }
 
-        layout = {'title': 'Ulcer Index : {}'.format(ticker), 'xaxis': {'title': 'Date'}, 'yaxis': {'title': 'Value'}}
+        layout = {
+            'title': 'Ulcer Index : {}'.format(ticker),
+            'xaxis': {
+                'title': 'Date'
+            },
+            'yaxis': {
+                'title': 'Value'
+            }
+        }
         cfg_plot_data.update({'layout': layout})
 
         plotly_data = viz.get_plotly_data(cfg_plot_data)
         return plotly_data
 
     def create_strength_all_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg.get('ta', None)
@@ -817,27 +895,36 @@ class StockCharts:
             'type': "scatter",
             'mode': "lines",
             'name': [
-                'RSIIndicator', 'StochRSIIndicator', 'TSIIndicator', 'UltimateOscillator', 'WilliamsRIndicator',
+                'RSIIndicator', 'StochRSIIndicator', 'TSIIndicator',
+                'UltimateOscillator', 'WilliamsRIndicator',
                 'AwesomeOscillatorIndicator', 'ROCIndicator'
             ],
             'x': ['index'],
             'y': [
-                'momentum_rsi', 'momentum_stoch_rsi', 'momentum_tsi', 'momentum_uo', 'momentum_wr', 'momentum_ao',
-                'momentum_roc'
+                'momentum_rsi', 'momentum_stoch_rsi', 'momentum_tsi',
+                'momentum_uo', 'momentum_wr', 'momentum_ao', 'momentum_roc'
             ],
             'line': {
                 'color': None
-            }
+            },
+            'format': 'json'
         }
 
-        layout = {'title': 'Stock : {}'.format(ticker), 'xaxis': {'title': 'Date'}, 'yaxis': {'title': 'Value'}}
+        layout = {
+            'title': 'Stock : {}'.format(ticker),
+            'xaxis': {
+                'title': 'Date'
+            },
+            'yaxis': {
+                'title': 'Value'
+            }
+        }
         cfg_plot_data.update({'layout': layout})
 
         plotly_data = viz.get_plotly_data(cfg_plot_data)
         return plotly_data
 
     def create_call_analysis_chart(self, cfg):
-        from common.visualization import Visualization
         viz = Visualization()
 
         df = cfg['df_call_analysis']
@@ -850,7 +937,8 @@ class StockCharts:
             'name_column_legend_groups': ['strike'],
             'x': ['expirationDate'],
             'y': ['effectiveValuePerShare'],
-            'text': ['Tooltip']
+            'text': ['Tooltip'],
+            'format': 'json'
         }
         layout = {
             'title': 'Share Holding Ratio : {}'.format(ticker),
