@@ -179,9 +179,10 @@ class Visualization():
                                          series_name, text_data)
                     plot_data.append(data.copy())
 
-            return plot_data
         except:
             logging.debug("Data does not exist")
+
+        return plot_data
 
     def assign_grouped_data(self):
         try:

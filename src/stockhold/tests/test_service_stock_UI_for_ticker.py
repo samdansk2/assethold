@@ -34,7 +34,8 @@ if __name__ == '__main__':
 
     # Supporting functions
     # get_data_for_UI(ticker='RIG')
-    test_service_stock_UI(ticker='RIG')
+    test_service_stock_UI(ticker='VIEW')
+    # test_service_stock_UI(ticker='RIG')
     # test_service_stock_UI(ticker='HD')
     # test_service_stock_UI(ticker='HD')
     # test_service_stock_UI(ticker='OCGN')

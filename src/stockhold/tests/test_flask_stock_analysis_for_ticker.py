@@ -12,8 +12,9 @@ def test_stock_analysis_by_ticker(ticker):
 
 
 if __name__ == '__main__':
-    test_stock_analysis_by_ticker(ticker='RIG')
+    test_stock_analysis_by_ticker(ticker='VIEW')
 
+    # test_stock_analysis_by_ticker(ticker='RIG')
     # test_stock_analysis_by_ticker(ticker='OCGN')
     # test_StockAnalysisbyTicker(ticker='OXY')
     # test_StockAnalysisbyTicker(ticker='SPY')
