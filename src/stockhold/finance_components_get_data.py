@@ -6,9 +6,6 @@ import yfinance as yf
 from finvizfinance.quote import finvizfinance
 from yahoo_fin.stock_info import tickers_dow, tickers_nasdaq, tickers_sp500
 
-from stockhold.finance_components_get_SEC_data import SECDataForm, SECDataTicker
-
-sec_ticker = SECDataTicker()
 
 
 class FinanceGetData():
@@ -20,9 +17,9 @@ class FinanceGetData():
         self.company_info = {'DataQuality': []}
         self.option_data = {}
 
-        self.sec_form = SECDataForm()
-        self.sec_form4 = pd.DataFrame()
-        self.sec_data_duration_years = 2
+        # self.sec_form = SECDataForm()
+        # self.sec_form4 = pd.DataFrame()
+        # self.sec_data_duration_years = 2
 
         self.inside_trader_df = pd.DataFrame()
         self.ratings_df = pd.DataFrame()
@@ -299,6 +296,10 @@ class FinanceGetData():
         return start_shares, share_holding_ratio, average_cost
 
     def get_sec_ticker_data(self):
+
+        from stockhold.finance_components_get_SEC_data import SECDataForm, SECDataTicker
+
+        sec_ticker = SECDataTicker()
 
         company_tickers_json = sec_ticker.get_company_tickers()
         company_tickers = json.loads(company_tickers_json)
