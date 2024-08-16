@@ -9,8 +9,8 @@ import pandas as pd
 
 sys.path.extend(['..'])
 
-from common.data import AttributeDict
-from common.finance_components import FinanceComponents
+from stockhold.common.data import AttributeDict
+from stockhold.finance_components import FinanceComponents
 
 logging.getLogger().setLevel(logging.INFO)
 logging.getLogger().addHandler(logging.StreamHandler())

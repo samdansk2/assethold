@@ -1,7 +1,7 @@
 import datetime
 import json
 
-from dashhtmlgrid.common.visualization import Visualization
+from stockhold.common.visualization import Visualization
 
 
 class StockCharts:
