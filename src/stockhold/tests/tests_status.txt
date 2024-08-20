@@ -1,4 +1,6 @@
 Tests Running : 
-- test_finance_EOD_data.py
-- test_finance_insider.py
-- test_flask_stock_analysis_for_ticker.py
+- test_finance_EOD_data.py (df)
+- test_finance_insider.py (df)
+- test_flask_stock_analysis_for_ticker.py (?)
+
+
