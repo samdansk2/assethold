@@ -1,6 +1,17 @@
 Tests Running : 
 - test_finance_EOD_data.py (df)
 - test_finance_insider.py (df)
-- test_flask_stock_analysis_for_ticker.py (?)
+- test_flask_stock_analysis_for_ticker.py (output)
+- test_service_stock_analysis_run_all_tickers - (output)
+- test_service_stock_UI_for_ticker - (output)
+ 
+Not Running:
+- test_finance_analysis - database error
+- test_finance_institution - TypeError: cannot unpack non-iterable NoneType object
+- test_flask_stock_analysis_for_all_tickers - Exception - Assertionerror
+- test_sec_data - Import error - cannot import name 'get_filing_urls_to_download' from 'sec_edgar_downloader._utils
+- test_stock_analysis_for_ticker - module error
+- test_stock_visualization_for_ticker_dropdown - module error - dashhtmlgrid
+- test_stock_visualization_for_ticker_text_area - module error - dashhtmlgrid
 
 
