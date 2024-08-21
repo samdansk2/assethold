@@ -32,7 +32,7 @@ class FinanceGetData():
         if cfg is not None:
             self.cfg = cfg
 
-        self.get_stock_price_data()
+        self.get_stock_price_data(cfg)
         self.get_stats()
         self.insider_df = self.get_insider_information(
             self.cfg['stocks'][0]['ticker'])
@@ -40,10 +40,11 @@ class FinanceGetData():
         self.get_options_data()
         self.get_yf_institutions(self.cfg['stocks'][0]['ticker'])
 
-    def get_stock_price_data(self):
+    def get_stock_price_data(self, cfg):
         try:
             self.status.update({'price': True})
-            self.get_data_from_yfinance()
+            ticker = cfg['stocks'][0]['ticker']
+            self.get_data_from_yfinance(ticker)
         except:
             self.status.update({'price': False})
             raise ("No valid data source found")

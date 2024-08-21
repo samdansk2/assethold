@@ -162,9 +162,9 @@ class FinanceComponents():
 
     def get_data_for_UI(self, ticker=None):
         data_dict = {}
-        filename = os.path.join(script_working_dir, 'data',
-                                self.dbe.server_type, 'sql',
-                                'stocks.UI.get_data.sql')
+        # filename = os.path.join(script_working_dir, 'data',
+        #                         self.dbe.server_type, 'sql',
+        #                         'stocks.UI.get_data.sql')
         try:
             df = self.dbe.executeScriptsFromFile(filename, [ticker])
             data_dict = df.to_dict(orient='records')[0]
