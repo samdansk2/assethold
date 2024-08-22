@@ -1,12 +1,15 @@
+# Standard library imports
 import os
 import sys
 
-from assetutilities.common.yml_utilities import ymlInput
-from assetutilities.common.update_deep import AttributeDict
-from assetutilities.common.ApplicationManager import ConfigureApplicationInputs
-from assetutilities.common.data import CopyAndPasteFiles
 
-# from stockhold.custom.orcaflex_utilities import OrcaflexUtilities
+# Third party imports
+from assetutilities.common.ApplicationManager import ConfigureApplicationInputs
+from assetutilities.common.update_deep import AttributeDict
+from assetutilities.common.yml_utilities import ymlInput
+
+from stockhold.data.get_stock_data import FinanceGetData
+
 
 library_name = "stockhold"
 
@@ -26,15 +29,17 @@ def engine(inputfile=None):
     if "file_management" in cfg_base and cfg["file_management"]["flag"]:
         cfg_base = ou.file_management(cfg_base)
 
-    # TODO
-    # if basename in "name of basename":
-    #    cfg_base = basename(cfg_base)
-    # elif basename in "name of basename":
-    #    cfg_base = basename(cfg_base)
+    #TODO
+    if basename in "stock":
+       stock_data = FinanceGetData(cfg=None)
+       cfg_base = stock_data.get_data(cfg_base)
+    elif basename in "name of basename":
+       cfg_base = basename(cfg_base)
 
-    #else:
-    #    raise (Exception(f"Analysis for basename: {basename} not found. ... FAIL"))
+    else:
+       raise (Exception(f"Analysis for basename: {basename} not found. ... FAIL"))
 
+    # Third party imports
     from assetutilities.common.utilities import save_application_cfg
     
     save_application_cfg(cfg_base=cfg_base)

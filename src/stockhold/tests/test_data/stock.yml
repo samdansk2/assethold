@@ -1,4 +1,8 @@
-basename: stockhold
+basename: stock
+
+type:
+  data:
+    eod: True
 
 default:
   log_level: DEBUG

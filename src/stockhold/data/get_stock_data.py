@@ -1,12 +1,12 @@
+# Standard library imports
 import datetime
 import json
 
+# Third party imports
 import pandas as pd
 import yfinance as yf
 from finvizfinance.quote import finvizfinance
 from yahoo_fin.stock_info import tickers_dow, tickers_nasdaq, tickers_sp500
-
-
 
 class FinanceGetData():
 
@@ -32,7 +32,8 @@ class FinanceGetData():
         if cfg is not None:
             self.cfg = cfg
 
-        self.get_stock_price_data(cfg)
+        cfg_stock_data = cfg['input']['data']['eod'].copy()
+        self.get_stock_price_data(cfg_stock_data)
         self.get_stats()
         self.insider_df = self.get_insider_information(
             self.cfg['stocks'][0]['ticker'])
@@ -97,7 +98,7 @@ class FinanceGetData():
             for date in option_dates:
                 option_chain = self.get_option_data_by_date(date)
                 self.option_data.update({date: option_chain})
-        except Exception as ex:
+        except Exception:
             self.status.update({'options': False})
             self.option_data = {}
 
@@ -110,6 +111,7 @@ class FinanceGetData():
         return option_chain_dict
 
     def get_data_from_tiingo(self):
+        # Third party imports
         import pandas_datareader as pdr
         api_key = '512e3063ad18b5116a83cf7ce7d852af4181917c'
         self.stock_data_array = []
@@ -124,6 +126,7 @@ class FinanceGetData():
             self.stock_data_array.append(df)
 
     def get_screened_stocks(self):
+        # Third party imports
         from finvizfinance.screener.overview import Overview
         finviz_overview = Overview()
         filters_dict = {'Exchange': 'AMEX', 'Sector': 'Basic Materials'}
@@ -163,6 +166,7 @@ class FinanceGetData():
 
     def get_stats(self):
         df = self.stock_data_array[0]
+        # Standard library imports
         import datetime
         if self.cfg['source'] == 'tiingo':
             num_years = ((df.date.max() - df.date.min()).days /
@@ -185,8 +189,10 @@ class FinanceGetData():
     def get_data_from_morningstar(self):
         data_source = 'morningstar'
 
+        # Standard library imports
         import datetime
 
+        # Third party imports
         import pandas_datareader.data as web
 
         start = datetime.datetime(2010, 1, 1)
@@ -197,12 +203,15 @@ class FinanceGetData():
 
     def get_data_from_iex(self):
         days_rolling_array = self.days_rolling_array
+        # Standard library imports
         import os
         os.environ["IEX_API_KEY"] = self.cfg.default['data_sources']['iex'][
             'api_key']
         # {'tiingo': {'flag': None}}
+        # Standard library imports
         from datetime import datetime, timedelta
 
+        # Third party imports
         import pandas_datareader.data as web
         end_date = datetime.now()
         start_date = end_date - timedelta(days=5479)
@@ -298,7 +307,8 @@ class FinanceGetData():
 
     def get_sec_ticker_data(self):
 
-        from stockhold.finance_components_get_SEC_data import SECDataForm, SECDataTicker
+        # Reader imports
+        from stockhold.finance_components_get_SEC_data import SECDataTicker
 
         sec_ticker = SECDataTicker()
 
