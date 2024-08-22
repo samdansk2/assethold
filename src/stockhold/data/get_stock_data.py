@@ -36,10 +36,10 @@ class FinanceGetData():
         self.get_stock_price_data(cfg_stock_data)
         self.get_stats()
         self.insider_df = self.get_insider_information(
-            self.cfg['stocks'][0]['ticker'])
+            self.cfg['input']['data']['eod']['stocks'][0]['ticker'])
         self.get_ratings()
         self.get_options_data()
-        self.get_yf_institutions(self.cfg['stocks'][0]['ticker'])
+        self.get_yf_institutions(self.cfg['input']['data']['eod']['stocks'][0]['ticker'])
 
     def get_stock_price_data(self, cfg):
         try:
@@ -137,7 +137,7 @@ class FinanceGetData():
     def get_data_from_yfinance(self, ticker=None):
         self.stock_data_array = []
         period = self.cfg.get('period', '5y')
-        for stock_info in self.cfg.stocks:
+        for stock_info in self.cfg['input']['data']['eod']['stocks']:
             stock_ticker = stock_info['ticker']
             self.yf_ticker = yf.Ticker(str(stock_ticker))
             self.company_info['stock_ticker'] = stock_ticker
@@ -168,14 +168,14 @@ class FinanceGetData():
         df = self.stock_data_array[0]
         # Standard library imports
         import datetime
-        if self.cfg['source'] == 'tiingo':
+        if self.cfg['input']['data']['eod']['source'] == 'tiingo':
             num_years = ((df.date.max() - df.date.min()).days /
                          365.25).__round__(1)
             start_time = df['date'].iloc[-1] + datetime.timedelta(days=-365)
             df_temp = df[df['date'] > start_time].copy()
             fiftyTwoWeekLow = df_temp.close.max()
             fiftyTwoWeekHigh = df_temp.close.min()
-        elif self.cfg['source'] == 'yfinance':
+        elif self.cfg['input']['data']['eod']['source'] == 'yfinance':
             num_years = ((df.Date.max() - df.Date.min()).days /
                          365.25).__round__(1)
             fiftyTwoWeekLow = self.yf_ticker.info['fiftyTwoWeekLow']
