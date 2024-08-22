@@ -6,9 +6,8 @@ from assetutilities.common.update_deep import AttributeDict
 from assetutilities.common.ApplicationManager import ConfigureApplicationInputs
 from assetutilities.common.data import CopyAndPasteFiles
 
-from digitalmodel.custom.orcaflex_utilities import OrcaflexUtilities
+# from stockhold.custom.orcaflex_utilities import OrcaflexUtilities
 
-ou = OrcaflexUtilities()
 library_name = "stockhold"
 
 def engine(inputfile=None):

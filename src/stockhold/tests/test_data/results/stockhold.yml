@@ -1,0 +1,27 @@
+&id001 !!python/object/new:assetutilities.common.data.AttributeDict
+state: *id001
+dictitems:
+  basename: stockhold
+  default:
+    log_level: DEBUG
+    config:
+      overwrite:
+        output: true
+  input:
+  - output_filename: 06a_501_section2_def
+    output_dir: ~
+    filename: ~
+    add_blank_file_in_between: false
+    input_files: []
+  Analysis:
+    basename: stockhold
+    analysis_root_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\..
+    file_name: stockhold
+    file_name_for_overwrite: stockhold
+    result_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\..\results
+    log_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\..\logs
+    start_time: 2024-08-21 23:28:52.899947
+    cfg_array_file_names: ~
+    DefaultInputFile: ~
+    CustomInputFile: c:\github\stockhold\src\stockhold\tests\test_data\data\../stockhold.yml
+    fe_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\..\results

@@ -9,7 +9,7 @@ from sqlalchemy import text
 
 from stockhold.common.data import AttributeDict
 from stockhold.common.data import transform_df_datetime_to_str, transform_df_None_to_NULL
-from stockhold.finance_components_analysis import FinanceAnalysis
+from stockhold.analysis.finance_components_analysis import FinanceAnalysis
 from stockhold.finance_components_get_data import FinanceGetData
 
 script_working_dir = os.getcwd()
