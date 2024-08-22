@@ -11,8 +11,9 @@ default:
       output: True
 
 input:
-  - output_filename: 06a_501_section2_def
-    output_dir: NULL
-    filename:
-    add_blank_file_in_between: False
-    input_files: []
+  ticker: AAPL
+  data_settings:
+    eod:
+      source: yfinance
+      period: 5y
+      interval: 1d

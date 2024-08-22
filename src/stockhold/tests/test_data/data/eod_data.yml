@@ -4,17 +4,11 @@ type:
   data:
     eod: True
 
+input:
+  ticker: AAPL
+
 default:
-  log_level: DEBUG
+  log_level: INFO
   config:
     overwrite:
       output: True
-
-input:
-  data:
-    eod:
-      source: yfinance
-      stocks:
-        - ticker: AAPL
-      period: 5y
-      interval: 1d
