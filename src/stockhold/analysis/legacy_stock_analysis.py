@@ -1,13 +1,26 @@
-import datetime
-import pytz
+# Standard library imports
+
 import pandas as pd
+import pytz
+from stockhold.common.data import (
+    get_initials_from_name,
+    getClosestIntegerInList,
+    transform_df_datetime_to_str,
+)
+import pytz
 
-from stockhold.common.data import get_initials_from_name, transform_df_datetime_to_str, getClosestIntegerInList
+# Reader imports
+from stockhold.common.data import (
+    get_initials_from_name,
+    getClosestIntegerInList,
+    transform_df_datetime_to_str,
+)
 
 
-class FinanceAnalysis():
+class StockAnalysis():
 
     def __init__(self, cfg):
+        # Third party imports
         import pandas as pd
         self.cfg = cfg
         self.insider_analysis_by_relation_df = pd.DataFrame()
@@ -235,6 +248,7 @@ class FinanceAnalysis():
         return call_analysis_dict
 
     def add_all_ta_features(self, df):
+        # Third party imports
         from ta import add_all_ta_features
         from ta.utils import dropna
         self.status.update({'technical': True})
@@ -250,11 +264,13 @@ class FinanceAnalysis():
                                               close="Close",
                                               volume="Volume")
             except:
+                # Third party imports
                 import pandas as pd
                 self.ta = pd.DataFrame()
 
     def get_breakout_trend(self, df_data):
         self.status.update({'breakout_trend': True})
+        # Third party imports
         import pandas as pd
         self.breakout_summary_array = []
         columns = ['Description', 'Value']
@@ -300,6 +316,7 @@ class FinanceAnalysis():
         ]
 
     def get_200_moving_up_for_n_mo(self, df):
+        # Standard library imports
         import datetime
         df['200_day_diff'] = df['200_day_rolling'].diff(periods=1).values
 
@@ -385,6 +402,7 @@ class FinanceAnalysis():
     def evaluate_call_data(self, option_date, option_data, current_price):
         # TODO Options transaction costs are not taken into account
         if self.call_effective_value_df.empty:
+            # Third party imports
             import pandas as pd
             columns = [
                 'expirationDate', 'strike', 'effectiveValuePerShare', 'Tooltip'
@@ -420,9 +438,11 @@ class FinanceAnalysis():
         pass
 
     def get_return_on_investment(self):
+        # Standard library imports
         import datetime
         import statistics
 
+        # Third party imports
         import pandas as pd
         import pytz
         self.df_returns_arrays = []

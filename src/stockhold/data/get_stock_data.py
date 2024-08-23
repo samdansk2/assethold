@@ -9,7 +9,7 @@ from finvizfinance.quote import finvizfinance
 from yahoo_fin.stock_info import tickers_dow, tickers_nasdaq, tickers_sp500
 
 
-class GetData():
+class GetStockData():
 
     def __init__(self, cfg):
         self.cfg = cfg
@@ -34,6 +34,7 @@ class GetData():
 
         daily = self.get_daily_data_by_ticker(cfg, ticker)
         daily = self.add_rolling_averages(daily)
+
         info = self.get_company_data_by_ticker(ticker)
         info = self.add_stats_to_info(daily, info)
 
@@ -41,11 +42,81 @@ class GetData():
 
         ratings = self.get_ratings()
         options = self.get_options_data()
-        institutions = self.get_yf_institutions(self.cfg['input']['data']['eod']['stocks'][0]['ticker'])
+        institutions = self.get_yf_institutions(ticker=ticker)
 
         data = {'daily': daily, 'info': info, 'insider': insider, 'ratings': ratings, 'options': options, 'institutions': institutions}
 
-        return data
+        # data_status = {'daily': daily['status'], 'info': info['status'], 'insider': insider['status'], 'ratings': ratings['status'], 'options': options['status'], 'institutions': institutions['status']}
+        data_status = {'daily': daily['status'], 'info': info['status'], 'insider': insider['status']}
+
+        cfg[cfg['basename']]= {'status': data_status}
+
+        return cfg, data
+
+    def get_EOD_data_from_yfinance(self, ticker):
+        period = self.cfg.get('period', '5y')
+        yf_ticker = yf.Ticker(str(ticker))
+        company_info = yf_ticker.info
+        df = yf_ticker.history(period=period)
+
+        return df
+
+    def add_rolling_averages(self, daily):
+        df = daily['df']
+        for days_rolling in self.days_rolling_array:
+            df[str(days_rolling) +
+               '_day_rolling'] = df.Close.rolling(window=days_rolling).mean()
+
+        daily['df'] = df
+
+        return daily
+
+    def get_company_data_by_ticker(self, ticker):
+        yf_ticker = yf.Ticker(str(ticker))
+        info_data = yf_ticker.info
+
+        info = {'data': info_data, 'status': True}
+
+        return info
+
+    def add_stats_to_info(self, daily, info_data):
+        df = daily['df']
+        num_years = ((df.Date.max() - df.Date.min()).days /
+                        365.25).__round__(1)
+        
+        info_data = info_data['data']
+        fiftyTwoWeekLow = info_data['fiftyTwoWeekLow']
+        fiftyTwoWeekHigh = info_data['fiftyTwoWeekHigh']
+        info_data['DataDuration'] =  num_years
+        info_data.update({'fiftyTwoWeekLow': fiftyTwoWeekLow})
+        info_data.update({'fiftyTwoWeekHigh': fiftyTwoWeekHigh})
+
+        info = {'data': info_data.copy(), 'status': True}
+        
+        return info
+
+    def get_insider_information(self, ticker):
+        status = False
+        insider_info_finviz = self.get_insider_information_from_finviz(ticker)
+        sec_data = self.get_sec_data(ticker)
+        sec_form4 = sec_data.get('sec_form4')
+        if len(sec_form4) > 0:
+            insider_df = sec_form4
+            insider_df = self.insider_data_clean_and_add_share_ratio(insider_df)
+        elif len(insider_info_finviz) > 0:
+            insider_df = insider_info_finviz
+            insider_df = self.insider_data_clean_and_add_share_ratio(insider_df)
+        else:
+            self.status.update({'insider_info': False})
+            insider_df = pd.DataFrame()
+            
+            status = False
+
+        insider = {'df': insider_df, 'status': status}
+
+        return insider
+
+
 
     def get_stock_price_data(self, cfg):
         try:
@@ -147,13 +218,8 @@ class GetData():
             df = yf_ticker.history(period=period)
             df.reset_index(inplace=True)
 
-        return df
-
-    def get_company_data_by_ticker(self, ticker):
-        yf_ticker = yf.Ticker(str(ticker))
-        info = yf_ticker.info
-
-        return info
+        daily = {'df': df, 'status': True}
+        return daily
 
     def add_rolling_averages_to_df(self, df):
         days_rolling_array = self.days_rolling_array
@@ -181,33 +247,6 @@ class GetData():
 
 
 
-    def get_EOD_data_from_yfinance(self, ticker):
-        period = self.cfg.get('period', '5y')
-        yf_ticker = yf.Ticker(str(ticker))
-        company_info = yf_ticker.info
-        df = yf_ticker.history(period=period)
-
-        return df
-
-    def add_rolling_averages(self, df):
-        for days_rolling in self.days_rolling_array:
-            df[str(days_rolling) +
-               '_day_rolling'] = df.Close.rolling(window=days_rolling).mean()
-
-        return df
-
-    def add_stats_to_info(self, df, info):
-        num_years = ((df.Date.max() - df.Date.min()).days /
-                        365.25).__round__(1)
-        fiftyTwoWeekLow = info['fiftyTwoWeekLow']
-        fiftyTwoWeekHigh = info['fiftyTwoWeekHigh']
-        info['DataDuration'] =  num_years
-        info.update({'fiftyTwoWeekLow': fiftyTwoWeekLow})
-        info.update({'fiftyTwoWeekHigh': fiftyTwoWeekHigh})
-
-        stats = info.copy()
-        
-        return stats
 
     def get_data_from_morningstar(self):
         data_source = 'morningstar'
@@ -269,22 +308,6 @@ class GetData():
     def get_tickers_sp500(self):
         tickers = tickers_sp500()
         return tickers
-
-    def get_insider_information(self, ticker):
-        insider_info_finviz = self.get_insider_information_from_finviz(ticker)
-        sec_data = self.get_sec_data(ticker)
-        sec_form4 = sec_data.get('sec_form4')
-        if len(sec_form4) > 0:
-            insider_df = sec_form4
-            insider_df = self.insider_data_clean_and_add_share_ratio(insider_df)
-        elif len(insider_info_finviz) > 0:
-            insider_df = insider_info_finviz
-            insider_df = self.insider_data_clean_and_add_share_ratio(insider_df)
-        else:
-            self.status.update({'insider_info': False})
-            insider_df = pd.DataFrame()
-
-        return insider_df
 
     def insider_data_clean_and_add_share_ratio(self, insider_df):
         insider_df.drop(['SEC Form 4', 'Insider_id'],

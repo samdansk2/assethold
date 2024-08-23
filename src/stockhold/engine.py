@@ -6,8 +6,9 @@ import sys
 from assetutilities.common.ApplicationManager import ConfigureApplicationInputs
 from assetutilities.common.update_deep import AttributeDict
 from assetutilities.common.yml_utilities import ymlInput
+from stockhold.custom.stocks import Stocks
+stks = Stocks()
 
-from stockhold.data.get_stock_data import GetData
 library_name = "stockhold"
 
 def engine(inputfile=None):
@@ -28,11 +29,7 @@ def engine(inputfile=None):
 
     #TODO
     if basename in "stock":
-       stock_data = GetData(cfg=None)
-       cfg_base = stock_data.get_data(cfg_base)
-    elif basename in "name of basename":
-       cfg_base = basename(cfg_base)
-
+        cfg_base = stks.router(cfg_base)
     else:
        raise (Exception(f"Analysis for basename: {basename} not found. ... FAIL"))
 

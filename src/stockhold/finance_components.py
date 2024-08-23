@@ -1,16 +1,24 @@
+# Standard library imports
 import datetime
 import json
 import logging
 import os
 import traceback
 
-import pandas as pd
-from sqlalchemy import text
-
-from stockhold.common.data import AttributeDict
-from stockhold.common.data import transform_df_datetime_to_str, transform_df_None_to_NULL
-from stockhold.analysis.finance_components_analysis import FinanceAnalysis
-from stockhold.finance_components_get_data import FinanceGetData
+# Third party imports
+from stockhold.analysis.stock_analysis import StockAnalysis
+from stockhold.common.data import (
+    AttributeDict,
+    transform_df_datetime_to_str,
+    transform_df_None_to_NULL,
+)
+from stockhold.analysis.stock_analysis import StockAnalysis
+from stockhold.common.data import (
+    AttributeDict,
+    transform_df_datetime_to_str,
+    transform_df_None_to_NULL,
+)
+from stockhold.get_data import FinanceGetData
 
 script_working_dir = os.getcwd()
 if 'tests' in script_working_dir:
@@ -36,7 +44,7 @@ class FinanceComponents():
         # self.get_database_connection()
         if cfg is not None:
             self.fdata = FinanceGetData(self.cfg)
-            self.fanalysis = FinanceAnalysis(self.cfg)
+            self.fanalysis = StockAnalysis(self.cfg)
             self.status = {}
             self.UI_cfg = None
 
