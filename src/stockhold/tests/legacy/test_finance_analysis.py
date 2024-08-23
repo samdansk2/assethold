@@ -90,7 +90,7 @@ def breakout_trend_analysis(ticker, update_threshold_days=2):
         EOD_df = pd.DataFrame(EOD_dict)
         EOD_df.Date = pd.to_datetime(EOD_df.Date, infer_datetime_format=True)
         EOD_df = fc.fdata.get_EOD_with_rolling_averages(EOD_df)
-        breakout_trend_df = fc.fanalysis.get_breakout_trend(EOD_df)
+        breakout_trend_df = fc.fanalysis.breakout_trend_analysis(EOD_df)
         breakout_trend_dict = breakout_trend_df.to_dict(orient='records')
         data_json = json.dumps(breakout_trend_dict)
 

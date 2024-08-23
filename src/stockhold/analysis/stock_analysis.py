@@ -1,27 +1,19 @@
 # Standard library imports
 
 import pandas as pd
-import pytz
-from stockhold.common.data import (
-    get_initials_from_name,
-    getClosestIntegerInList,
-    transform_df_datetime_to_str,
-)
-import pytz
 
-# Reader imports
+import pytz
 from stockhold.common.data import (
     get_initials_from_name,
     getClosestIntegerInList,
     transform_df_datetime_to_str,
 )
+
 
 
 class StockAnalysis():
 
     def __init__(self, cfg):
-        # Third party imports
-        import pandas as pd
         self.cfg = cfg
         self.insider_analysis_by_relation_df = pd.DataFrame()
         self.insider_analysis_by_timeline_df = pd.DataFrame()
@@ -32,18 +24,19 @@ class StockAnalysis():
         self.insider_df_sell = pd.DataFrame()
         self.status = {'insider': {}}
 
-    def router(self, cfg, stock_data):
+    def router(self, cfg):
         """
         Router function for StockAnalysis
         """
+        
+        df_data = pd.DataFrame()
         if cfg['analysis']['breakout']:
-            cfg = self.breakout_trend_analysis(cfg, stock_data)
+            cfg = self.breakout_trend_analysis(cfg,df_data)
         return cfg
 
-    def get_breakout_trend(self, df_data):
+    def breakout_trend_analysis(self,cfg,df_data):
+
         self.status.update({'breakout_trend': True})
-        # Third party imports
-        import pandas as pd
         self.breakout_summary_array = []
         columns = ['Description', 'Value']
         df = pd.DataFrame(columns=columns)
@@ -58,6 +51,7 @@ class StockAnalysis():
         return df.to_dict(orient='records')
 
     def check_if_price_above_150_and_200_moving(self, df, close="Close"):
+
         description = 'Price Above 150 & 200 day avgs.'
         if df.iloc[-1][close] > df.iloc[-1]['150_day_rolling'] and df.iloc[-1][
                 close] > df.iloc[-1]['200_day_rolling']:
@@ -67,6 +61,7 @@ class StockAnalysis():
         return [description, value]
 
     def check_if_150_moving_above_200_moving(self, df):
+
         description = '150 day avg. above 200 day avg.'
         if df.iloc[-1]['150_day_rolling'] > df.iloc[-1]['200_day_rolling']:
             value = True
@@ -75,6 +70,7 @@ class StockAnalysis():
         return [description, value]
 
     def check_if_200_moving_up_for_1mo(self, df):
+
         description = '200 day avg. uptrend for 1 mo [n mo.]'
         no_of_months_trend_above = self.get_200_moving_up_for_n_mo(df)
         if no_of_months_trend_above >= 1:
@@ -88,6 +84,7 @@ class StockAnalysis():
         ]
 
     def get_200_moving_up_for_n_mo(self, df):
+
         # Standard library imports
         import datetime
         df['200_day_diff'] = df['200_day_rolling'].diff(periods=1).values
@@ -111,6 +108,7 @@ class StockAnalysis():
         return no_of_months_trend_above
 
     def check_if_50_day_above_150_and_200_moving(self, df):
+
         description = '50 day avg. Above 150 & 200 day avgs.'
         if df.iloc[-1]['50_day_rolling'] > df.iloc[-1][
                 '150_day_rolling'] and df.iloc[-1]['50_day_rolling'] > df.iloc[
@@ -121,6 +119,7 @@ class StockAnalysis():
         return [description, value]
 
     def check_if_price_above_50_moving(self, df, close='Close'):
+
         description = 'Price Above 50 day avg. [x; y %]'
         price_above_50_moving = (df.iloc[-1][close] -
                                  df.iloc[-1]['50_day_rolling']).__round__(1)
@@ -138,6 +137,8 @@ class StockAnalysis():
         ]
 
     def check_if_price_above_1p3_52wk_low(self, df, close='Close'):
+
+        import datetime
         description = 'Price 30% Above 52 wk low [% above]'
         fiftyTwoWeekLow = df[df['Date'] > datetime.datetime.now(
             pytz.timezone('America/New_York')) +
@@ -155,6 +156,8 @@ class StockAnalysis():
         ]
 
     def check_if_price_near_52wk_high_range(self, df, close='Close'):
+        
+        import datetime
         description = 'Price within 25% of 52 wk high range [% value]'
         fiftyTwoWeekHigh = df[df['Date'] > datetime.datetime.now(
             pytz.timezone('America/New_York')) +

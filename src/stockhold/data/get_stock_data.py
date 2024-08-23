@@ -26,6 +26,11 @@ class GetStockData():
         self.ratings_df = pd.DataFrame()
         self.option_data = {}
 
+    def router(self,cfg):
+        ticker = cfg['input']['ticker']
+        if cfg['data']['eod']:
+            cfg = self.get_EOD_data_from_yfinance(cfg,ticker)
+
     def valid_ticker(self, ticker=None):
         return True
 
@@ -53,8 +58,8 @@ class GetStockData():
 
         return cfg, data
 
-    def get_EOD_data_from_yfinance(self, ticker):
-        period = self.cfg.get('period', '5y')
+    def get_EOD_data_from_yfinance(self, cfg,ticker):
+        period = cfg['input']['data_settings']['eod']['period']
         yf_ticker = yf.Ticker(str(ticker))
         company_info = yf_ticker.info
         df = yf_ticker.history(period=period)
