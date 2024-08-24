@@ -2,9 +2,9 @@
 state: *id001
 dictitems:
   basename: stock
-  type:
-    data:
-      eod: true
+  data:
+    flag: true
+    daily: true
   default:
     log_level: INFO
     config:
@@ -22,18 +22,15 @@ dictitems:
         source: yfinance
         period: 5y
         interval: 1d
-  data:
-    flag: true
-    eod: true
   Analysis:
     basename: stock
     analysis_root_folder: c:\github\stockhold\src\stockhold\tests\test_data\data
-    file_name: eod_data_RIG
-    file_name_for_overwrite: eod_data_RIG
+    file_name: data_RIG
+    file_name_for_overwrite: data_RIG
     result_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\results
     log_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\logs
-    start_time: 2024-08-24 07:13:28.583552
+    start_time: 2024-08-24 07:28:15.252138
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\github\stockhold\src\stockhold\tests\test_data\data\eod_data_RIG.yml
+    CustomInputFile: c:\github\stockhold\src\stockhold\tests\test_data\data\data_RIG.yml
     fe_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\results

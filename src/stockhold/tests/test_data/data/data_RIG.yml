@@ -1,11 +1,8 @@
 basename: stock
 
-data:
-  flag: True
-  eod: True
 
 input:
-  ticker: AAPL
+  ticker: RIG
 
 default:
   log_level: INFO

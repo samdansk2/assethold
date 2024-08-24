@@ -1,8 +1,8 @@
 basename: stock
 
-type:
-  data:
-    eod: True
+data:
+  flag: True
+  daily: True
 
 default:
   log_level: DEBUG
