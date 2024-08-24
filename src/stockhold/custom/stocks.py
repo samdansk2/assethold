@@ -12,9 +12,10 @@ class Stocks:
     
     def router(self, cfg):
 
-        cfg, data = stk_data.get_data(cfg)
         if 'analysis' in cfg and cfg['analysis'].get('flag', False):
             cfg = stk_analysis.router(cfg)
         elif 'data' in cfg and cfg['data'].get('flag', False):
-            cfg = stk_data.router(cfg)
+             cfg =  stk_data.router(cfg)
+        elif 'insider' in cfg and cfg['insider'].get('flag', False):
+             cfg = stk_data.router(cfg)
 

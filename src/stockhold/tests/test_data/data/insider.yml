@@ -1,8 +1,9 @@
 basename: stock
 
-data:
+insider:
   flag: True
-  eod: True
+  insider_info: True
+  ticker: RIG
   
 input:
   ticker: AAPL

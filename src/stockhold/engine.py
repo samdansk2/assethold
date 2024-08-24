@@ -29,16 +29,17 @@ def engine(inputfile=None):
 
     #TODO
     if basename in "stock":
-        cfg_base = stks.router(cfg_base)
+        cfg = stks.router(cfg)
+        cfg_base = stks.router(cfg_base)   
     else:
        raise (Exception(f"Analysis for basename: {basename} not found. ... FAIL"))
 
     # Third party imports
     from assetutilities.common.utilities import save_application_cfg
     
-    save_application_cfg(cfg_base=cfg_base)
+    # save_application_cfg(cfg_base=cfg_base)
 
-    return cfg_base
+    # return cfg_base
 
 
 def validate_arguments_run_methods(inputfile):

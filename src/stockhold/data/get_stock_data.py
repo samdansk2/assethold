@@ -28,8 +28,13 @@ class GetStockData():
 
     def router(self,cfg):
         ticker = cfg['input']['ticker']
-        if cfg['data']['eod']:
+        if 'data' in cfg and cfg['data'].get('eod', False):
             cfg = self.get_EOD_data_from_yfinance(cfg,ticker)
+        elif 'insider' in cfg and cfg['insider'].get('insider_info', False):
+            stock_ticker = cfg['insider']['ticker']
+            self.get_insider_information(cfg,ticker)
+            self.get_insider_information_from_finviz(cfg,stock_ticker)
+        
 
     def valid_ticker(self, ticker=None):
         return True
@@ -43,7 +48,7 @@ class GetStockData():
         info = self.get_company_data_by_ticker(ticker)
         info = self.add_stats_to_info(daily, info)
 
-        insider = self.get_insider_information(ticker)
+        insider = self.get_insider_information(cfg,ticker)
 
         ratings = self.get_ratings()
         options = self.get_options_data()
@@ -100,9 +105,10 @@ class GetStockData():
         
         return info
 
-    def get_insider_information(self, ticker):
+    def get_insider_information(self, cfg,ticker):
+        ticker = cfg['insider']['ticker']
         status = False
-        insider_info_finviz = self.get_insider_information_from_finviz(ticker)
+        insider_info_finviz = self.get_insider_information_from_finviz(cfg,ticker)
         sec_data = self.get_sec_data(ticker)
         sec_form4 = sec_data.get('sec_form4')
         if len(sec_form4) > 0:
@@ -132,7 +138,8 @@ class GetStockData():
             self.status.update({'price': False})
             raise ("No valid data source found")
 
-    def get_insider_information_from_finviz(self, stock_ticker):
+    def get_insider_information_from_finviz(self, cfg,stock_ticker):
+        stock_ticker = cfg['insider']['ticker']
         self.status['insider']['finviz'] = {}
         try:
             self.fv_ticker = finvizfinance(stock_ticker)
@@ -249,9 +256,6 @@ class GetStockData():
                 df[str(days_rolling) + '_day_rolling'] = df.Close.rolling(
                     window=days_rolling).mean()
             self.stock_data_array.append(df)
-
-
-
 
     def get_data_from_morningstar(self):
         data_source = 'morningstar'
