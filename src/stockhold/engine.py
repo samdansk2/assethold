@@ -8,6 +8,7 @@ from assetutilities.common.update_deep import AttributeDict
 from assetutilities.common.yml_utilities import ymlInput
 from stockhold.custom.stocks import Stocks
 stks = Stocks()
+from assetutilities.common.utilities import save_application_cfg
 
 library_name = "stockhold"
 
@@ -34,12 +35,9 @@ def engine(inputfile=None):
     else:
        raise (Exception(f"Analysis for basename: {basename} not found. ... FAIL"))
 
-    # Third party imports
-    from assetutilities.common.utilities import save_application_cfg
     
-    # save_application_cfg(cfg_base=cfg_base)
-
-    # return cfg_base
+    save_application_cfg(cfg_base=cfg_base)
+    return cfg_base
 
 
 def validate_arguments_run_methods(inputfile):

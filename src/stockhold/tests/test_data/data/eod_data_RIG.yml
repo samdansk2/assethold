@@ -3,15 +3,9 @@ basename: stock
 data:
   flag: True
   eod: True
-  
-input:
-  ticker: AAPL
-  data_settings:
-    eod:
-      source: yfinance
-      period: 5y
-      interval: 1d
 
+input:
+  ticker: RIG
 
 default:
   log_level: INFO

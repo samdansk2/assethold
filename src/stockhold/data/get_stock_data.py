@@ -27,14 +27,9 @@ class GetStockData():
         self.option_data = {}
 
     def router(self,cfg):
-        ticker = cfg['input']['ticker']
-        if 'data' in cfg and cfg['data'].get('eod', False):
-            cfg = self.get_EOD_data_from_yfinance(cfg,ticker)
-        elif 'insider' in cfg and cfg['insider'].get('insider_info', False):
-            stock_ticker = cfg['insider']['ticker']
-            self.get_insider_information(cfg,ticker)
-            self.get_insider_information_from_finviz(cfg,stock_ticker)
-        
+        cfg, data = self.get_data(cfg)
+
+        return cfg, data
 
     def valid_ticker(self, ticker=None):
         return True
@@ -48,7 +43,7 @@ class GetStockData():
         info = self.get_company_data_by_ticker(ticker)
         info = self.add_stats_to_info(daily, info)
 
-        insider = self.get_insider_information(cfg,ticker)
+        insider = self.get_insider_information(cfg, ticker)
 
         ratings = self.get_ratings()
         options = self.get_options_data()
@@ -56,14 +51,13 @@ class GetStockData():
 
         data = {'daily': daily, 'info': info, 'insider': insider, 'ratings': ratings, 'options': options, 'institutions': institutions}
 
-        # data_status = {'daily': daily['status'], 'info': info['status'], 'insider': insider['status'], 'ratings': ratings['status'], 'options': options['status'], 'institutions': institutions['status']}
         data_status = {'daily': daily['status'], 'info': info['status'], 'insider': insider['status']}
 
         cfg[cfg['basename']]= {'status': data_status}
 
         return cfg, data
 
-    def get_EOD_data_from_yfinance(self, cfg,ticker):
+    def get_EOD_data_from_yfinance(self, cfg, ticker):
         period = cfg['input']['data_settings']['eod']['period']
         yf_ticker = yf.Ticker(str(ticker))
         company_info = yf_ticker.info
@@ -72,12 +66,12 @@ class GetStockData():
         return df
 
     def add_rolling_averages(self, daily):
-        df = daily['df']
+        df = daily['data']
         for days_rolling in self.days_rolling_array:
             df[str(days_rolling) +
                '_day_rolling'] = df.Close.rolling(window=days_rolling).mean()
 
-        daily['df'] = df
+        daily['data'] = df
 
         return daily
 
@@ -90,8 +84,8 @@ class GetStockData():
         return info
 
     def add_stats_to_info(self, daily, info_data):
-        df = daily['df']
-        num_years = ((df.Date.max() - df.Date.min()).days /
+        daily_df = daily['data']
+        num_years = ((daily_df.Date.max() - daily_df.Date.min()).days /
                         365.25).__round__(1)
         
         info_data = info_data['data']
@@ -105,8 +99,7 @@ class GetStockData():
         
         return info
 
-    def get_insider_information(self, cfg,ticker):
-        ticker = cfg['insider']['ticker']
+    def get_insider_information(self, cfg, ticker):
         status = False
         insider_info_finviz = self.get_insider_information_from_finviz(cfg,ticker)
         sec_data = self.get_sec_data(ticker)
@@ -114,16 +107,16 @@ class GetStockData():
         if len(sec_form4) > 0:
             insider_df = sec_form4
             insider_df = self.insider_data_clean_and_add_share_ratio(insider_df)
+            status = True
         elif len(insider_info_finviz) > 0:
             insider_df = insider_info_finviz
             insider_df = self.insider_data_clean_and_add_share_ratio(insider_df)
+            status = True
         else:
             self.status.update({'insider_info': False})
             insider_df = pd.DataFrame()
-            
-            status = False
 
-        insider = {'df': insider_df, 'status': status}
+        insider = {'data': insider_df, 'status': status}
 
         return insider
 
@@ -138,12 +131,11 @@ class GetStockData():
             self.status.update({'price': False})
             raise ("No valid data source found")
 
-    def get_insider_information_from_finviz(self, cfg,stock_ticker):
-        stock_ticker = cfg['insider']['ticker']
+    def get_insider_information_from_finviz(self, cfg, stock_ticker):
         self.status['insider']['finviz'] = {}
         try:
-            self.fv_ticker = finvizfinance(stock_ticker)
-            insider_info_finviz = self.fv_ticker.ticker_inside_trader()
+            fv_ticker = finvizfinance(stock_ticker)
+            insider_info_finviz = fv_ticker.ticker_inside_trader()
             current_year = datetime.datetime.now().year
             insider_info_finviz['SEC Form 4'] = insider_info_finviz[
                 'SEC Form 4'].apply(lambda x: str(current_year) + ' ' + x)
@@ -230,7 +222,7 @@ class GetStockData():
             df = yf_ticker.history(period=period)
             df.reset_index(inplace=True)
 
-        daily = {'df': df, 'status': True}
+        daily = {'data': df, 'status': True}
         return daily
 
     def add_rolling_averages_to_df(self, df):

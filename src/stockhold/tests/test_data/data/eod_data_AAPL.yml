@@ -1,0 +1,14 @@
+basename: stock
+
+data:
+  flag: True
+  eod: True
+
+input:
+  ticker: AAPL
+
+default:
+  log_level: INFO
+  config:
+    overwrite:
+      output: True

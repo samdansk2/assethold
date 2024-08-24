@@ -1,0 +1,36 @@
+basename: stock
+type:
+  data:
+    eod: true
+default:
+  log_level: INFO
+  config:
+    overwrite:
+      output: true
+stock:
+  status:
+    daily: true
+    info: true
+    insider: true
+input:
+  ticker: RIG
+  data_settings:
+    eod:
+      source: yfinance
+      period: 5y
+      interval: 1d
+data:
+  flag: true
+  eod: true
+Analysis:
+  basename: stock
+  analysis_root_folder: c:\github\stockhold\src\stockhold\tests\test_data\data
+  file_name: eod_data_RIG
+  file_name_for_overwrite: eod_data_RIG
+  result_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\results
+  log_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\logs
+  start_time: 2024-08-24 07:12:23.395369
+  cfg_array_file_names: ~
+  DefaultInputFile: ~
+  CustomInputFile: c:\github\stockhold\src\stockhold\tests\test_data\data\eod_data_RIG.yml
+  fe_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\results
