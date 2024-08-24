@@ -1,14 +1,10 @@
 # Standard library imports
+import pandas as pd #noqa
 
-import pandas as pd
-
+# Third party imports
 import pytz
-from stockhold.common.data import (
-    get_initials_from_name,
-    getClosestIntegerInList,
-    transform_df_datetime_to_str,
-)
 
+from assetutilities.common.update_deep import update_deep_dictionary
 
 
 class StockAnalysis():
@@ -24,31 +20,44 @@ class StockAnalysis():
         self.insider_df_sell = pd.DataFrame()
         self.status = {'insider': {}}
 
-    def router(self, cfg):
+    def router(self, cfg, data):
         """
         Router function for StockAnalysis
         """
-        
-        df_data = pd.DataFrame()
-        if cfg['analysis']['breakout']:
-            cfg = self.breakout_trend_analysis(cfg,df_data)
-        return cfg
+        analysis_output = {}
+        status = {}
+        if 'analysis' in cfg and cfg['analysis'].get('flag', False):
+            daily_data = data['daily']['data']
+            cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
 
-    def breakout_trend_analysis(self,cfg,df_data):
+            analysis_output = {
+                'breakout_trend': breakout_trend
+            }
+
+            analysis_status = {'breakout_trend': breakout_trend['status']}
+            analysis = {'data': analysis_output, 'status': status}
+
+        cfg_status_dict = {cfg['basename']: {'analysis': {'status': analysis_status}}}
+        cfg = update_deep_dictionary(cfg, cfg_status_dict)
+
+        return cfg, analysis
+
+    def breakout_trend_analysis(self,cfg, daily_data):
 
         self.status.update({'breakout_trend': True})
         self.breakout_summary_array = []
         columns = ['Description', 'Value']
         df = pd.DataFrame(columns=columns)
-        df.loc[len(df)] = self.check_if_price_above_150_and_200_moving(df_data)
-        df.loc[len(df)] = self.check_if_150_moving_above_200_moving(df_data)
-        df.loc[len(df)] = self.check_if_200_moving_up_for_1mo(df_data)
-        df.loc[len(df)] = self.check_if_50_day_above_150_and_200_moving(df_data)
-        df.loc[len(df)] = self.check_if_price_above_50_moving(df_data)
-        df.loc[len(df)] = self.check_if_price_above_1p3_52wk_low(df_data)
-        df.loc[len(df)] = self.check_if_price_near_52wk_high_range(df_data)
+        df.loc[len(df)] = self.check_if_price_above_150_and_200_moving(daily_data)
+        df.loc[len(df)] = self.check_if_150_moving_above_200_moving(daily_data)
+        df.loc[len(df)] = self.check_if_200_moving_up_for_1mo(daily_data)
+        df.loc[len(df)] = self.check_if_50_day_above_150_and_200_moving(daily_data)
+        df.loc[len(df)] = self.check_if_price_above_50_moving(daily_data)
+        df.loc[len(df)] = self.check_if_price_above_1p3_52wk_low(daily_data)
+        df.loc[len(df)] = self.check_if_price_near_52wk_high_range(daily_data)
 
-        return df.to_dict(orient='records')
+        breakout_trend = {'data': df.to_dict(orient='records'), 'status': True} 
+        return cfg, breakout_trend
 
     def check_if_price_above_150_and_200_moving(self, df, close="Close"):
 
@@ -138,6 +147,7 @@ class StockAnalysis():
 
     def check_if_price_above_1p3_52wk_low(self, df, close='Close'):
 
+        # Standard library imports
         import datetime
         description = 'Price 30% Above 52 wk low [% above]'
         fiftyTwoWeekLow = df[df['Date'] > datetime.datetime.now(
@@ -157,6 +167,7 @@ class StockAnalysis():
 
     def check_if_price_near_52wk_high_range(self, df, close='Close'):
         
+        # Standard library imports
         import datetime
         description = 'Price within 25% of 52 wk high range [% value]'
         fiftyTwoWeekHigh = df[df['Date'] > datetime.datetime.now(

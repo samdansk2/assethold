@@ -1,42 +1,53 @@
 # Standard library imports
 import os
 import sys
+import logging
 
 # Third party imports
 from assetutilities.common.ApplicationManager import ConfigureApplicationInputs
 from assetutilities.common.update_deep import AttributeDict
 from assetutilities.common.yml_utilities import ymlInput
 from stockhold.custom.stocks import Stocks
-stks = Stocks()
+from assetutilities.common.data import SaveData
 from assetutilities.common.utilities import save_application_cfg
+from assetutilities.common.file_management import FileManagement
 
 library_name = "stockhold"
 
-def engine(inputfile=None):
-    inputfile = validate_arguments_run_methods(inputfile)
+stks = Stocks()
+fm = FileManagement()
+save_data = SaveData()
 
-    cfg = ymlInput(inputfile, updateYml=None)
-    cfg = AttributeDict(cfg)
+def engine(inputfile: str = None, cfg: dict = None, config_flag: bool = True) -> dict:
+
     if cfg is None:
-        raise ValueError("cfg is None")
+        inputfile = validate_arguments_run_methods(inputfile)
+        cfg = ymlInput(inputfile, updateYml=None)
+        cfg = AttributeDict(cfg)
+        if cfg is None:
+            raise ValueError("cfg is None")
 
     basename = cfg["basename"]
     application_manager = ConfigureApplicationInputs(basename)
     application_manager.configure(cfg, library_name)
-    cfg_base = application_manager.cfg
 
-    if "file_management" in cfg_base and cfg["file_management"]["flag"]:
-        cfg_base = ou.file_management(cfg_base)
+    if config_flag:
+        cfg_base = application_manager.cfg
+        cfg_base = fm.router(cfg_base)
+    else:
+        cfg_base = cfg
 
-    #TODO
+    logging.info(f"{basename}, application ... START")
+
     if basename in "stock":
         cfg = stks.router(cfg)
         cfg_base = stks.router(cfg_base)   
     else:
        raise (Exception(f"Analysis for basename: {basename} not found. ... FAIL"))
 
-    
     save_application_cfg(cfg_base=cfg_base)
+    logging.info(f"{basename}, application ... END")
+
     return cfg_base
 
 

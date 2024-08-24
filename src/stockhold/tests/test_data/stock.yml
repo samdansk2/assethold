@@ -3,6 +3,12 @@ basename: stock
 data:
   flag: True
   daily: True
+  insider: True
+
+analysis:
+  flag: True
+  breakout: True
+  insider: True
 
 default:
   log_level: DEBUG
@@ -10,7 +16,9 @@ default:
     overwrite:
       output: True
 
-stock: NULL
+stock:
+  data: NULL
+  analysis: NULL
 
 input:
   ticker: AAPL

@@ -21,7 +21,6 @@ def test_run_process():
 
     pytest_output_file = 'results/pytest_data_AAPL.yml'
     file_is_valid, pytest_output_file = is_file_valid_func(pytest_output_file, os.path.dirname(__file__))
-
     if file_is_valid:
         expected_result = ymlInput(pytest_output_file, updateYml=None)
 

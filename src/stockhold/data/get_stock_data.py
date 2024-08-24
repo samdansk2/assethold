@@ -7,6 +7,7 @@ import pandas as pd
 import yfinance as yf
 from finvizfinance.quote import finvizfinance
 from yahoo_fin.stock_info import tickers_dow, tickers_nasdaq, tickers_sp500
+from assetutilities.common.update_deep import update_deep_dictionary
 
 
 class GetStockData():
@@ -26,7 +27,7 @@ class GetStockData():
         self.ratings_df = pd.DataFrame()
         self.option_data = {}
 
-    def router(self,cfg):
+    def router(self, cfg):
         cfg, data = self.get_data(cfg)
 
         return cfg, data
@@ -52,8 +53,8 @@ class GetStockData():
         data = {'daily': daily, 'info': info, 'insider': insider, 'ratings': ratings, 'options': options, 'institutions': institutions}
 
         data_status = {'daily': daily['status'], 'info': info['status'], 'insider': insider['status']}
-
-        cfg[cfg['basename']]= {'status': data_status}
+        cfg_status_dict = {cfg['basename']: {'data': {'status': data_status}}}
+        cfg = update_deep_dictionary(cfg, cfg_status_dict)
 
         return cfg, data
 

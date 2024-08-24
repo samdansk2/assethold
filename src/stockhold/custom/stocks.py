@@ -13,7 +13,6 @@ class Stocks:
     def router(self, cfg):
 
         cfg, data =  stk_data.router(cfg)
-        if 'analysis' in cfg and cfg['analysis'].get('flag', False):
-            cfg = stk_analysis.router(cfg)
+        cfg, analysis = stk_analysis.router(cfg, data)
 
         return cfg

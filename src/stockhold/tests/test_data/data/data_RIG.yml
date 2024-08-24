@@ -1,5 +1,7 @@
 basename: stock
 
+data:
+  flag: True
 
 input:
   ticker: RIG
