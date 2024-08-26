@@ -5,16 +5,25 @@ dictitems:
   data:
     flag: true
     daily: true
+    insider: true
+  analysis:
+    flag: true
+    breakout: true
+    insider: true
   default:
     log_level: INFO
     config:
       overwrite:
         output: true
   stock:
-    status:
-      daily: true
-      info: true
-      insider: true
+    data:
+      status:
+        daily: true
+        info: true
+        insider: true
+    analysis:
+      status:
+        breakout_trend: true
   input:
     ticker: RIG
     data_settings:
@@ -24,13 +33,13 @@ dictitems:
         interval: 1d
   Analysis:
     basename: stock
-    analysis_root_folder: c:\github\stockhold\src\stockhold\tests\test_data\data
+    analysis_root_folder: c:\Users\Sk Samdan\Desktop\stockhold\src\stockhold\tests\test_data\data
     file_name: data_RIG
     file_name_for_overwrite: data_RIG
-    result_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\results
-    log_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\logs
-    start_time: 2024-08-24 07:28:15.252138
+    result_folder: c:\Users\Sk Samdan\Desktop\stockhold\src\stockhold\tests\test_data\data\results
+    log_folder: c:\Users\Sk Samdan\Desktop\stockhold\src\stockhold\tests\test_data\data\logs
+    start_time: 2024-08-26 10:36:08.617770
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\github\stockhold\src\stockhold\tests\test_data\data\data_RIG.yml
-    fe_folder: c:\github\stockhold\src\stockhold\tests\test_data\data\results
+    CustomInputFile: c:\Users\Sk Samdan\Desktop\stockhold\src\stockhold\tests\test_data\data\data_RIG.yml
+    fe_folder: c:\Users\Sk Samdan\Desktop\stockhold\src\stockhold\tests\test_data\data\results

@@ -26,6 +26,8 @@ class StockAnalysis():
         """
         analysis_output = {}
         status = {}
+        analysis_status = {}
+        analysis = {}
         if 'analysis' in cfg and cfg['analysis'].get('flag', False):
             daily_data = data['daily']['data']
             cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
