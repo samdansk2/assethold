@@ -377,8 +377,27 @@ class GetStockData():
         }
 
         return sec_ticker_data
+    
 
     def get_yf_institutions(self, ticker):
+        
         self.yf_ticker = yf.Ticker(str(ticker))
-        self.institutional_holders = self.yf_ticker.get_institutional_holders()
-        self.major_holders = self.yf_ticker.get_major_holders()
+        self.institutional_holders = self.yf_ticker.get_institutional_holders(proxy=None, as_dict=False)
+        self.major_holders = self.yf_ticker.get_major_holders(proxy=None, as_dict=False)
+
+    def get_institutional_holders(self, proxy=None, as_dict=False):
+        self._holders.proxy = proxy or self.proxy
+        data = self._holders.institutional
+        if data is not None:
+            if as_dict:
+                return data.to_dict()
+            return data
+        
+    def get_major_holders(self, proxy=None, as_dict=False):
+        self._holders.proxy = proxy or self.proxy
+        data = self._holders.major
+        if as_dict:
+            return data.to_dict()
+        return data
+
+    
