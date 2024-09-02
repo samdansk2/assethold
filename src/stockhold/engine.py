@@ -40,7 +40,7 @@ def engine(inputfile: str = None, cfg: dict = None, config_flag: bool = True) ->
     logging.info(f"{basename}, application ... START")
 
     if basename in "stock":
-        cfg = stks.router(cfg)
+        # cfg = stks.router(cfg)
         cfg_base = stks.router(cfg_base)   
     else:
        raise (Exception(f"Analysis for basename: {basename} not found. ... FAIL"))

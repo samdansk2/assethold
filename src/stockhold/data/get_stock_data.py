@@ -1,6 +1,8 @@
 # Standard library imports
 import datetime
 import json
+import os
+import logging 
 
 # Third party imports
 import pandas as pd
@@ -8,6 +10,12 @@ import yfinance as yf
 from finvizfinance.quote import finvizfinance
 from yahoo_fin.stock_info import tickers_dow, tickers_nasdaq, tickers_sp500
 from assetutilities.common.update_deep import update_deep_dictionary
+from assetutilities.common.visualization.visualization_templates import (
+    VisualizationTemplates,
+)
+from assetutilities.engine import engine as aus_engine
+
+viz_templates = VisualizationTemplates()
 
 
 class GetStockData():
@@ -30,7 +38,26 @@ class GetStockData():
     def router(self, cfg):
         cfg, data = self.get_data(cfg)
 
+        ticker = cfg['input']['ticker']
+        daily_data = self.get_daily_data_by_ticker(cfg, ticker)
+        daily_data_df = daily_data['data']
+
+        self.save_results(cfg, daily_data_df)
+
         return cfg, data
+
+    def save_results(self, cfg, daily_data_df):
+        file_name = cfg['input']['ticker'] + '_daily_data.csv'
+        file_name = os.path.join(cfg['Analysis']['result_folder'], file_name)
+        daily_data_df.to_csv(file_name, index=False)
+        
+        csv_groups = [{'file_name': file_name, 'label': ''}]
+        self.save_plots(cfg, csv_groups)
+
+    def save_plots(self, cfg, csv_groups):
+        
+        self.save_daily_data_plot(cfg, csv_groups.copy())
+
 
     def valid_ticker(self, ticker=None):
         return True
@@ -55,7 +82,7 @@ class GetStockData():
         data_status = {'daily': daily['status'], 'info': info['status'], 'insider': insider['status']}
         cfg_status_dict = {cfg['basename']: {'data': {'status': data_status}}}
         cfg = update_deep_dictionary(cfg, cfg_status_dict)
-
+        
         return cfg, data
 
     def get_EOD_data_from_yfinance(self, cfg, ticker):
@@ -399,5 +426,24 @@ class GetStockData():
         if as_dict:
             return data.to_dict()
         return data
+    
+    def save_daily_data_plot(self, cfg, csv_groups):
+
+        plot_yml = viz_templates.get_xy_line_csv(cfg['Analysis'].copy())
+
+        plot_yml['data']['groups'] = csv_groups
+        columns= { 'x': ['Date'], 'y': ['Volume'] }
+        plot_yml['master_settings']['groups']['columns'] = columns
+
+        transform = [{ 'column': 'length', 'scale': 0.0254, 'shift': 0 }]
+        plot_yml['master_settings']['groups']['transform'] = transform
+
+        settings = {'file_name': cfg['input']['ticker'] + '_daily_data' , 
+                    'title': 'Daily data by ticker',
+                    'xlabel': 'time',
+                    'ylabel': 'stock',
+}
+        plot_yml['settings'].update(settings)
+        aus_engine(inputfile=None, cfg=plot_yml, config_flag=False)
 
     
