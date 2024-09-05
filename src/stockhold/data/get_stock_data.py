@@ -41,6 +41,13 @@ class GetStockData():
         ticker = cfg['input']['ticker']
         daily_data = self.get_daily_data_by_ticker(cfg, ticker)
         daily_data_df = daily_data['data']
+        daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date']).dt.tz_localize(None)
+        daily_data_df = daily_data_df.head(100)
+
+        # daily_data_df.set_index('Date', inplace=True)
+        # monthly_data = daily_data_df.resample('M').mean()
+
+
 
         self.save_results(cfg, daily_data_df)
 
@@ -429,6 +436,7 @@ class GetStockData():
     
     def save_daily_data_plot(self, cfg, csv_groups):
 
+        import matplotlib.pyplot as plt
         plot_yml = viz_templates.get_xy_line_csv(cfg['Analysis'].copy())
 
         plot_yml['data']['groups'] = csv_groups
@@ -436,14 +444,18 @@ class GetStockData():
         plot_yml['master_settings']['groups']['columns'] = columns
 
         transform = [{ 'column': 'length', 'scale': 0.0254, 'shift': 0 }]
+
+
         plot_yml['master_settings']['groups']['transform'] = transform
 
         settings = {'file_name': cfg['input']['ticker'] + '_daily_data' , 
                     'title': 'Daily data by ticker',
-                    'xlabel': 'time',
-                    'ylabel': 'stock',
+                    'xlabel': 'date',
+                    'ylabel': 'Volume',
 }
         plot_yml['settings'].update(settings)
         aus_engine(inputfile=None, cfg=plot_yml, config_flag=False)
+        
+        plt.gca().xaxis.set_major_locator(plt.matplotlib.dates.YearLocator())
 
     
