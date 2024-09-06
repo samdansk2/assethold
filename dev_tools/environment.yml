@@ -10,6 +10,7 @@ dependencies:
       - pyyaml
       - numpy_financial
       - bumpver
+      - matplotlib
       - plotly
       - dash==2.5.1
       - dash_bootstrap_components
