@@ -1,10 +1,13 @@
 # Standard library imports
 import pandas as pd #noqa
+import matplotlib.pyplot as plt #noqa
 
 # Third party imports
 import pytz
 
 from assetutilities.common.update_deep import update_deep_dictionary
+# from stockhold.data.get_stock_data import GetStockData
+# get_data = GetStockData()
 
 
 class StockAnalysis():
@@ -20,7 +23,7 @@ class StockAnalysis():
         self.insider_df_sell = pd.DataFrame()
         self.status = {'insider': {}}
 
-    def router(self, cfg, data):
+    def router(self, cfg,data):
         """
         Router function for StockAnalysis
         """
@@ -59,7 +62,32 @@ class StockAnalysis():
         df.loc[len(df)] = self.check_if_price_near_52wk_high_range(daily_data)
 
         breakout_trend = {'data': df.to_dict(orient='records'), 'status': True} 
+        
+        self.plot_breakout_trend(df)
+        
         return cfg, breakout_trend
+    
+    def plot_breakout_trend(self, df):
+
+        values = df['Value']
+        #false_count = values.apply(lambda x: isinstance(x, bool) and x is False).sum()
+        false_count = values.apply(lambda x: x == False or 'False' in str(x)).sum()
+
+        if false_count == 0:
+            color = 'green'
+        elif false_count == 1:
+            color = 'orange'
+        else:
+            color = 'red'
+
+        fig, ax = plt.subplots()
+        ax.scatter(0, 0, s=100, c=color) 
+        
+        ax.set_title('Breakout Trend')
+        ax.set_xlim(-1, 1)
+        ax.set_ylim(-1, 1)
+
+        plt.savefig('src/stockhold/tests/test_data/analysis/breakout_trend.png')
 
     def check_if_price_above_150_and_200_moving(self, df, close="Close"):
 

@@ -36,6 +36,7 @@ class GetStockData():
         self.option_data = {}
 
     def router(self, cfg):
+
         cfg, data = self.get_data(cfg)
 
         ticker = cfg['input']['ticker']
@@ -44,14 +45,9 @@ class GetStockData():
         daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date']).dt.tz_localize(None)
         daily_data_df = daily_data_df.head(100)
 
-        # daily_data_df.set_index('Date', inplace=True)
-        # monthly_data = daily_data_df.resample('M').mean()
-
-
-
         self.save_results(cfg, daily_data_df)
 
-        return cfg, data
+        return cfg,data
 
     def save_results(self, cfg, daily_data_df):
         file_name = cfg['input']['ticker'] + '_daily_data.csv'
@@ -64,7 +60,6 @@ class GetStockData():
     def save_plots(self, cfg, csv_groups):
         
         self.save_daily_data_plot(cfg, csv_groups.copy())
-
 
     def valid_ticker(self, ticker=None):
         return True
