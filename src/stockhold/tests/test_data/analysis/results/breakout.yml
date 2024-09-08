@@ -38,7 +38,7 @@ dictitems:
     file_name_for_overwrite: breakout
     result_folder: c:\Users\Sk Samdan\Desktop\stockhold\src\stockhold\tests\test_data\analysis\results
     log_folder: c:\Users\Sk Samdan\Desktop\stockhold\src\stockhold\tests\test_data\analysis\logs
-    start_time: 2024-09-07 12:47:31.950487
+    start_time: 2024-09-08 10:57:37.231656
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\stockhold\src\stockhold\tests\test_data\analysis\breakout.yml

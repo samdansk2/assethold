@@ -438,10 +438,10 @@ class GetStockData():
         columns= { 'x': ['Date'], 'y': ['Volume'] }
         plot_yml['master_settings']['groups']['columns'] = columns
 
-        transform = [{ 'column': 'length', 'scale': 0.0254, 'shift': 0 }]
+        #transform = [{ 'column': 'length', 'scale': 0.0254, 'shift': 0 }]
 
 
-        plot_yml['master_settings']['groups']['transform'] = transform
+        #plot_yml['master_settings']['groups']['transform'] = transform
 
         settings = {'file_name': cfg['input']['ticker'] + '_daily_data' , 
                     'title': 'Daily data by ticker',
@@ -450,7 +450,5 @@ class GetStockData():
 }
         plot_yml['settings'].update(settings)
         aus_engine(inputfile=None, cfg=plot_yml, config_flag=False)
-        
-        plt.gca().xaxis.set_major_locator(plt.matplotlib.dates.YearLocator())
 
     

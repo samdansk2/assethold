@@ -2,10 +2,15 @@
 import pandas as pd #noqa
 import matplotlib.pyplot as plt #noqa
 
+import os
+
 # Third party imports
 import pytz
 
 from assetutilities.common.update_deep import update_deep_dictionary
+# from assetutilities.common.visualization.visualization_common import VisualizationCommon
+
+# visualization_common = VisualizationCommon()
 # from stockhold.data.get_stock_data import GetStockData
 # get_data = GetStockData()
 
@@ -63,31 +68,15 @@ class StockAnalysis():
 
         breakout_trend = {'data': df.to_dict(orient='records'), 'status': True} 
         
-        self.plot_breakout_trend(df)
+        self.save_plots(cfg,df)
         
         return cfg, breakout_trend
     
-    def plot_breakout_trend(self, df):
-
-        values = df['Value']
-        #false_count = values.apply(lambda x: isinstance(x, bool) and x is False).sum()
-        false_count = values.apply(lambda x: x == False or 'False' in str(x)).sum()
-
-        if false_count == 0:
-            color = 'green'
-        elif false_count == 1:
-            color = 'orange'
-        else:
-            color = 'red'
-
-        fig, ax = plt.subplots()
-        ax.scatter(0, 0, s=100, c=color) 
+    def save_plots(self,cfg,df):
         
-        ax.set_title('Breakout Trend')
-        ax.set_xlim(-1, 1)
-        ax.set_ylim(-1, 1)
-
-        plt.savefig('src/stockhold/tests/test_data/analysis/breakout_trend.png')
+        self.plot_breakout_trend(cfg,df)
+        self.save_and_close_plots(cfg)
+    
 
     def check_if_price_above_150_and_200_moving(self, df, close="Close"):
 
@@ -214,3 +203,45 @@ class StockAnalysis():
             description,
             str(value) + " [{} %]".format(percent_above_52wkhigh)
         ]
+    
+    def plot_breakout_trend(self,cfg, df):
+
+        values = df['Value']
+        #false_count = values.apply(lambda x: isinstance(x, bool) and x is False).sum()
+        false_count = values.apply(lambda x: x == False or 'False' in str(x)).sum()
+
+        if false_count == 0:
+            color = 'green'
+        elif false_count == 1:
+            color = 'orange'
+        else:
+            color = 'red'
+
+        fig, ax = plt.subplots()
+        ax.scatter(0, 0, s=100, c=color) 
+        
+        ax.set_title('Breakout Trend')
+        ax.set_xlim(-1, 1)
+        ax.set_ylim(-1, 1)
+
+        #plt.savefig('src/stockhold/tests/test_data/analysis/breakout_trend.png')
+
+    def get_plot_name_path(self, cfg):
+        
+        file_name = cfg['Analysis']['file_name']
+        plot_folder = os.path.join(cfg["Analysis"]["result_folder"], "Plot")
+
+        plot_name_paths = [
+            os.path.join(plot_folder, file_name)
+        ]
+
+        return plot_name_paths
+    
+    def save_and_close_plots(self, cfg):
+
+        plot_name_paths = self.get_plot_name_path(cfg)
+        # plt = plt_properties["plt"]
+        for file_name in plot_name_paths:
+            plt.savefig(file_name, dpi=800)
+
+        plt.close()
