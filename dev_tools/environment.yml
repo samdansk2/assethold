@@ -1,4 +1,4 @@
-name: stockhold
+name: assethold
 channels:
   - defaults
   - conda-forge
