@@ -51,29 +51,29 @@ def run_yaml_files(root_directory):
         output_csv = os.path.join(root_directory, 'all_yml_status.csv')
         df.to_csv(output_csv, index=False)
 
-    no_of_files = len(filenames)
-    tests_passed = len(df[df['Status'] == 'Success'])
-    tests_failed = len(df[df['Status'] == 'Failed'])
+        no_of_files = len(filenames)
+        tests_passed = len(df[df['Status'] == 'Success'])
+        tests_failed = len(df[df['Status'] == 'Failed'])
 
-    summary_output = (
-        f'Detailed output: {df}\n'
-        f'No. of files processed: {no_of_files}\n'
-        f"Tests passed: {tests_passed}\n"
-        f"Tests Failed: {tests_failed}\n"
-    )
+        summary_output = (
+            f'Detailed output: {df}\n'
+            f'No. of files processed: {no_of_files}\n'
+            f"Tests passed: {tests_passed}\n"
+            f"Tests Failed: {tests_failed}\n"
+        )
 
-    os.makedirs(root_directory, exist_ok=True)
+        os.makedirs(root_directory, exist_ok=True)
 
-    summary_file = os.path.join(root_directory, 'yml_summary.txt')
-    with open(summary_file, 'w') as f:
-        f.write(summary_output)
+        summary_file = os.path.join(root_directory, 'yml_summary.txt')
+        with open(summary_file, 'w') as f:
+            f.write(summary_output)
 
 
-    print(f'Detailed output: {df}')
-    print(f'No. of files processed: {len(filenames)}')
-    print(f"Tests passed: {Fore.GREEN}{len(df[df['Status'] == 'Success'])}{Style.RESET_ALL}")
-    print(f"Tests Failed: {Fore.RED}{len(df[df['Status'] == 'Failed'])}{Style.RESET_ALL}")
-    print('Done!')
+        print(f'Detailed output: {df}')
+        print(f'No. of files processed: {len(filenames)}')
+        print(f"Tests passed: {Fore.GREEN}{len(df[df['Status'] == 'Success'])}{Style.RESET_ALL}")
+        print(f"Tests Failed: {Fore.RED}{len(df[df['Status'] == 'Failed'])}{Style.RESET_ALL}")
+        print('Done!')
 
 
 if __name__ == '__main__':

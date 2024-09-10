@@ -12,7 +12,7 @@ from assetutilities.common.data import SaveData
 from assetutilities.common.utilities import save_application_cfg
 from assetutilities.common.file_management import FileManagement
 
-library_name = "stockhold"
+library_name = "assethold"
 
 stks = Stocks()
 fm = FileManagement()
