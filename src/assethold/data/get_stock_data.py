@@ -43,16 +43,18 @@ class GetStockData():
         daily_data = self.get_daily_data_by_ticker(cfg, ticker)
         daily_data_df = daily_data['data']
         daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date']).dt.tz_localize(None)
-        daily_data_df = daily_data_df.head(20)
+        daily_data_df_copy = daily_data_df.tail(100).copy()
 
-        self.save_results(cfg, daily_data_df)
+        self.save_results(cfg, daily_data_df_copy)
 
         return cfg,data
 
-    def save_results(self, cfg, daily_data_df):
+    def save_results(self, cfg, daily_data_df_copy):
         file_name = cfg['input']['ticker'] + '_daily_data.csv'
         file_name = os.path.join(cfg['Analysis']['result_folder'], file_name)
-        daily_data_df.to_csv(file_name, index=False)
+        file_name_2 = cfg['input']['ticker'] + '_data_copy.csv'
+        file_name_2 = os.path.join(cfg['Analysis']['result_folder'], file_name_2)
+        daily_data_df_copy.to_csv(file_name_2, index=False)
         
         csv_groups = [{'file_name': file_name, 'label': ''}]
         self.save_plots(cfg, csv_groups)
@@ -438,9 +440,9 @@ class GetStockData():
         columns= { 'x': ['Date'], 'y': ['Volume'] }
         plot_yml['master_settings']['groups']['columns'] = columns
 
-        # dnow = datetime.datetime.now()
-        # dstart = datetime.datetime(2024,4,16)
-        # x_limits = [dstart, dnow]
+        dnow = datetime.datetime.now()
+        dstart = datetime.datetime(2024, 7, 1)
+        x_limits = [dstart, dnow]
 
         #transform = [{ 'column': 'length', 'scale': 0.0254, 'shift': 0 }]
 
@@ -450,7 +452,8 @@ class GetStockData():
         settings = {'file_name': cfg['input']['ticker'] + '_daily_data', 
                     'title': 'Daily data by ticker',
                     'xlabel': 'date',
-                    'ylabel': 'Volume'
+                    'ylabel': 'Volume',
+                    'x_limits': x_limits,
                     
 }
         plot_yml['settings'].update(settings)
