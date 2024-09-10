@@ -5,8 +5,8 @@ import sys
 import time
 import traceback
 
-from stockhold.common.data import AttributeDict, transform_df_datetime_to_str
-from stockhold.finance_components import FinanceComponents
+from assethold.common.data import AttributeDict, transform_df_datetime_to_str
+from assethold.finance_components import FinanceComponents
 
 logging.getLogger().setLevel(logging.INFO)
 logging.getLogger().addHandler(logging.StreamHandler())

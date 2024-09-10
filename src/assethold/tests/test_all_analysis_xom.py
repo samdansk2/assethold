@@ -1,4 +1,4 @@
-from stockhold import stock_analysis
+from assethold import stock_analysis
 
 ticker = "XOM"
 dashboard_flag = True

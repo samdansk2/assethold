@@ -1,6 +1,6 @@
-from stockhold.common.data import AttributeDict
-from stockhold.finance_components import FinanceComponents
-from stockhold.StockCharts import StockCharts
+from assethold.common.data import AttributeDict
+from assethold.finance_components import FinanceComponents
+from assethold.StockCharts import StockCharts
 
 stock_charts = StockCharts()
 

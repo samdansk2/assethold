@@ -1,7 +1,7 @@
 import datetime
 import json
 
-from stockhold.common.visualization import Visualization
+from assethold.common.visualization import Visualization
 
 
 class StockCharts:

@@ -10,7 +10,7 @@ import xmltodict
 from sec_edgar_downloader import Downloader
 from sec_edgar_downloader._utils import get_filing_urls_to_download
 
-from stockhold.common.data import ReadDataFromString, ReadURLData, RegEx
+from assethold.common.data import ReadDataFromString, ReadURLData, RegEx
 
 re_methods = RegEx()
 

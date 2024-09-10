@@ -6,9 +6,9 @@ import time
 
 from dateutil.relativedelta import relativedelta
 
-from stockhold.common.data import AttributeDict
-from stockhold.finance_components import FinanceComponents
-from stockhold.finance_components_get_SEC_data import SECDataForm
+from assethold.common.data import AttributeDict
+from assethold.finance_components import FinanceComponents
+from assethold.finance_components_get_SEC_data import SECDataForm
 
 sec_data = SECDataForm()
 

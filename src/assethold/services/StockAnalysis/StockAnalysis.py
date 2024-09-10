@@ -9,9 +9,9 @@ from flask_wtf import FlaskForm
 # from wtforms import StringField, SubmitField, TextField, validators
 from wtforms import StringField, SubmitField, validators
 
-from stockhold.common.data import AttributeDict
-from stockhold.finance_components import FinanceComponents
-from stockhold.services.StockAnalysis.StockCharts import StockCharts
+from assethold.common.data import AttributeDict
+from assethold.finance_components import FinanceComponents
+from assethold.services.StockAnalysis.StockCharts import StockCharts
 
 fc = FinanceComponents(cfg=None)
 stock_charts = StockCharts()

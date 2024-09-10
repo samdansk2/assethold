@@ -6,8 +6,8 @@ from dash.exceptions import PreventUpdate
 from dashhtmlgrid.html_layout import get_html_layout
 from dashhtmlgrid.data_table import get_dash_table_from_df
 
-from stockhold.finance_components import FinanceComponents
-from stockhold.stock_charts import StockCharts
+from assethold.finance_components import FinanceComponents
+from assethold.stock_charts import StockCharts
 
 global fc, sc, rerun_thread
 fc = FinanceComponents()

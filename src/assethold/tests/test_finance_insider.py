@@ -7,8 +7,8 @@ import traceback
 
 sys.path.extend(['..'])
 
-from stockhold.common.data import AttributeDict
-from stockhold.finance_components import FinanceComponents
+from assethold.common.data import AttributeDict
+from assethold.finance_components import FinanceComponents
 
 logging.getLogger().setLevel(logging.INFO)
 logging.getLogger().addHandler(logging.StreamHandler())

@@ -8,11 +8,11 @@ from dashhtmlgrid.data_table import get_dash_table_from_df
 from dashhtmlgrid.tests.example_stock_data import get_input_data, get_stock_data_df, get_drop_down_options
 from dashhtmlgrid.tests.example_data_table import get_example_data_table_df
 
-from stockhold.common.data import AttributeDict
-from stockhold.finance_components import FinanceComponents
-from stockhold.stock_charts import StockCharts
+from assethold.common.data import AttributeDict
+from assethold.finance_components import FinanceComponents
+from assethold.stock_charts import StockCharts
 
-from stockhold.test.test_service_stock_analysis_run_all_tickers import \
+from assethold.test.test_service_stock_analysis_run_all_tickers import \
     stock_analysis_by_ticker
 
 fc = FinanceComponents()

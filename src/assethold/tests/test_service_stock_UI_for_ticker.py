@@ -4,9 +4,9 @@ import sys
 
 sys.path.extend(['..'])
 
-from stockhold.common.data import AttributeDict
-from stockhold.finance_components import FinanceComponents
-from stockhold.services.StockAnalysis.StockAnalysis import \
+from assethold.common.data import AttributeDict
+from assethold.finance_components import FinanceComponents
+from assethold.services.StockAnalysis.StockAnalysis import \
     assign_stock_data_and_update_menu_items
 
 cfg = AttributeDict({

@@ -1,4 +1,4 @@
-name: stockhold
+name: assethold
 channels:
   - defaults
   - conda-forge
@@ -11,6 +11,7 @@ dependencies:
     - numpy_financial
     - bumpver
     - plotly
+    - matplotlib
     - dash==2.5.1
     - dash_bootstrap_components
     - urllib3
@@ -25,3 +26,5 @@ dependencies:
     - flask_wtf
     - flask_httpauth
     - flask_restful
+    - requests_html
+    

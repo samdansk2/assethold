@@ -2,7 +2,7 @@ import datetime
 import pytz
 import pandas as pd
 
-from stockhold.common.data import get_initials_from_name, transform_df_datetime_to_str, getClosestIntegerInList
+from assethold.common.data import get_initials_from_name, transform_df_datetime_to_str, getClosestIntegerInList
 
 
 class FinanceAnalysis():

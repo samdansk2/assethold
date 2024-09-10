@@ -2,10 +2,8 @@ import logging
 import sys
 import traceback
 
-sys.path.extend(['..'])
-
-from stockhold.common.data import AttributeDict
-from stockhold.finance_components import FinanceComponents
+from assethold.common.data import AttributeDict
+from assethold.finance_components import FinanceComponents
 
 
 def stock_analysis_by_ticker(ticker):
@@ -20,7 +18,6 @@ def stock_analysis_by_ticker(ticker):
     fc = FinanceComponents(cfg=cfg)
     data_dict = None
     if fc.valid_ticker():
-        # fc.cfg['database']['data_exists'] = False
         try:
             fc.get_data()
             data_dict = fc.get_data_dict()
@@ -38,17 +35,24 @@ def stock_analysis_by_ticker(ticker):
                          traceback.format_exc())
             print("StockAnalysis, Performing analysis  ... FAILED")
 
-        # if data_dict is not None:
-        #     fc.save_result_to_db()
         assert (fc.fdata.company_info['stock_ticker'] == ticker)
         df_data = fc.fdata.stock_data_array[0]
         assert (len(df_data) > 0)
         df_ta = fc.fanalysis.ta
-        assert (len(df_ta) >= 0)
-        df_insider = fc.fanalysis.insider_analysis_by_relation_df
-        assert (len(df_insider) >= 0)
+        assert (len(df_ta) > 0)
+        if fc.fdata.company_info['stock_ticker'] == 'RIG':
+            df_insider_sell = fc.fanalysis.insider_df_sell
+            assert (len(df_insider_sell) > 0)
+            df_insider_buy = fc.fanalysis.insider_df_buy
+            assert (len(df_insider_buy) > 0)
+            df_insider_by_timeline = fc.fanalysis.insider_analysis_by_timeline_df
+            assert (len(df_insider_by_timeline) > 0)
+            df_insider_by_relation = fc.fanalysis.insider_analysis_by_relation_df
+            assert (len(df_insider_by_relation) > 0)
 
     print("Analysis for ticker: {}  ... COMPLETED".format(ticker))
+
+    return fc
 
 
 def run_batch_sp500():
@@ -80,5 +84,6 @@ def run_batch_dow():
 
 
 if __name__ == '__main__':
-    run_batch_dow()
-    run_batch_sp500()
+    # run_batch_dow()
+    # run_batch_sp500()
+    pass
