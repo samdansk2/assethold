@@ -38,6 +38,7 @@ class StockAnalysis():
         analysis = {}
         if 'analysis' in cfg and cfg['analysis'].get('flag', False):
             daily_data = data['daily']['data']
+            daily_data = daily_data.tail(20)
             cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
 
             analysis_output = {
@@ -68,13 +69,13 @@ class StockAnalysis():
 
         breakout_trend = {'data': df.to_dict(orient='records'), 'status': True} 
         
-        self.save_plots(cfg,df)
+        self.save_plots(cfg,df,daily_data)
         
         return cfg, breakout_trend
     
-    def save_plots(self,cfg,df):
+    def save_plots(self,cfg,df,daily_data):
         
-        self.plot_breakout_trend(cfg,df)
+        self.plot_breakout_trend(cfg,df,daily_data)
         self.save_and_close_plots(cfg)
     
 
@@ -204,27 +205,32 @@ class StockAnalysis():
             str(value) + " [{} %]".format(percent_above_52wkhigh)
         ]
     
-    def plot_breakout_trend(self,cfg, df):
-
-        values = df['Value']
-        #false_count = values.apply(lambda x: isinstance(x, bool) and x is False).sum()
-        false_count = values.apply(lambda x: x == False or 'False' in str(x)).sum()
-
-        if false_count == 0:
-            color = 'green'
-        elif false_count == 1:
-            color = 'orange'
-        else:
-            color = 'red'
-
-        fig, ax = plt.subplots()
-        ax.scatter(0, 0, s=100, c=color) 
+    def plot_breakout_trend(self, cfg, df, daily_data):
         
-        ax.set_title('Breakout Trend')
-        ax.set_xlim(-1, 1)
-        ax.set_ylim(-1, 1)
 
-        #plt.savefig('src/stockhold/tests/test_data/analysis/breakout_trend.png')
+        # Set a default color for non-breakout days
+        default_color = 'gray'
+
+        fail_count = df['Value'].apply(lambda x: sum([not v for v in x]) if isinstance(x, list) else int(not x))
+
+        breakout_colors = fail_count.apply(lambda x: 'green' if x == 0 else ('blue' if x == 1 else 'red'))
+    
+        # Match the length of colors with daily_data by appending default colors for missing rows
+        colors = [default_color] * len(daily_data)
+        # Assuming df and daily_data have the same recent dates, we align breakout data with the end of daily_data
+        colors[-len(breakout_colors):] = breakout_colors
+
+        plt.figure(figsize=(10, 6))
+        plt.plot(daily_data.index, daily_data['Close'], label='Close Price')
+
+        
+        plt.scatter(daily_data.index, daily_data['Close'], color=colors, label='Breakout Trend')
+
+        plt.title('Breakout Trend Analysis')
+        plt.xlabel('Date')
+        plt.ylabel('Price')
+        plt.legend()
+        plt.grid(True)
 
     def get_plot_name_path(self, cfg):
         
