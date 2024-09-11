@@ -208,16 +208,16 @@ class StockAnalysis():
     def plot_breakout_trend(self, cfg, df, daily_data):
         
 
-        # Set a default color for non-breakout days
-        default_color = 'gray'
+        # default color for non-breakout days
+        default_color = 'black'
 
         fail_count = df['Value'].apply(lambda x: sum([not v for v in x]) if isinstance(x, list) else int(not x))
 
-        breakout_colors = fail_count.apply(lambda x: 'green' if x == 0 else ('blue' if x == 1 else 'red'))
+        breakout_colors = fail_count.apply(lambda x: 'green' if x == 0 else ('orange' if x == 1 else 'red'))
     
         # Match the length of colors with daily_data by appending default colors for missing rows
         colors = [default_color] * len(daily_data)
-        # Assuming df and daily_data have the same recent dates, we align breakout data with the end of daily_data
+        # Assuming df and daily_data have the same recent dates, align breakout data with the end of daily_data
         colors[-len(breakout_colors):] = breakout_colors
 
         plt.figure(figsize=(10, 6))
