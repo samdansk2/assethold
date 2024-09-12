@@ -2,7 +2,7 @@
 import pandas as pd #noqa
 import matplotlib.pyplot as plt #noqa
 
-import os
+import os #noqa
 
 # Third party imports
 import pytz
@@ -206,31 +206,38 @@ class StockAnalysis():
         ]
     
     def plot_breakout_trend(self, cfg, df, daily_data):
-        
 
+        import matplotlib.dates as mdates # noqa
+        
+        daily_data['Date'] = pd.to_datetime(daily_data['Date']) 
+        
         # default color for non-breakout days
         default_color = 'black'
 
         fail_count = df['Value'].apply(lambda x: sum([not v for v in x]) if isinstance(x, list) else int(not x))
 
-        breakout_colors = fail_count.apply(lambda x: 'green' if x == 0 else ('orange' if x == 1 else 'red'))
+        breakout_colors = fail_count.apply(lambda x: 'green' if x == 0 else ('brown' if x == 1 else 'red'))
     
         # Match the length of colors with daily_data by appending default colors for missing rows
         colors = [default_color] * len(daily_data)
         # Assuming df and daily_data have the same recent dates, align breakout data with the end of daily_data
         colors[-len(breakout_colors):] = breakout_colors
 
-        plt.figure(figsize=(10, 6))
-        plt.plot(daily_data.index, daily_data['Close'], label='Close Price')
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.plot(daily_data['Date'], daily_data['Close'], label='Close Price')
 
-        
-        plt.scatter(daily_data.index, daily_data['Close'], color=colors, label='Breakout Trend')
+        ax.scatter(daily_data['Date'], daily_data['Close'], color=colors, label='Breakout Trend')
 
-        plt.title('Breakout Trend Analysis')
-        plt.xlabel('Date')
-        plt.ylabel('Price')
-        plt.legend()
-        plt.grid(True)
+        ax.set_title('Breakout Trend Analysis')
+        ax.set_xlabel('Date')
+        ax.set_ylabel('Price')
+        ax.legend()
+        ax.grid(True)
+
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b-%d'))
+
+        plt.xticks(rotation=45)
+        fig.autofmt_xdate()
 
     def get_plot_name_path(self, cfg):
         
