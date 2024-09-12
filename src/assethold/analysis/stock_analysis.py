@@ -224,9 +224,9 @@ class StockAnalysis():
         colors[-len(breakout_colors):] = breakout_colors
 
         fig, ax = plt.subplots(figsize=(10, 6))
-        ax.plot(daily_data['Date'], daily_data['Close'], label='Close Price')
+        ax.plot(daily_data['Date'], daily_data['Close'], color='skyblue',label='Close Price')
 
-        ax.scatter(daily_data['Date'], daily_data['Close'], color=colors, label='Breakout Trend')
+        ax.scatter(daily_data['Date'], daily_data['Close'], color=colors, s=70,label='Breakout Trend')
 
         ax.set_title('Breakout Trend Analysis')
         ax.set_xlabel('Date')
@@ -234,10 +234,11 @@ class StockAnalysis():
         ax.legend()
         ax.grid(True)
 
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b-%d'))
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b-%d')) # sets date in month name and day
+        ax.xaxis.set_major_locator(mdates.DayLocator(interval=2)) # sets interval of 2 days
 
-        plt.xticks(rotation=45)
-        fig.autofmt_xdate()
+        plt.xticks(rotation=45) # rotates x-axis labels
+        fig.autofmt_xdate() # auto formats x-axis date
 
     def get_plot_name_path(self, cfg):
         
