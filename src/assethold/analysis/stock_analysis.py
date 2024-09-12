@@ -210,51 +210,45 @@ class StockAnalysis():
         """
         breakout trend with colored dots based on breakout criteria.
         """
-        import matplotlib.dates as mdates
+        import matplotlib.dates as mdates # noqa
 
         daily_data['Date'] = pd.to_datetime(daily_data['Date'])
 
-        # Default color for days with missing breakout data
         default_color = 'black'
-        colors = []  # List to store colors for each day
+        colors = []  
 
         for index, row in daily_data.iterrows():
-            # Check if any of the key columns contain NaN (i.e., breakout data missing for that day)
+
+            # Check if all the key columns contains NaN ( breakout data missing for that day )
             if pd.isnull(row[['Close', '100_day_rolling', '50_day_rolling', '150_day_rolling', '200_day_rolling', '200_day_diff']]).all():
                 # Missing data, assign gray color
                 colors.append(default_color)
             else:
-                # Conditions to check for breakout
                 failed_conditions = 0
                 
-                # Condition 1: Close price above 150-day and 200-day moving averages
+            # check for breakout conditions
                 if not (row['Close'] > row['150_day_rolling'] and row['Close'] > row['200_day_rolling']):
                     failed_conditions += 1
                 
-                # Condition 2: 150-day moving average above 200-day moving average
                 if not (row['150_day_rolling'] > row['200_day_rolling']):
                     failed_conditions += 1
 
-                # Condition 3: 200-day moving average has been trending up (e.g., positive 200_day_diff)
                 if not (row['200_day_diff'] > 0):
                     failed_conditions += 1
 
-                # Condition 4: 50-day moving average above 150-day and 200-day moving averages
                 if not (row['50_day_rolling'] > row['150_day_rolling'] and row['50_day_rolling'] > row['200_day_rolling']):
                     failed_conditions += 1
 
-                # Assign color based on the number of failed conditions
                 if failed_conditions == 0:
-                    colors.append('green')  # No failed conditions
+                    colors.append('green')  
                 elif failed_conditions == 1:
-                    colors.append('gold')   # One failed condition
+                    colors.append('gold')
                 else:
-                    colors.append('red')    # Two or more failed conditions
+                    colors.append('red')    
 
         fig, ax = plt.subplots(figsize=(10, 6))
         ax.plot(daily_data['Date'], daily_data['Close'], color='skyblue',label='Close Price')
 
-        # Scatter plot for breakout points: colors are now aligned with daily_data and missing data handled
         ax.scatter(daily_data['Date'], daily_data['Close'], color=colors, s=70,label='Breakout Trend')
 
         ax.set_title('Breakout Trend Analysis')
@@ -268,41 +262,6 @@ class StockAnalysis():
 
         plt.xticks(rotation=45) # rotates x-axis labels
         fig.autofmt_xdate() # auto formats x-axis date
-
-    # def plot_breakout_trend(self, cfg, df, daily_data):
-
-    #     import matplotlib.dates as mdates # noqa
-        
-    #     daily_data['Date'] = pd.to_datetime(daily_data['Date']) 
-        
-    #     # default color for non-breakout days
-    #     default_color = 'black'
-
-    #     fail_count = df['Value'].apply(lambda x: sum([not v for v in x]) if isinstance(x, list) else int(not x))
-
-    #     breakout_colors = fail_count.apply(lambda x: 'green' if x == 0 else ('brown' if x == 1 else 'red'))
-    
-    #     # Match the length of colors with daily_data by appending default colors for missing rows
-    #     colors = [default_color] * len(daily_data)
-    #     # Assuming df and daily_data have the same recent dates, align breakout data with the end of daily_data
-    #     colors[-len(breakout_colors):] = breakout_colors
-
-    #     fig, ax = plt.subplots(figsize=(10, 6))
-    #     ax.plot(daily_data['Date'], daily_data['Close'], color='skyblue',label='Close Price')
-
-    #     ax.scatter(daily_data['Date'], daily_data['Close'], color=colors, s=70,label='Breakout Trend')
-
-    #     ax.set_title('Breakout Trend Analysis')
-    #     ax.set_xlabel('Date')
-    #     ax.set_ylabel('Price')
-    #     ax.legend()
-    #     ax.grid(True)
-
-    #     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b-%d')) # sets date in month name and day
-    #     ax.xaxis.set_major_locator(mdates.DayLocator(interval=2)) # sets interval of 2 days
-
-    #     plt.xticks(rotation=45) # rotates x-axis labels
-    #     fig.autofmt_xdate() # auto formats x-axis date
 
     def get_plot_name_path(self, cfg):
         
