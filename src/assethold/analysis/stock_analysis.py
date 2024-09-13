@@ -77,6 +77,126 @@ class StockAnalysis():
         
         self.plot_breakout_trend(cfg,df,daily_data)
         self.save_and_close_plots(cfg)
+
+    def plot_breakout_trend(self, cfg, df, daily_data):
+        """
+        breakout trend with colored dots based on breakout criteria.
+        """
+        import matplotlib.dates as mdates # noqa
+        import re # noqa
+
+        daily_data['Date'] = pd.to_datetime(daily_data['Date'])
+
+        default_color = 'black'
+        colors = []  
+
+        for index, row in daily_data.iterrows():
+
+            # Check if all the key columns contains NaN ( breakout data missing for that day )
+            if pd.isnull(row[['Close', '100_day_rolling', '50_day_rolling', '150_day_rolling', '200_day_rolling', '200_day_diff']]).all():
+                # Missing data, assign gray color
+                colors.append(default_color)
+            else:
+                failed_conditions = 0
+                
+            # check for breakout conditions ( boolean )
+                if not self.check_if_price_above_150_and_200_moving(daily_data)[1]:
+                    failed_conditions += 1
+
+                if not self.check_if_150_moving_above_200_moving(daily_data)[1]:
+                    failed_conditions += 1
+
+                if not self.check_if_200_moving_up_for_1mo(daily_data)[1]:
+                    failed_conditions += 1
+
+                if not self.check_if_50_day_above_150_and_200_moving(daily_data)[1]:
+                    failed_conditions += 1
+
+                if not self.check_if_price_above_50_moving(daily_data)[1]:
+                    failed_conditions += 1
+
+                if not self.check_if_price_above_1p3_52wk_low(daily_data)[1]:
+                    failed_conditions += 1
+
+                if not self.check_if_price_near_52wk_high_range(daily_data)[1]:
+                    failed_conditions += 1
+
+                if failed_conditions == 0:
+                    colors.append('green')  
+                elif failed_conditions == 1:
+                    colors.append('gold')
+                else:
+                    colors.append('red')
+
+        def extract_analysis(value_str, description):
+             
+            if not isinstance(description, str):
+                description = str(description)
+    
+            if isinstance(value_str, bool):
+                # If the value is already a boolean, just return it and an empty dictionary
+                return value_str, {}
+
+            value_str = str(value_str)
+
+            # Extract analysis from Value using regex
+            analysis = re.findall(r'\[.*?\]', value_str)
+            value_cleaned = re.sub(r'\[.*?\]', '', value_str).strip()
+
+            if value_cleaned in ['True', 'False']:
+                value_cleaned = value_cleaned == 'True'
+
+            description_cleaned = re.sub(r'\[.*?\]', '', description).strip()
+
+            cleaned_analysis = {}
+            if analysis:
+                for part in analysis:
+                    key = re.sub(r'.*\[(.*)\].*', r'\1', description)  # Extract key
+                    value = part.strip('[]').replace('mo.', '').replace('%', '').strip()  # Clean the value
+                    if 'mo.' in key:
+                        cleaned_analysis[key] = [f'{value}']
+                    elif '%' in key:
+                        cleaned_analysis[key] = [f'{value}']
+                    else:
+                        cleaned_analysis[key] = [value]
+
+            return value_cleaned, cleaned_analysis if cleaned_analysis else {}
+
+        # New DataFrame with desired columns
+        breakout_analysis_trend_df = pd.DataFrame(columns=['Description', 'Value', 'Analysis'])
+
+        for index, row in df.iterrows():
+            description = row['Description']
+            value_str = row['Value']
+
+            # Extract the boolean value and analysis details
+            value_cleaned, analysis = extract_analysis(value_str, description)
+
+            # Add to the cleaned DataFrame
+            breakout_analysis_trend_df.loc[index] = [
+                re.sub(r'\[.*?\]', '', description).strip(),     # Keep the same description
+                value_cleaned,                                   # Cleaned Value (True/False)
+                analysis                                         # Extracted Analysis details as a dictionary
+            ]
+
+        print(breakout_analysis_trend_df)    
+
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.plot(daily_data['Date'], daily_data['Close'], color='skyblue',label='Close Price')
+
+        ax.scatter(daily_data['Date'], daily_data['Close'], color=colors, s=70,label='Breakout Trend')
+
+        ax.set_title('Breakout Trend Analysis')
+        ax.set_xlabel('Date')
+        ax.set_ylabel('Price')
+        ax.legend()
+        ax.grid(True)
+
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b-%d')) # sets date in month name and day
+        ax.xaxis.set_major_locator(mdates.DayLocator(interval=2)) # sets interval of 2 days
+
+        plt.xticks(rotation=45) # rotates x-axis labels
+        fig.autofmt_xdate() # auto formats x-axis date
     
 
     def check_if_price_above_150_and_200_moving(self, df, close="Close"):
@@ -205,63 +325,6 @@ class StockAnalysis():
             str(value) + " [{} %]".format(percent_above_52wkhigh)
         ]
     
-
-    def plot_breakout_trend(self, cfg, df, daily_data):
-        """
-        breakout trend with colored dots based on breakout criteria.
-        """
-        import matplotlib.dates as mdates # noqa
-
-        daily_data['Date'] = pd.to_datetime(daily_data['Date'])
-
-        default_color = 'black'
-        colors = []  
-
-        for index, row in daily_data.iterrows():
-
-            # Check if all the key columns contains NaN ( breakout data missing for that day )
-            if pd.isnull(row[['Close', '100_day_rolling', '50_day_rolling', '150_day_rolling', '200_day_rolling', '200_day_diff']]).all():
-                # Missing data, assign gray color
-                colors.append(default_color)
-            else:
-                failed_conditions = 0
-                
-            # check for breakout conditions
-                if not (row['Close'] > row['150_day_rolling'] and row['Close'] > row['200_day_rolling']):
-                    failed_conditions += 1
-                
-                if not (row['150_day_rolling'] > row['200_day_rolling']):
-                    failed_conditions += 1
-
-                if not (row['200_day_diff'] > 0):
-                    failed_conditions += 1
-
-                if not (row['50_day_rolling'] > row['150_day_rolling'] and row['50_day_rolling'] > row['200_day_rolling']):
-                    failed_conditions += 1
-
-                if failed_conditions == 0:
-                    colors.append('green')  
-                elif failed_conditions == 1:
-                    colors.append('gold')
-                else:
-                    colors.append('red')    
-
-        fig, ax = plt.subplots(figsize=(10, 6))
-        ax.plot(daily_data['Date'], daily_data['Close'], color='skyblue',label='Close Price')
-
-        ax.scatter(daily_data['Date'], daily_data['Close'], color=colors, s=70,label='Breakout Trend')
-
-        ax.set_title('Breakout Trend Analysis')
-        ax.set_xlabel('Date')
-        ax.set_ylabel('Price')
-        ax.legend()
-        ax.grid(True)
-
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b-%d')) # sets date in month name and day
-        ax.xaxis.set_major_locator(mdates.DayLocator(interval=2)) # sets interval of 2 days
-
-        plt.xticks(rotation=45) # rotates x-axis labels
-        fig.autofmt_xdate() # auto formats x-axis date
 
     def get_plot_name_path(self, cfg):
         
