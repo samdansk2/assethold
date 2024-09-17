@@ -87,100 +87,191 @@ class StockAnalysis():
 
         daily_data['Date'] = pd.to_datetime(daily_data['Date'])
 
-        default_color = 'black'
-        colors = []  
+        # default_color = 'black'
+        # colors = []  
 
-        for index, row in daily_data.iterrows():
+        # for index, row in daily_data.iterrows():
 
-            # Check if all the key columns contains NaN ( breakout data missing for that day )
-            if pd.isnull(row[['Close', '100_day_rolling', '50_day_rolling', '150_day_rolling', '200_day_rolling', '200_day_diff']]).all():
-                # Missing data, assign gray color
-                colors.append(default_color)
-            else:
-                failed_conditions = 0
+        #     # Check if all the key columns contains NaN ( breakout data missing for that day )
+        #     if pd.isnull(row[['Close', '100_day_rolling', '50_day_rolling', '150_day_rolling', '200_day_rolling', '200_day_diff']]).all():
+        #         # Missing data, assign gray color
+        #         colors.append(default_color)
+        #     else:
+        #         failed_conditions = 0
                 
-            # check for breakout conditions ( boolean )
-                if not self.check_if_price_above_150_and_200_moving(daily_data)[1]:
-                    failed_conditions += 1
+        #     # check for breakout conditions ( boolean )
+        #         if not self.check_if_price_above_150_and_200_moving(daily_data)[1]:
+        #             failed_conditions += 1
 
-                if not self.check_if_150_moving_above_200_moving(daily_data)[1]:
-                    failed_conditions += 1
+        #         if not self.check_if_150_moving_above_200_moving(daily_data)[1]:
+        #             failed_conditions += 1
 
-                if not self.check_if_200_moving_up_for_1mo(daily_data)[1]:
-                    failed_conditions += 1
+        #         if not self.check_if_200_moving_up_for_1mo(daily_data)[1]:
+        #             failed_conditions += 1
 
-                if not self.check_if_50_day_above_150_and_200_moving(daily_data)[1]:
-                    failed_conditions += 1
+        #         if not self.check_if_50_day_above_150_and_200_moving(daily_data)[1]:
+        #             failed_conditions += 1
 
-                if not self.check_if_price_above_50_moving(daily_data)[1]:
-                    failed_conditions += 1
+        #         if not self.check_if_price_above_50_moving(daily_data)[1]:
+        #             failed_conditions += 1
 
-                if not self.check_if_price_above_1p3_52wk_low(daily_data)[1]:
-                    failed_conditions += 1
+        #         if not self.check_if_price_above_1p3_52wk_low(daily_data)[1]:
+        #             failed_conditions += 1
 
-                if not self.check_if_price_near_52wk_high_range(daily_data)[1]:
-                    failed_conditions += 1
+        #         if not self.check_if_price_near_52wk_high_range(daily_data)[1]:
+        #             failed_conditions += 1
 
-                if failed_conditions == 0:
-                    colors.append('green')  
-                elif failed_conditions == 1:
-                    colors.append('gold')
-                else:
-                    colors.append('red')
+        #         if failed_conditions == 0:
+        #             colors.append('green')  
+        #         elif failed_conditions == 1:
+        #             colors.append('gold')
+        #         else:
+        #             colors.append('red')
+
+        # def extract_analysis(value_str, description):
+             
+        #     if not isinstance(description, str):
+        #         description = str(description)
+    
+        #     if isinstance(value_str, bool):
+        #         # If the value is already a boolean, just return it and an empty dictionary
+        #         return value_str, {}
+
+        #     value_str = str(value_str)
+
+        #     # Extract analysis from Value using regex
+        #     analysis = re.findall(r'\[.*?\]', value_str)
+        #     value_cleaned = re.sub(r'\[.*?\]', '', value_str).strip()
+
+        #     if value_cleaned in ['True', 'False']:
+        #         value_cleaned = value_cleaned == 'True'
+
+        #     description_cleaned = re.sub(r'\[.*?\]', '', description).strip()
+
+        #     cleaned_analysis = {}
+        #     if analysis:
+        #         for part in analysis:
+        #             key = re.sub(r'.*\[(.*)\].*', r'\1', description)  # Extract key
+        #             value = part.strip('[]').replace('mo.', '').replace('%', '').strip()  # Clean the value
+        #             if 'mo.' in key:
+        #                 cleaned_analysis[key] = [f'{value}']
+        #             elif '%' in key:
+        #                 cleaned_analysis[key] = [f'{value}']
+        #             else:
+        #                 cleaned_analysis[key] = [value]
+
+        #     return value_cleaned, cleaned_analysis if cleaned_analysis else {}
+
+        # # New DataFrame with desired columns
+        # breakout_analysis_trend_df = pd.DataFrame(columns=['Description', 'Value', 'Analysis'])
+
+        # for index, row in df.iterrows():
+        #     description = row['Description']
+        #     value_str = row['Value']
+
+        #     # Extract the boolean value and analysis details
+        #     value_cleaned, analysis = extract_analysis(value_str, description)
+
+        #     # Add to the cleaned DataFrame
+        #     breakout_analysis_trend_df.loc[index] = [
+        #         re.sub(r'\[.*?\]', '', description).strip(),     # Keep the same description
+        #         value_cleaned,                                   # Cleaned Value (True/False)
+        #         analysis                                         # Extracted Analysis details as a dictionary
+        #     ]
+
+        # print(breakout_analysis_trend_df) 
+        breakout_analysis_trend_df = pd.DataFrame(columns=[
+        'Date', 'Analysis', 'Price Above 150 & 200 day avgs.', '150 day avg. above 200 day avg.',
+        '200 day avg. uptrend for 1 mo', '50 day avg. Above 150 & 200 day avgs.',
+        'Price Above 50 day avg.', 'Price 30% Above 52 wk low', 
+        'Price within 25% of 52 wk high range', 'no_of_fails', 'plot_color'
+            ])
+
+        default_color = 'black'
+        colors = []  # For plot color points 
+
+        trend_data = []
 
         def extract_analysis(value_str, description):
-             
             if not isinstance(description, str):
                 description = str(description)
-    
+
             if isinstance(value_str, bool):
-                # If the value is already a boolean, just return it and an empty dictionary
                 return value_str, {}
 
             value_str = str(value_str)
-
-            # Extract analysis from Value using regex
             analysis = re.findall(r'\[.*?\]', value_str)
             value_cleaned = re.sub(r'\[.*?\]', '', value_str).strip()
 
             if value_cleaned in ['True', 'False']:
                 value_cleaned = value_cleaned == 'True'
 
-            description_cleaned = re.sub(r'\[.*?\]', '', description).strip()
+            description_cleaned = re.sub(r'\[.*?\]', '', description).strip() 
 
             cleaned_analysis = {}
             if analysis:
                 for part in analysis:
-                    key = re.sub(r'.*\[(.*)\].*', r'\1', description)  # Extract key
-                    value = part.strip('[]').replace('mo.', '').replace('%', '').strip()  # Clean the value
+                    key = re.sub(r'.*\[(.*)\].*', r'\1', description)
+                    value = part.strip('[]').strip()
                     if 'mo.' in key:
-                        cleaned_analysis[key] = [f'{value}']
+                        cleaned_analysis[key] = [f'{value} mo.']
                     elif '%' in key:
-                        cleaned_analysis[key] = [f'{value}']
+                        cleaned_analysis[key] = [f'{value}%']
                     else:
                         cleaned_analysis[key] = [value]
 
-            return value_cleaned, cleaned_analysis if cleaned_analysis else {}
+            return value_cleaned, cleaned_analysis if cleaned_analysis else {} 
+        
+        for index, row in daily_data.iterrows():
+        # Store breakout condition results as tickmarks or hyphens
+            price_above_150_200 = '✔' if self.check_if_price_above_150_and_200_moving(daily_data)[1] else '-'
+            moving_150_above_200 = '✔' if self.check_if_150_moving_above_200_moving(daily_data)[1] else '-'
+            moving_200_uptrend_1mo = '✔' if self.check_if_200_moving_up_for_1mo(daily_data)[1] else '-'
+            moving_50_above_150_200 = '✔' if self.check_if_50_day_above_150_and_200_moving(daily_data)[1] else '-'
+            price_above_50 = '✔' if self.check_if_price_above_50_moving(daily_data)[1] else '-'
+            price_30_above_52wk_low = '✔' if self.check_if_price_above_1p3_52wk_low(daily_data)[1] else '-'
+            price_within_52wk_high = '✔' if self.check_if_price_near_52wk_high_range(daily_data)[1] else '-'
 
-        # New DataFrame with desired columns
-        breakout_analysis_trend_df = pd.DataFrame(columns=['Description', 'Value', 'Analysis'])
+            failed_conditions = sum([
+            price_above_150_200 == '-',
+            moving_150_above_200 == '-',
+            moving_200_uptrend_1mo == '-',
+            moving_50_above_150_200 == '-',
+            price_above_50 == '-',
+            price_30_above_52wk_low == '-',
+            price_within_52wk_high == '-'
+        ])
+            if failed_conditions == 0:
+                plot_color = 'green'
+                colors.append('green')
+            elif failed_conditions == 1:
+                plot_color = 'gold'
+                colors.append('gold')
+            else:
+                plot_color = 'red'
+                colors.append('red')
 
-        for index, row in df.iterrows():
-            description = row['Description']
-            value_str = row['Value']
+            description = row.get('Description', '')
+            value_str = row.get('Value', '')
+            value_cleaned, analysis = extract_analysis(value_str, description)  
 
-            # Extract the boolean value and analysis details
-            value_cleaned, analysis = extract_analysis(value_str, description)
-
-            # Add to the cleaned DataFrame
-            breakout_analysis_trend_df.loc[index] = [
-                re.sub(r'\[.*?\]', '', description).strip(),     # Keep the same description
-                value_cleaned,                                   # Cleaned Value (True/False)
-                analysis                                         # Extracted Analysis details as a dictionary
-            ]
-
-        print(breakout_analysis_trend_df)    
-
+            trend_data.append({
+            'Date': row['Date'],
+            'Analysis': analysis,
+            'Price Above 150 & 200 day avgs.': price_above_150_200,
+            '150 day avg. above 200 day avg.': moving_150_above_200,
+            '200 day avg. uptrend for 1 mo': moving_200_uptrend_1mo,
+            '50 day avg. Above 150 & 200 day avgs.': moving_50_above_150_200,
+            'Price Above 50 day avg.': price_above_50,
+            'Price 30% Above 52 wk low': price_30_above_52wk_low,
+            'Price within 25% of 52 wk high range': price_within_52wk_high,
+            'no_of_fails': failed_conditions,
+            'plot_color': plot_color
+        })
+            
+        breakout_analysis_trend_df = pd.DataFrame(trend_data)
+        breakout_analysis_trend_df.to_csv('src/assethold/tests/test_data/analysis/breakout_analysis_trend.csv', index=False)    
+              
         fig, ax = plt.subplots(figsize=(10, 6))
         ax.plot(daily_data['Date'], daily_data['Close'], color='skyblue',label='Close Price')
 
