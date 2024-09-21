@@ -19,13 +19,13 @@ class StockAnalysis():
 
     def __init__(self, cfg):
         self.cfg = cfg
-        self.insider_analysis_by_relation_breakout_df = pd.DataFrame()
-        self.insider_analysis_by_timeline_breakout_df = pd.DataFrame()
-        self.call_effective_value_breakout_df = pd.DataFrame()
-        self.call_effective_value_breakout_df_filtered = pd.DataFrame()
+        self.insider_analysis_by_relation_df = pd.DataFrame()
+        self.insider_analysis_by_timeline_df = pd.DataFrame()
+        self.call_effective_value_df = pd.DataFrame()
+        self.call_effective_value_df_filtered = pd.DataFrame()
         self.insider_info = None
-        self.insider_breakout_df_buy = pd.DataFrame()
-        self.insider_breakout_df_sell = pd.DataFrame()
+        self.insider_df_buy = pd.DataFrame()
+        self.insider_df_sell = pd.DataFrame()
         self.status = {'insider': {}}
 
     def router(self, cfg,data):
