@@ -1,29 +1,7 @@
 basename: stock
 
-data:
-  flag: True
-  daily: True
-  insider: True
-
-analysis:
-  flag: True
-  breakout: True
-  insider: True
-
 default:
   log_level: DEBUG
   config:
     overwrite:
       output: True
-
-stock:
-  data: NULL
-  analysis: NULL
-
-input:
-  ticker: AAPL
-  data_settings:
-    eod:
-      source: yfinance
-      period: 5y
-      interval: 1d
