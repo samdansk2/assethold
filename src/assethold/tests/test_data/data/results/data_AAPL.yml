@@ -2,35 +2,15 @@
 state: *id001
 dictitems:
   basename: stock
-  data:
-    flag: true
-    daily: true
-    insider: true
-  analysis:
-    flag: true
-    breakout: true
-    insider: true
   default:
     log_level: INFO
     config:
       overwrite:
         output: true
-  stock:
-    data:
-      status:
-        daily: true
-        info: true
-        insider: false
-    analysis:
-      status:
-        breakout_trend: true
+  data:
+    flag: true
   input:
     ticker: AAPL
-    data_settings:
-      eod:
-        source: yfinance
-        period: 5y
-        interval: 1d
   Analysis:
     basename: stock
     analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\data
@@ -38,8 +18,16 @@ dictitems:
     file_name_for_overwrite: data_AAPL
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\data\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\data\logs
-    start_time: 2024-09-22 10:03:48.500712
+    start_time: 2024-09-22 11:02:26.875727
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\data\data_AAPL.yml
     fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\data\results
+  stock:
+    data:
+      status:
+        daily: true
+        info: true
+        insider: false
+    analysis:
+      status: {}
