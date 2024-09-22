@@ -45,7 +45,7 @@ class GetStockData():
         daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date'])
 
         if "data" in cfg and cfg['data'].get('flag', False):
-            daily_data_df_copy = daily_data_df.tail(100).copy()
+            daily_data_df_copy = daily_data_df.tail(20).copy()
             self.save_results(cfg, daily_data_df_copy)
 
         return cfg,data
@@ -57,7 +57,7 @@ class GetStockData():
         file_name_2 = os.path.join(cfg['Analysis']['analysis_root_folder'], file_name_2)
         daily_data_df_copy.to_csv(file_name_2, index=False)
         
-        csv_groups = [{'file_name': file_name, 'label': ''}]
+        csv_groups = [{'file_name': file_name_2, 'label': ''}]
         self.save_plots(cfg, csv_groups)
 
     def save_plots(self, cfg, csv_groups):
