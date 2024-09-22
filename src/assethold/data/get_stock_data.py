@@ -43,9 +43,10 @@ class GetStockData():
         daily_data = self.get_daily_data_by_ticker(cfg, ticker)
         daily_data_df = daily_data['data']
         daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date'])
-        daily_data_df_copy = daily_data_df.tail(100).copy()
 
-        self.save_results(cfg, daily_data_df_copy)
+        if "data" in cfg and cfg['data'].get('flag', False):
+            daily_data_df_copy = daily_data_df.tail(100).copy()
+            self.save_results(cfg, daily_data_df_copy)
 
         return cfg,data
 

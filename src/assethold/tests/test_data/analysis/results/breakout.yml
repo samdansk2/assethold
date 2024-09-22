@@ -2,19 +2,27 @@
 state: *id001
 dictitems:
   basename: stock
-  data:
-    flag: true
-    daily: true
-    insider: true
-  analysis:
-    flag: true
-    breakout: true
-    insider: true
   default:
     log_level: INFO
     config:
       overwrite:
         output: true
+  analysis:
+    flag: true
+  input:
+    ticker: RIG
+  Analysis:
+    basename: stock
+    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis
+    file_name: breakout
+    file_name_for_overwrite: breakout
+    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
+    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
+    start_time: 2024-09-22 11:29:43.363153
+    cfg_array_file_names: ~
+    DefaultInputFile: ~
+    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\breakout.yml
+    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
   stock:
     data:
       status:
@@ -24,22 +32,3 @@ dictitems:
     analysis:
       status:
         breakout_trend: true
-  input:
-    ticker: RIG
-    data_settings:
-      eod:
-        source: yfinance
-        period: 5y
-        interval: 1d
-  Analysis:
-    basename: stock
-    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis
-    file_name: breakout
-    file_name_for_overwrite: breakout
-    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
-    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-09-21 12:03:01.115580
-    cfg_array_file_names: ~
-    DefaultInputFile: ~
-    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\breakout.yml
-    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
