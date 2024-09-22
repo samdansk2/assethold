@@ -38,7 +38,7 @@ dictitems:
     file_name_for_overwrite: data_AAPL
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\data\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\data\logs
-    start_time: 2024-09-10 16:19:45.450033
+    start_time: 2024-09-22 10:03:48.500712
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\data\data_AAPL.yml

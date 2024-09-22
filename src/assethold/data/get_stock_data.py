@@ -42,7 +42,7 @@ class GetStockData():
         ticker = cfg['input']['ticker']
         daily_data = self.get_daily_data_by_ticker(cfg, ticker)
         daily_data_df = daily_data['data']
-        daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date']).dt.tz_localize(None)
+        daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date'])
         daily_data_df_copy = daily_data_df.tail(100).copy()
 
         self.save_results(cfg, daily_data_df_copy)
@@ -53,7 +53,7 @@ class GetStockData():
         file_name = cfg['input']['ticker'] + '_daily_data.csv'
         file_name = os.path.join(cfg['Analysis']['result_folder'], file_name)
         file_name_2 = cfg['input']['ticker'] + '_data_copy.csv'
-        file_name_2 = os.path.join(cfg['Analysis']['result_folder'], file_name_2)
+        file_name_2 = os.path.join(cfg['Analysis']['analysis_root_folder'], file_name_2)
         daily_data_df_copy.to_csv(file_name_2, index=False)
         
         csv_groups = [{'file_name': file_name, 'label': ''}]
