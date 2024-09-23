@@ -78,30 +78,6 @@ class StockAnalysis():
         self.plot_breakout_trend(cfg,breakout_df,daily_data)
         self.save_and_close_plots(cfg)
 
-    # def plot_breakout_trend(self, cfg, breakout_df, daily_data):
-
-    #     """
-    #     breakout trend with colored dots based on breakout criteria.
-    #     """
-        # import matplotlib.dates as mdates # noqa
-        # import re # noqa
-
-        # daily_data['Date'] = pd.to_datetime(daily_data['Date'])
-
-        # for index, row in daily_data.iterrows():
-
-        #     # Check if all the key columns contains NaN ( breakout data missing for that day )
-        #     if pd.isnull(row[['Close', '100_day_rolling', '50_day_rolling', '150_day_rolling', '200_day_rolling', '200_day_diff']]).all():
-        #         # Missing data, assign gray color
-        #         colors.append(default_color)
-        #     else:
-        #         failed_conditions = 0
-                
-        #     # check for breakout conditions ( boolean )
-        #         if not self.check_if_price_above_150_and_200_moving(daily_data)[1]:
-        #             failed_conditions += 1
-
-
     def plot_breakout_trend(self, cfg, breakout_df, daily_data):
 
         import matplotlib.dates as mdates # noqa
@@ -220,7 +196,7 @@ class StockAnalysis():
         })
                 
             
-        breakout_daily_data_trend_df = pd.DataFrame(trend_data)
+        breakout_daily_data_trend_df = pd.DataFrame(trend_data) 
         breakout_daily_data_trend_df.to_csv('src/assethold/tests/test_data/analysis/breakout_daily_data_trend.csv', index=False)    
               
         fig, ax = plt.subplots(figsize=(10, 6))
