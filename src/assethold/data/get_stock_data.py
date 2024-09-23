@@ -42,9 +42,9 @@ class GetStockData():
         ticker = cfg['input']['ticker']
         daily_data = self.get_daily_data_by_ticker(cfg, ticker)
         daily_data_df = daily_data['data']
-        daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date'])
+        daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date']).dt.tz_localize(None)
 
-        if "data" in cfg and cfg['data'].get('flag', False):
+        if "data" in cfg and cfg['data'].get('flag', False): # to overcome analysis overalpping issue with data 
             daily_data_df_copy = daily_data_df.tail(20).copy()
             self.save_results(cfg, daily_data_df_copy)
 
@@ -441,9 +441,9 @@ class GetStockData():
         columns= { 'x': ['Date'], 'y': ['Volume'] }
         plot_yml['master_settings']['groups']['columns'] = columns
 
-        dnow = datetime.datetime.now()
-        dstart = datetime.datetime(2024, 7, 1)
-        x_limits = [dstart, dnow]
+        # dnow = datetime.datetime.now()
+        # dstart = datetime.datetime(2024, 7, 1)
+        # x_limits = [dstart, dnow]
 
         #transform = [{ 'column': 'length', 'scale': 0.0254, 'shift': 0 }]
 
@@ -454,9 +454,7 @@ class GetStockData():
                     'title': 'Daily data by ticker',
                     'xlabel': 'date',
                     'ylabel': 'Volume',
-                    'x_limits': x_limits,
-                    
-}
+                    }
         plot_yml['settings'].update(settings)
         aus_engine(inputfile=None, cfg=plot_yml, config_flag=False)
 
