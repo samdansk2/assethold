@@ -171,15 +171,8 @@ class StockAnalysis():
                 if not self.check_if_price_near_52wk_high_range(daily_data)[1]:
                     failed_conditions += 1
                 
-                if failed_conditions == 0:
-                    plot_color = 'green'
-                    colors.append('green')
-                elif failed_conditions == 1:
-                    plot_color = 'gold'
-                    colors.append('gold')
-                else:
-                    plot_color = 'red'
-                    colors.append('red')
+                plot_color = 'green' if failed_conditions == 0 else 'gold' if failed_conditions == 1 else 'red'
+                colors.append(plot_color)
 
 
             trend_data.append({

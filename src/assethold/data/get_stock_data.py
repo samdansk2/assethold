@@ -44,20 +44,23 @@ class GetStockData():
         daily_data_df = daily_data['data']
         daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date']).dt.tz_localize(None)
 
-        if "data" in cfg and cfg['data'].get('flag', False): # to overcome analysis overalpping issue with data 
+        if "data" in cfg and cfg['data'].get('flag', False):
+            """ 
+            Condition check to overcome conflicts with analysis data
+            """
             daily_data_df_copy = daily_data_df.tail(20).copy()
             self.save_results(cfg, daily_data_df_copy)
 
         return cfg,data
 
     def save_results(self, cfg, daily_data_df_copy):
-        file_name = cfg['input']['ticker'] + '_daily_data.csv'
-        file_name = os.path.join(cfg['Analysis']['result_folder'], file_name)
-        file_name_2 = cfg['input']['ticker'] + '_data_copy.csv'
-        file_name_2 = os.path.join(cfg['Analysis']['analysis_root_folder'], file_name_2)
-        daily_data_df_copy.to_csv(file_name_2, index=False)
+        # file_name = cfg['input']['ticker'] + '_daily_data.csv'
+        # file_name = os.path.join(cfg['Analysis']['result_folder'], file_name)
+        file_name = cfg['input']['ticker'] + '_data_copy.csv'
+        file_name = os.path.join(cfg['Analysis']['analysis_root_folder'], file_name)
+        daily_data_df_copy.to_csv(file_name, index=False)
         
-        csv_groups = [{'file_name': file_name_2, 'label': ''}]
+        csv_groups = [{'file_name': file_name, 'label': ''}]
         self.save_plots(cfg, csv_groups)
 
     def save_plots(self, cfg, csv_groups):
