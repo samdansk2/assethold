@@ -1,0 +1,35 @@
+&id001 !!python/object/new:assetutilities.common.data.AttributeDict
+state: *id001
+dictitems:
+  basename: stock
+  default:
+    log_level: INFO
+    config:
+      overwrite:
+        output: true
+  analysis:
+    flag: true
+    breakout: true
+  input:
+    ticker: XOM
+  Analysis:
+    basename: stock
+    analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis
+    file_name: breakout_XOM
+    file_name_for_overwrite: breakout_XOM
+    result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
+    log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\logs
+    start_time: 2024-09-26 10:58:04.473077
+    cfg_array_file_names: ~
+    DefaultInputFile: ~
+    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\breakout_XOM.yml
+    fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
+  stock:
+    data:
+      status:
+        daily: true
+        info: true
+        insider: true
+    analysis:
+      status:
+        breakout_trend: true

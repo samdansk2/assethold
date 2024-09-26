@@ -2,6 +2,7 @@ basename: stock
 
 analysis:
   flag: True
+  breakout: True
 
 input:
   ticker: RIG

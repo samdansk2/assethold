@@ -1,0 +1,26 @@
+basename: stock
+
+analysis:
+  flag: True
+  breakout: True
+
+breakout_settings:
+  duration: 5
+  portfolio:
+    - criteria: breakout_3_fail
+      action: sell
+      amount: 500 # per week
+      limit: 20 # % of the total holdings
+    - criteria: breakout_2_fail
+      action: sell
+      amount: 200 # per week
+      limit: 50 # % of the total holdings
+
+input:
+  ticker: XOM
+
+default:
+  log_level: INFO
+  config:
+    overwrite:
+      output: True
