@@ -38,7 +38,7 @@ class StockAnalysis():
         analysis = {}
         if 'analysis' in cfg and cfg['analysis'].get('flag', False):
             daily_data = data['daily']['data']
-            daily_data = daily_data.tail(20)
+            daily_data = daily_data.tail(365)
             cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
 
             analysis_output = {
@@ -177,20 +177,24 @@ class StockAnalysis():
 
             trend_data.append({
             'Date': row['Date'],
-            'Price Above 150 & 200 day avgs.': '✔' if self.check_if_price_above_150_and_200_moving(daily_data)[1] else '-',
-            '150 day avg. above 200 day avg.': '✔' if self.check_if_150_moving_above_200_moving(daily_data)[1] else '-',
-            '200 day avg. uptrend for 1 mo': '✔' if self.check_if_200_moving_up_for_1mo(daily_data)[1] else '-',
-            '50 day avg. Above 150 & 200 day avgs.': '✔' if self.check_if_50_day_above_150_and_200_moving(daily_data)[1] else '-',
-            'Price Above 50 day avg.': '✔' if self.check_if_price_above_50_moving(daily_data)[1] else '-',
-            'Price 30% Above 52 wk low': '✔' if self.check_if_price_above_1p3_52wk_low(daily_data)[1] else '-',
-            'Price within 25% of 52 wk high range': '✔' if self.check_if_price_near_52wk_high_range(daily_data)[1] else '-',
+            'Price Above 150 & 200 day avgs.': 'True' if self.check_if_price_above_150_and_200_moving(daily_data)[1] else 'False',
+            '150 day avg. above 200 day avg.': 'True' if self.check_if_150_moving_above_200_moving(daily_data)[1] else 'False',
+            '200 day avg. uptrend for 1 mo': 'True' if self.check_if_200_moving_up_for_1mo(daily_data)[1] else 'False',
+            '50 day avg. Above 150 & 200 day avgs.': 'True' if self.check_if_50_day_above_150_and_200_moving(daily_data)[1] else 'False',
+            'Price Above 50 day avg.': 'True' if self.check_if_price_above_50_moving(daily_data)[1] else 'False',
+            'Price 30% Above 52 wk low': 'True' if self.check_if_price_above_1p3_52wk_low(daily_data)[1] else 'False',
+            'Price within 25% of 52 wk high range': 'True' if self.check_if_price_near_52wk_high_range(daily_data)[1] else 'False',
             'no_of_fails': failed_conditions,
             'plot_color': plot_color
         })
                 
             
+        ticker = cfg['input']['ticker']
         breakout_daily_data_trend_df = pd.DataFrame(trend_data) 
-        breakout_daily_data_trend_df.to_csv('src/assethold/tests/test_data/analysis/breakout_daily_data_trend.csv', index=False)    
+
+        csv_file = f'src/assethold/tests/test_data/analysis/breakout_data_trend_{ticker}.csv'
+        breakout_daily_data_trend_df.to_csv(csv_file, index=False)
+           
               
         # Apply colors only when there's a change in plot color
         filtered_colors = [colors[0]]  # always include the first color
@@ -214,8 +218,9 @@ class StockAnalysis():
         ax.legend()
         ax.grid(True)
 
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b-%d')) # sets date in month name and day
-        ax.xaxis.set_major_locator(mdates.DayLocator(interval=2)) # sets interval of 2 days
+        #ax.xaxis.set_major_formatter(mdates.DateFormatter('%b-%d'))
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y')) # sets date in months 
+        ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2)) # sets interval of 2 months
 
         plt.xticks(rotation=45) # rotates x-axis labels
         fig.autofmt_xdate() # auto formats x-axis date

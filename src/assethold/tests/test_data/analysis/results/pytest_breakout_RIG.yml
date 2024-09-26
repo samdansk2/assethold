@@ -1,0 +1,12 @@
+basename: stock
+
+stock:
+  data:
+    status:
+      daily: true
+      info: true
+      insider: true
+  analysis:
+    status:
+      breakout_trend: true
+

@@ -17,8 +17,8 @@ def run_process(input_file, expected_result={}):
     assert(cfg[cfg['basename']] == expected_result[expected_result['basename']])
 
 def test_run_process():
-    input_file = 'breakout.yml'
-    pytest_output_file = 'results/pytest_breakout.yml'
+    input_file = 'breakout_RIG.yml'
+    pytest_output_file = 'results/pytest_breakout_RIG.yml'
 
     file_is_valid, pytest_output_file = is_file_valid_func(pytest_output_file, os.path.dirname(__file__))
 

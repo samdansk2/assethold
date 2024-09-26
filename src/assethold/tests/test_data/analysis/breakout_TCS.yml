@@ -1,0 +1,13 @@
+basename: stock
+
+analysis:
+  flag: True
+
+input:
+  ticker: TCS
+
+default:
+  log_level: INFO
+  config:
+    overwrite:
+      output: True

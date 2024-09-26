@@ -10,18 +10,18 @@ dictitems:
   analysis:
     flag: true
   input:
-    ticker: RIG
+    ticker: TCS
   Analysis:
     basename: stock
     analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis
-    file_name: breakout
-    file_name_for_overwrite: breakout
+    file_name: breakout_TCS
+    file_name_for_overwrite: breakout_TCS
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-09-26 10:30:14.684774
+    start_time: 2024-09-26 15:41:19.028940
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\breakout.yml
+    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\breakout_TCS.yml
     fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
   stock:
     data:
