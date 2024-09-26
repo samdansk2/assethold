@@ -192,10 +192,21 @@ class StockAnalysis():
         breakout_daily_data_trend_df = pd.DataFrame(trend_data) 
         breakout_daily_data_trend_df.to_csv('src/assethold/tests/test_data/analysis/breakout_daily_data_trend.csv', index=False)    
               
+        # Apply colors only when there's a change in plot color
+        filtered_colors = [colors[0]]  # always include the first color
+        filtered_dates = [daily_data['Date'].iloc[0]]  
+        filtered_close = [daily_data['Close'].iloc[0]]  
+
+        for i in range(1, len(colors)):
+            if colors[i] != colors[i - 1]:  # apply color when there is change in plot color
+                filtered_colors.append(colors[i])
+                filtered_dates.append(daily_data['Date'].iloc[i])
+                filtered_close.append(daily_data['Close'].iloc[i])
+        
         fig, ax = plt.subplots(figsize=(10, 6))
         ax.plot(daily_data['Date'], daily_data['Close'], color='skyblue',label='Close Price')
 
-        ax.scatter(daily_data['Date'], daily_data['Close'], color=colors, s=70,label='Breakout Trend')
+        ax.scatter(filtered_dates, filtered_close, color= filtered_colors, s=70,label='Breakout Trend')
 
         ax.set_title('Breakout Trend Analysis')
         ax.set_xlabel('Date')
