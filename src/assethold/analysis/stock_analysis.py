@@ -38,7 +38,10 @@ class StockAnalysis():
         analysis = {}
         if 'analysis' in cfg and cfg['analysis'].get('flag', False):
             daily_data = data['daily']['data']
-            daily_data = daily_data.tail(365)
+            daily_data['Date'] = pd.to_datetime(daily_data['Date'])
+            start_date = '2020-09-01'
+            end_date = '2024-09-04'
+            daily_data = daily_data.loc[(daily_data['Date'] >= start_date) & (daily_data['Date'] <= end_date)]
             cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
 
             analysis_output = {
@@ -70,6 +73,7 @@ class StockAnalysis():
         breakout_trend = {'data': breakout_df.to_dict(orient='records'), 'status': True} 
         
         self.save_plots(cfg,breakout_df,daily_data)
+        self.backtest(cfg, daily_data)
         
         return cfg, breakout_trend
     
@@ -220,10 +224,44 @@ class StockAnalysis():
 
         #ax.xaxis.set_major_formatter(mdates.DateFormatter('%b-%d'))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y')) # sets date in months 
-        ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2)) # sets interval of 2 months
+        ax.xaxis.set_major_locator(mdates.MonthLocator(interval=3)) # sets interval of 2 months
 
         plt.xticks(rotation=45) # rotates x-axis labels
         fig.autofmt_xdate() # auto formats x-axis date
+
+    
+    def backtest(self,cfg, daily_data):
+        cash = 100000  # $100,000 as initial cash
+        stock_value = 0  # Stock value starts at 0
+        stock_quantity = 0  # No stocks held initially
+        total_value = cash  # Initial total value
+    
+        # track portfolio values over time
+        portfolio_history = []
+
+        for i, row in daily_data.iterrows():
+            date = row['Date']
+            price = row['Close']  # 'Close' price as the stock price
+
+            # Weekly Buy for Green condition
+            if i % 5 == 0:  # Assuming one trade per week (5 trading days)
+                buy_amount = 1000
+                stocks_to_buy = buy_amount / price # number of shares you can buy with the buy amount
+                cash = cash - buy_amount # cash balance after buying stocks
+                stock_quantity = stock_quantity + stocks_to_buy # total number of stocks 
+
+            stock_value = stock_quantity * price # Value of stock holdings.
+            total_portfolio_value = cash + stock_value # total value of portfolio at the end of the day
+
+            portfolio_history.append({
+                'Date': date,
+                'Cash': cash,
+                'Stock Value': stock_value,
+                'Total Value': total_portfolio_value
+            })
+
+        portfolio_history = pd.DataFrame(portfolio_history)
+        return portfolio_history
     
 
     def check_if_price_above_150_and_200_moving(self, breakout_df, close="Close"):

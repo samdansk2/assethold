@@ -9,6 +9,7 @@ dictitems:
         output: true
   analysis:
     flag: true
+    breakout: true
   input:
     ticker: RIG
   Analysis:
@@ -18,7 +19,7 @@ dictitems:
     file_name_for_overwrite: breakout_RIG
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-09-26 15:23:59.722914
+    start_time: 2024-09-27 11:32:16.582896
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\breakout_RIG.yml
