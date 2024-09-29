@@ -36,7 +36,7 @@ class StockAnalysis():
         status = {}
         analysis_status = {}
         analysis = {}
-        if 'analysis' in cfg and cfg['analysis'].get('flag', False):
+        if 'analysis' in cfg and cfg['analysis'].get('breakout', False):
             daily_data = data['daily']['data']
             daily_data['Date'] = pd.to_datetime(daily_data['Date'])
             start_date = '2020-09-01'
@@ -73,7 +73,7 @@ class StockAnalysis():
         breakout_trend = {'data': breakout_df.to_dict(orient='records'), 'status': True} 
         
         self.save_plots(cfg,breakout_df,daily_data)
-        self.backtest(cfg, daily_data)
+        #self.backtest(cfg, daily_data)
         
         return cfg, breakout_trend
     
@@ -139,7 +139,7 @@ class StockAnalysis():
         print(breakout_analysis_df)
 
         breakout_daily_data_trend_df = pd.DataFrame(columns=[
-        'Date', 'Price Above 150 & 200 day avgs.', '150 day avg. above 200 day avg.',
+        'Date', 'Close','Price Above 150 & 200 day avgs.', '150 day avg. above 200 day avg.',
         '200 day avg. uptrend for 1 mo [n mo.]', '50 day avg. Above 150 & 200 day avgs.',
         'Price Above 50 day avg. [x; y %]', 'Price 30% Above 52 wk low [% above]', 
         'Price within 25% of 52 wk high range [% value]', 'no_of_fails', 'plot_color'
@@ -181,6 +181,7 @@ class StockAnalysis():
 
             trend_data.append({
             'Date': row['Date'],
+            'Close': row['Close'],
             'Price Above 150 & 200 day avgs.': 'True' if self.check_if_price_above_150_and_200_moving(daily_data)[1] else 'False',
             '150 day avg. above 200 day avg.': 'True' if self.check_if_150_moving_above_200_moving(daily_data)[1] else 'False',
             '200 day avg. uptrend for 1 mo': 'True' if self.check_if_200_moving_up_for_1mo(daily_data)[1] else 'False',
@@ -229,39 +230,107 @@ class StockAnalysis():
         plt.xticks(rotation=45) # rotates x-axis labels
         fig.autofmt_xdate() # auto formats x-axis date
 
+        self.backtest(cfg, daily_data, breakout_daily_data_trend_df)
+
+    def backtest(self,cfg, daily_data, breakout_daily_data_trend_df):
+        # cash = 100000  # $100,000 as initial cash
+        # stock_value = 0  # Stock value starts at 0
+        # stock_quantity = 0  # No stocks held initially
+        # total_value = cash  # Initial total value
     
-    def backtest(self,cfg, daily_data):
-        cash = 100000  # $100,000 as initial cash
-        stock_value = 0  # Stock value starts at 0
-        stock_quantity = 0  # No stocks held initially
-        total_value = cash  # Initial total value
-    
-        # track portfolio values over time
-        portfolio_history = []
+        # # track portfolio values over time
+        # portfolio_history = []
 
-        for i, row in daily_data.iterrows():
-            date = row['Date']
-            price = row['Close']  # 'Close' price as the stock price
+        # for i, row in daily_data.iterrows():
+        #     date = row['Date']
+        #     price = row['Close']  # 'Close' price as the stock price
 
-            # Weekly Buy for Green condition
-            if i % 5 == 0:  # Assuming one trade per week (5 trading days)
-                buy_amount = 1000
-                stocks_to_buy = buy_amount / price # number of shares you can buy with the buy amount
-                cash = cash - buy_amount # cash balance after buying stocks
-                stock_quantity = stock_quantity + stocks_to_buy # total number of stocks 
+        #     # Weekly Buy for Green condition
+        #     if i % 5 == 0:  # Assuming one trade per week (5 trading days)
+        #         buy_amount = 1000
+        #         stocks_to_buy = buy_amount / price # number of shares you can buy with the buy amount
+        #         cash = cash - buy_amount # cash balance after buying stocks
+        #         stock_quantity = stock_quantity + stocks_to_buy # total number of stocks 
 
-            stock_value = stock_quantity * price # Value of stock holdings.
-            total_portfolio_value = cash + stock_value # total value of portfolio at the end of the day
+        #     stock_value = stock_quantity * price # Value of stock holdings.
+        #     total_portfolio_value = cash + stock_value # total value of portfolio at the end of the day
 
-            portfolio_history.append({
-                'Date': date,
-                'Cash': cash,
-                'Stock Value': stock_value,
-                'Total Value': total_portfolio_value
-            })
+        #     portfolio_history.append({
+        #         'Date': date,
+        #         'Cash': cash,
+        #         'Stock Value': stock_value,
+        #         'Total Value': total_portfolio_value
+        #     })
 
-        portfolio_history = pd.DataFrame(portfolio_history)
-        return portfolio_history
+        # portfolio_history = pd.DataFrame(portfolio_history)
+        # return portfolio_history
+        portfolio = {
+        'cash': 1000,           # Starting cash value (based on green condition)
+        'stock_value': 0,       # Initial stock value
+        'total_value': 1000,    # Total portfolio value (initially only cash)
+        'positions': 0          # Number of stock positions held
+        }
+        transaction_log = []  # To store daily portfolio updates
+
+        ticker = cfg['input']['ticker']
+
+        for i, row in breakout_daily_data_trend_df.iterrows():
+            breakout_color = row['plot_color'] 
+
+            if breakout_color == 'green':
+                stock_price = row['Close']
+                cash_amount = 1000
+                num_shares = cash_amount // stock_price
+                cost = num_shares * stock_price
+                portfolio['cash'] -= cost
+                portfolio['positions'] += num_shares
+            elif breakout_color == 'gold':
+                self.sell_stock(portfolio, 200, row['Close'], limit_percent=50)
+            elif breakout_color == 'red':
+                self.sell_stock(portfolio, 500, row['Close'], limit_percent=20)
+
+            # Update portfolio value based on current stock price
+            self.update_portfolio_value(portfolio, row['Close'])
+
+            self.log_portfolio(transaction_log, portfolio, row['Date']) # Log the portfolio state
+
+        self.save_transaction_log(transaction_log, ticker)
+
+
+    def sell_stock(self,portfolio, position_amount, stock_price, limit_percent):
+
+        """Sell stock based on conditions in breakout_settings.
+        """
+        if portfolio['positions'] > 0:
+            limit_positions = (limit_percent / 100) * portfolio['positions']
+            if portfolio['positions'] > limit_positions:
+                sell_amount = min(portfolio['positions'], position_amount)
+                proceeds = sell_amount * stock_price
+                portfolio['positions'] -= sell_amount
+                portfolio['cash'] += proceeds
+
+
+    def update_portfolio_value(self,portfolio, stock_price):
+        """Update the portfolio value based on current stock price
+        """
+        portfolio['stock_value'] = portfolio['positions'] * stock_price
+        portfolio['total_value'] = portfolio['cash'] + portfolio['stock_value']
+
+
+    def log_portfolio(self,transaction_log, portfolio, date):
+        """Log the portfolio state."""
+        transaction_log.append({
+            'Date': date,
+            'Cash': portfolio['cash'],
+            'Stock Value': portfolio['stock_value'],
+            'Total Value': portfolio['total_value'],
+            'Positions': portfolio['positions']
+        })
+
+    def save_transaction_log(self,transaction_log, ticker):
+        log_df = pd.DataFrame(transaction_log)
+        csv_filename = f'src/assethold/tests/test_data/analysis/backtest_analysis_{ticker}.csv'
+        log_df.to_csv(csv_filename, index=False)
     
 
     def check_if_price_above_150_and_200_moving(self, breakout_df, close="Close"):

@@ -7,14 +7,21 @@ analysis:
 breakout_settings:
   duration: 5
   portfolio:
-    - criteria: breakout_3_fail
+    - criteria: breakout_2_or_more_fail
+      colour: red
       action: sell
       amount: 500 # per week
       limit: 20 # % of the total holdings
-    - criteria: breakout_2_fail
+    - criteria: breakout_1_fail
+      colour: gold
       action: sell
       amount: 200 # per week
       limit: 50 # % of the total holdings
+    - criteria: breakout_0_fail
+      colour: green
+      action: buy
+      amount: 1000 # per week
+      limit: 50 # % of the total holdings 
 
 input:
   ticker: XOM

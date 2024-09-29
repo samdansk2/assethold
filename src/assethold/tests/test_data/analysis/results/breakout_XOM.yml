@@ -10,20 +10,38 @@ dictitems:
   analysis:
     flag: true
     breakout: true
+  breakout_settings:
+    duration: 5
+    portfolio:
+    - criteria: breakout_2_or_more_fail
+      colour: red
+      action: sell
+      amount: 500
+      limit: 20
+    - criteria: breakout_1_fail
+      colour: gold
+      action: sell
+      amount: 200
+      limit: 50
+    - criteria: breakout_0_fail
+      colour: green
+      action: buy
+      amount: 1000
+      limit: 50
   input:
     ticker: XOM
   Analysis:
     basename: stock
-    analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis
+    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis
     file_name: breakout_XOM
     file_name_for_overwrite: breakout_XOM
-    result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
-    log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-09-26 10:58:04.473077
+    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
+    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
+    start_time: 2024-09-29 11:01:06.014176
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\breakout_XOM.yml
-    fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
+    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\breakout_XOM.yml
+    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
   stock:
     data:
       status:
