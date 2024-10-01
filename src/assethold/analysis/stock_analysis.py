@@ -191,14 +191,14 @@ class StockAnalysis():
             'Price within 25% of 52 wk high range': 'True' if self.check_if_price_near_52wk_high_range(daily_data)[1] else 'False',
             'no_of_fails': failed_conditions,
             'plot_color': plot_color
-        })
+             })
                 
             
         ticker = cfg['input']['ticker']
         breakout_daily_data_trend_df = pd.DataFrame(trend_data) 
 
-        csv_file = f'src/assethold/tests/test_data/analysis/breakout_data_trend_{ticker}.csv'
-        breakout_daily_data_trend_df.to_csv(csv_file, index=False)
+        csv_file_path = f'src/assethold/tests/test_data/analysis/breakout_data_trend_{ticker}.csv'
+        breakout_daily_data_trend_df.to_csv(csv_file_path, index=False)
            
               
         # Apply colors only when there's a change in plot color
@@ -215,7 +215,11 @@ class StockAnalysis():
         fig, ax = plt.subplots(figsize=(10, 6))
         ax.plot(daily_data['Date'], daily_data['Close'], color='skyblue',label='Close Price')
 
-        ax.scatter(filtered_dates, filtered_close, color= filtered_colors, s=70,label='Breakout Trend')
+        ax.scatter(filtered_dates, filtered_close, color= filtered_colors, s=70)
+
+        ax.scatter([], [], color='green', label='breakout 0 fails')
+        ax.scatter([], [], color='gold', label='breakout 1 fail')
+        ax.scatter([], [], color='red', label='More than 1 fail')
 
         ax.set_title('Breakout Trend Analysis')
         ax.set_xlabel('Date')
@@ -225,7 +229,7 @@ class StockAnalysis():
 
         #ax.xaxis.set_major_formatter(mdates.DateFormatter('%b-%d'))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y')) # sets date in months 
-        ax.xaxis.set_major_locator(mdates.MonthLocator(interval=3)) # sets interval of 2 months
+        ax.xaxis.set_major_locator(mdates.MonthLocator(interval=3)) # sets interval of 3 months
 
         plt.xticks(rotation=45) # rotates x-axis labels
         fig.autofmt_xdate() # auto formats x-axis date
@@ -233,44 +237,14 @@ class StockAnalysis():
         self.backtest(cfg, daily_data, breakout_daily_data_trend_df)
 
     def backtest(self,cfg, daily_data, breakout_daily_data_trend_df):
-        # cash = 100000  # $100,000 as initial cash
-        # stock_value = 0  # Stock value starts at 0
-        # stock_quantity = 0  # No stocks held initially
-        # total_value = cash  # Initial total value
-    
-        # # track portfolio values over time
-        # portfolio_history = []
-
-        # for i, row in daily_data.iterrows():
-        #     date = row['Date']
-        #     price = row['Close']  # 'Close' price as the stock price
-
-        #     # Weekly Buy for Green condition
-        #     if i % 5 == 0:  # Assuming one trade per week (5 trading days)
-        #         buy_amount = 1000
-        #         stocks_to_buy = buy_amount / price # number of shares you can buy with the buy amount
-        #         cash = cash - buy_amount # cash balance after buying stocks
-        #         stock_quantity = stock_quantity + stocks_to_buy # total number of stocks 
-
-        #     stock_value = stock_quantity * price # Value of stock holdings.
-        #     total_portfolio_value = cash + stock_value # total value of portfolio at the end of the day
-
-        #     portfolio_history.append({
-        #         'Date': date,
-        #         'Cash': cash,
-        #         'Stock Value': stock_value,
-        #         'Total Value': total_portfolio_value
-        #     })
-
-        # portfolio_history = pd.DataFrame(portfolio_history)
-        # return portfolio_history
+        
         portfolio = {
         'cash': 1000,           # Starting cash value (based on green condition)
         'stock_value': 0,       # Initial stock value
-        'total_value': 1000,    # Total portfolio value (initially only cash)
-        'positions': 0          # Number of stock positions held
+        'total_value': lambda: portfolio['cash'],   # Total portfolio value (initially cash only)
+        'positions': 0          # No stock positions held initially
         }
-        transaction_log = []  # To store daily portfolio updates
+        portfolio_history = []  # To store daily portfolio updates
 
         ticker = cfg['input']['ticker']
 
@@ -280,46 +254,57 @@ class StockAnalysis():
             if breakout_color == 'green':
                 stock_price = row['Close']
                 cash_amount = 1000
-                num_shares = cash_amount // stock_price
-                cost = num_shares * stock_price
-                portfolio['cash'] -= cost
-                portfolio['positions'] += num_shares
+
+                num_stocks = cash_amount // stock_price # Number of stocks you can buy with the cash amount
+
+                cost = num_stocks * stock_price # Cost of buying the stocks
+
+                portfolio['cash'] -= cost # cash balance after buying stocks
+
+                portfolio['positions'] += num_stocks # number of stock positions held
+
             elif breakout_color == 'gold':
+
                 self.sell_stock(portfolio, 200, row['Close'], limit_percent=50)
+
             elif breakout_color == 'red':
+
                 self.sell_stock(portfolio, 500, row['Close'], limit_percent=20)
 
             # Update portfolio value based on current stock price
             self.update_portfolio_value(portfolio, row['Close'])
 
-            self.log_portfolio(transaction_log, portfolio, row['Date']) # Log the portfolio state
+            self.log_portfolio(portfolio_history, portfolio, row['Date'])
 
-        self.save_transaction_log(transaction_log, ticker)
+        self.save_portfolio_history(portfolio_history, ticker)
 
 
     def sell_stock(self,portfolio, position_amount, stock_price, limit_percent):
-
-        """Sell stock based on conditions in breakout_settings.
+        """
+        Sell stock based on conditions in breakout_settings.
         """
         if portfolio['positions'] > 0:
             limit_positions = (limit_percent / 100) * portfolio['positions']
             if portfolio['positions'] > limit_positions:
                 sell_amount = min(portfolio['positions'], position_amount)
-                proceeds = sell_amount * stock_price
-                portfolio['positions'] -= sell_amount
-                portfolio['cash'] += proceeds
+                proceeds = sell_amount * stock_price 
+                portfolio['positions'] -= sell_amount #number of stock positions held
+                portfolio['cash'] += proceeds # cash balance after selling stocks
 
 
     def update_portfolio_value(self,portfolio, stock_price):
-        """Update the portfolio value based on current stock price
         """
-        portfolio['stock_value'] = portfolio['positions'] * stock_price
-        portfolio['total_value'] = portfolio['cash'] + portfolio['stock_value']
+        Update the portfolio value based on current stock price
+        """
+        portfolio['stock_value'] = portfolio['positions'] * stock_price # Value of stock holdings
+        portfolio['total_value'] = portfolio['cash'] + portfolio['stock_value'] # Total portfolio value at the end of the day
 
 
-    def log_portfolio(self,transaction_log, portfolio, date):
-        """Log the portfolio state."""
-        transaction_log.append({
+    def log_portfolio(self,portfolio_history, portfolio, date):
+        """
+        Log the portfolio state.
+        """
+        portfolio_history.append({
             'Date': date,
             'Cash': portfolio['cash'],
             'Stock Value': portfolio['stock_value'],
@@ -327,9 +312,10 @@ class StockAnalysis():
             'Positions': portfolio['positions']
         })
 
-    def save_transaction_log(self,transaction_log, ticker):
-        log_df = pd.DataFrame(transaction_log)
-        csv_filename = f'src/assethold/tests/test_data/analysis/backtest_analysis_{ticker}.csv'
+    def save_portfolio_history(self,portfolio_history, ticker):
+
+        log_df = pd.DataFrame(portfolio_history)
+        csv_filename = f'src/assethold/tests/test_data/analysis/portfolio_report_{ticker}.csv'
         log_df.to_csv(csv_filename, index=False)
     
 

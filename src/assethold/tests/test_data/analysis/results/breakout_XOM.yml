@@ -37,7 +37,7 @@ dictitems:
     file_name_for_overwrite: breakout_XOM
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-09-29 11:01:06.014176
+    start_time: 2024-10-01 11:56:56.754703
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\breakout_XOM.yml
