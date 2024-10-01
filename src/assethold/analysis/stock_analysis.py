@@ -1,13 +1,12 @@
 # Standard library imports
-import pandas as pd #noqa
-import matplotlib.pyplot as plt #noqa
-
-import os #noqa
+import os  # noqa
 
 # Third party imports
+import matplotlib.pyplot as plt  # noqa
+import pandas as pd  # noqa
 import pytz
-
 from assetutilities.common.update_deep import update_deep_dictionary
+
 # from assetutilities.common.visualization.visualization_common import VisualizationCommon
 
 # visualization_common = VisualizationCommon()
@@ -39,8 +38,8 @@ class StockAnalysis():
         if 'analysis' in cfg and cfg['analysis'].get('breakout', False):
             daily_data = data['daily']['data']
             daily_data['Date'] = pd.to_datetime(daily_data['Date'])
-            start_date = '2020-09-01'
-            end_date = '2024-09-04'
+            start_date = '2018-09-01'
+            end_date = '2024-09-30'
             daily_data = daily_data.loc[(daily_data['Date'] >= start_date) & (daily_data['Date'] <= end_date)]
             cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
 
@@ -84,8 +83,11 @@ class StockAnalysis():
 
     def plot_breakout_trend(self, cfg, breakout_df, daily_data):
 
-        import matplotlib.dates as mdates # noqa
-        import re # noqa
+        # Standard library imports
+        import re  # noqa
+
+        # Third party imports
+        import matplotlib.dates as mdates  # noqa
 
         daily_data['Date'] = pd.to_datetime(daily_data['Date'])
 
