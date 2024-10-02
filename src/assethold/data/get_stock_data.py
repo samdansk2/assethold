@@ -176,7 +176,7 @@ class GetStockData():
             insider_info_finviz['SEC Form 4'] = insider_info_finviz[
                 'SEC Form 4'].apply(lambda x: str(current_year) + ' ' + x)
             insider_info_finviz['SEC Form 4'] = pd.to_datetime(
-                insider_info_finviz['SEC Form 4'], infer_datetime_format=True)
+                insider_info_finviz['SEC Form 4'])
             insider_info_finviz['SEC Form 4'] = insider_info_finviz[
                 'SEC Form 4'].apply(lambda x: x if x < datetime.datetime.now()
                                     else x + datetime.timedelta(days=-365))
@@ -351,18 +351,19 @@ class GetStockData():
                         axis=1,
                         inplace=True,
                         errors='ignore')
+        # Initialize columns with float type to avoid dtype warnings
         insider_df['start_shares'] = 0
-        insider_df['share_holding_ratio'] = 0
-        insider_df['average_cost'] = 0
+        insider_df['share_holding_ratio'] = 0.0
+        insider_df['average_cost'] = 0.0
 
         for row_index in range(0, len(insider_df)):
             df_temp = insider_df.iloc[[row_index]]
             start_shares, share_holding_ratio, average_cost = self.sec_data_get_economic_analysis_for_subset_df(
                 df_temp)
-            insider_df['start_shares'].iloc[row_index] = start_shares
-            insider_df['share_holding_ratio'].iloc[
-                row_index] = share_holding_ratio
-            insider_df['average_cost'].iloc[row_index] = average_cost
+            # Use .loc[] for safe and explicit assignment to avoid Warnings
+            insider_df.loc[row_index, 'start_shares'] = start_shares
+            insider_df.loc[row_index, 'share_holding_ratio'] = float(share_holding_ratio)
+            insider_df.loc[row_index, 'average_cost'] = float(average_cost) # Ensure that assigned values are float
 
         return insider_df
 

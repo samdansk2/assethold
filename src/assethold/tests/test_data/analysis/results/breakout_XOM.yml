@@ -11,7 +11,10 @@ dictitems:
     flag: true
     breakout: true
   breakout_settings:
-    duration: 6
+    duration: 5 yrs
+    period:
+    - start_date: 2018-09-01
+    - end_date: 2024-09-30
     portfolio:
     - criteria: breakout_2_or_more_fail
       colour: red
@@ -32,16 +35,16 @@ dictitems:
     ticker: XOM
   Analysis:
     basename: stock
-    analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis
+    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis
     file_name: breakout_XOM
     file_name_for_overwrite: breakout_XOM
-    result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
-    log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-10-01 10:41:11.030273
+    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
+    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
+    start_time: 2024-10-02 12:05:43.619793
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\breakout_XOM.yml
-    fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
+    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\breakout_XOM.yml
+    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
   stock:
     data:
       status:

@@ -38,8 +38,8 @@ class StockAnalysis():
         if 'analysis' in cfg and cfg['analysis'].get('breakout', False):
             daily_data = data['daily']['data']
             daily_data['Date'] = pd.to_datetime(daily_data['Date'])
-            start_date = '2018-09-01'
-            end_date = '2024-09-30'
+            start_date = pd.to_datetime(cfg['breakout_settings']['period'][0]['start_date']).tz_localize('America/New_York')
+            end_date = pd.to_datetime(cfg['breakout_settings']['period'][1]['end_date']).tz_localize('America/New_York')
             daily_data = daily_data.loc[(daily_data['Date'] >= start_date) & (daily_data['Date'] <= end_date)]
             cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
 
@@ -89,7 +89,8 @@ class StockAnalysis():
         # Third party imports
         import matplotlib.dates as mdates  # noqa
 
-        daily_data['Date'] = pd.to_datetime(daily_data['Date'])
+        # Use .loc to modify the 'Date' column directly
+        daily_data.loc[:, 'Date'] = pd.to_datetime(daily_data['Date'])
 
         def extract_analysis(value_str, description):
              
@@ -138,8 +139,6 @@ class StockAnalysis():
                 analysis                                         
             ]
 
-        print(breakout_analysis_df)
-
         breakout_daily_data_trend_df = pd.DataFrame(columns=[
         'Date', 'Close','Price Above 150 & 200 day avgs.', '150 day avg. above 200 day avg.',
         '200 day avg. uptrend for 1 mo [n mo.]', '50 day avg. Above 150 & 200 day avgs.',
@@ -154,7 +153,7 @@ class StockAnalysis():
 
         for index, row in daily_data.iterrows():
 
-            if pd.isnull(row[['Close', '100_day_rolling', '50_day_rolling', '150_day_rolling', '200_day_rolling', '200_day_diff']]).all():
+            if pd.isnull(row[['Close', '100_day_rolling', '50_day_rolling', '150_day_rolling', '200_day_rolling']]).all():
             # Assign default color if breakout data is missing
                 colors.append(default_color)
                 plot_color = default_color
@@ -358,7 +357,10 @@ class StockAnalysis():
 
         # Standard library imports
         import datetime
-        breakout_df['200_day_diff'] = breakout_df['200_day_rolling'].diff(periods=1).values
+
+        breakout_df = breakout_df.copy() 
+        # Use .loc to safely assign the new column to avoid SettingWithCopyWarning
+        breakout_df.loc[:, '200_day_diff'] = breakout_df['200_day_rolling'].diff(periods=1).values
 
         no_of_months_trend_above = 0
         half_months = 11

@@ -5,7 +5,11 @@ analysis:
   breakout: True
 
 breakout_settings:
-  duration: 6
+  duration: 5 yrs
+  period:
+    - start_date: 2018-09-01
+    - end_date: 2024-09-30
+
   portfolio:
     - criteria: breakout_2_or_more_fail
       colour: red
