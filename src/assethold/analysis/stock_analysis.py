@@ -161,19 +161,29 @@ class StockAnalysis():
             else:
                 failed_conditions = 0
 
-                if not self.check_if_price_above_150_and_200_moving(daily_data)[1]:
+                # Store the results of checks in variables
+                price_above_150_and_200 = self.check_if_price_above_150_and_200_moving(daily_data)[1]
+                avg_150_above_200 = self.check_if_150_moving_above_200_moving(daily_data)[1]
+                avg_200_uptrend_1mo = self.check_if_200_moving_up_for_1mo(daily_data)[1]
+                avg_50_above_150_and_200 = self.check_if_50_day_above_150_and_200_moving(daily_data)[1]
+                price_above_50 = self.check_if_price_above_50_moving(daily_data)[1]
+                price_above_1p3_52wk_low = self.check_if_price_above_1p3_52wk_low(daily_data)[1]
+                price_near_52wk_high_range = self.check_if_price_near_52wk_high_range(daily_data)[1]
+
+                # Use stored results to calculate failed_conditions
+                if not price_above_150_and_200:
                     failed_conditions += 1
-                if not self.check_if_150_moving_above_200_moving(daily_data)[1]:
+                if not avg_150_above_200:
                     failed_conditions += 1
-                if not self.check_if_200_moving_up_for_1mo(daily_data)[1]:
+                if not avg_200_uptrend_1mo:
                     failed_conditions += 1
-                if not self.check_if_50_day_above_150_and_200_moving(daily_data)[1]:
+                if not avg_50_above_150_and_200:
                     failed_conditions += 1
-                if not self.check_if_price_above_50_moving(daily_data)[1]:
+                if not price_above_50:
                     failed_conditions += 1
-                if not self.check_if_price_above_1p3_52wk_low(daily_data)[1]:
+                if not price_above_1p3_52wk_low:
                     failed_conditions += 1
-                if not self.check_if_price_near_52wk_high_range(daily_data)[1]:
+                if not price_near_52wk_high_range:
                     failed_conditions += 1
                 
                 plot_color = 'green' if failed_conditions == 0 else 'gold' if failed_conditions == 1 else 'red'
@@ -183,13 +193,13 @@ class StockAnalysis():
             trend_data.append({
             'Date': row['Date'],
             'Close': row['Close'],
-            'Price Above 150 & 200 day avgs.': 'True' if self.check_if_price_above_150_and_200_moving(daily_data)[1] else 'False',
-            '150 day avg. above 200 day avg.': 'True' if self.check_if_150_moving_above_200_moving(daily_data)[1] else 'False',
-            '200 day avg. uptrend for 1 mo': 'True' if self.check_if_200_moving_up_for_1mo(daily_data)[1] else 'False',
-            '50 day avg. Above 150 & 200 day avgs.': 'True' if self.check_if_50_day_above_150_and_200_moving(daily_data)[1] else 'False',
-            'Price Above 50 day avg.': 'True' if self.check_if_price_above_50_moving(daily_data)[1] else 'False',
-            'Price 30% Above 52 wk low': 'True' if self.check_if_price_above_1p3_52wk_low(daily_data)[1] else 'False',
-            'Price within 25% of 52 wk high range': 'True' if self.check_if_price_near_52wk_high_range(daily_data)[1] else 'False',
+            'Price Above 150 & 200 day avgs.': 'True' if price_above_150_and_200 else 'False',
+            '150 day avg. above 200 day avg.': 'True' if avg_150_above_200 else 'False',
+            '200 day avg. uptrend for 1 mo': 'True' if avg_200_uptrend_1mo else 'False',
+            '50 day avg. Above 150 & 200 day avgs.': 'True' if avg_50_above_150_and_200 else 'False',
+            'Price Above 50 day avg.': 'True' if price_above_50 else 'False',
+            'Price 30% Above 52 wk low': 'True' if price_above_1p3_52wk_low else 'False',
+            'Price within 25% of 52 wk high range': 'True' if price_near_52wk_high_range else 'False',
             'no_of_fails': failed_conditions,
             'plot_color': plot_color
              })
@@ -251,27 +261,20 @@ class StockAnalysis():
 
         for i, row in breakout_daily_data_trend_df.iterrows():
             breakout_color = row['plot_color'] 
-
+            stock_price = row['Close'] 
+            
             if breakout_color == 'green':
-                stock_price = row['Close']
-                cash_amount = 1000
-
-                num_stocks = cash_amount // stock_price # Number of stocks you can buy with the cash amount
-
-                cost = num_stocks * stock_price # Cost of buying the stocks
-
-                portfolio['cash'] -= cost # cash balance after buying stocks
-
-                portfolio['positions'] += num_stocks # number of stock positions held
-
+                # Buy stock with $1000
+                self.buy_stock(portfolio, stock_price, 1000)
             elif breakout_color == 'gold':
-
-                self.sell_stock(portfolio, 200, row['Close'], limit_percent=50)
-
+                self.buy_stock(portfolio, stock_price, 1000)
+                # sell 200 positions till reaching 50% of portfolio
+                self.sell_stock(portfolio, 200, stock_price, limit_percent=50)
             elif breakout_color == 'red':
-
-                self.sell_stock(portfolio, 500, row['Close'], limit_percent=20)
-
+                self.buy_stock(portfolio, stock_price, 1000)
+                # ell 500 positions till reaching 20% of portfolio
+                self.sell_stock(portfolio, 500, stock_price, limit_percent=20)
+        
             # Update portfolio value based on current stock price
             self.update_portfolio_value(portfolio, row['Close'])
 
@@ -279,6 +282,18 @@ class StockAnalysis():
 
         self.save_portfolio_history(portfolio_history, ticker)
 
+    def buy_stock(self, portfolio, stock_price, cash_amount):
+        """
+        Buy stocks using a specified amount of cash.
+        """
+        num_shares = cash_amount // stock_price
+        cost = num_shares * stock_price
+
+        if cost <= portfolio['cash']:  # Only buy if enough cash is available
+            portfolio['cash'] -= cost
+            portfolio['positions'] += num_shares
+        else:
+            print("Not enough cash to buy stocks.")
 
     def sell_stock(self,portfolio, position_amount, stock_price, limit_percent):
         """
@@ -291,6 +306,8 @@ class StockAnalysis():
                 proceeds = sell_amount * stock_price 
                 portfolio['positions'] -= sell_amount #number of stock positions held
                 portfolio['cash'] += proceeds # cash balance after selling stocks
+        else:
+            self.buy_stock(portfolio, stock_price, 1000)        
 
 
     def update_portfolio_value(self,portfolio, stock_price):
@@ -350,7 +367,7 @@ class StockAnalysis():
 
         return [
             description,
-            str(value) + " [{} mo.]".format(no_of_months_trend_above)
+            value
         ]
 
     def get_200_moving_up_for_n_mo(self, breakout_df):
@@ -405,8 +422,7 @@ class StockAnalysis():
             value = False
         return [
             description,
-            str(value) + " [{}; {}%]".format(price_above_50_moving,
-                                             percent_price_above_50_moving)
+            value
         ]
 
     def check_if_price_above_1p3_52wk_low(self, breakout_df, close='Close'):
@@ -426,7 +442,7 @@ class StockAnalysis():
 
         return [
             description,
-            str(value) + " [{} %]".format(percent_above_52wklow)
+            value
         ]
 
     def check_if_price_near_52wk_high_range(self, breakout_df, close='Close'):
@@ -446,7 +462,7 @@ class StockAnalysis():
 
         return [
             description,
-            str(value) + " [{} %]".format(percent_above_52wkhigh)
+            value
         ]
     
 
