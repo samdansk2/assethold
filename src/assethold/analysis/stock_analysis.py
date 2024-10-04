@@ -152,42 +152,35 @@ class StockAnalysis():
         trend_data = []
 
         for index, row in daily_data.iterrows():
-
-            if pd.isnull(row[['Close', '100_day_rolling', '50_day_rolling', '150_day_rolling', '200_day_rolling']]).all():
-            # Assign default color if breakout data is missing
-                colors.append(default_color)
-                plot_color = default_color
-                failed_conditions = 'Breakout data missing'
-            else:
-                failed_conditions = 0
-
-                # Store the results of checks in variables
-                price_above_150_and_200 = self.check_if_price_above_150_and_200_moving(daily_data)[1]
-                avg_150_above_200 = self.check_if_150_moving_above_200_moving(daily_data)[1]
-                avg_200_uptrend_1mo = self.check_if_200_moving_up_for_1mo(daily_data)[1]
-                avg_50_above_150_and_200 = self.check_if_50_day_above_150_and_200_moving(daily_data)[1]
-                price_above_50 = self.check_if_price_above_50_moving(daily_data)[1]
-                price_above_1p3_52wk_low = self.check_if_price_above_1p3_52wk_low(daily_data)[1]
-                price_near_52wk_high_range = self.check_if_price_near_52wk_high_range(daily_data)[1]
-
-                # Use stored results to calculate failed_conditions
-                if not price_above_150_and_200:
-                    failed_conditions += 1
-                if not avg_150_above_200:
-                    failed_conditions += 1
-                if not avg_200_uptrend_1mo:
-                    failed_conditions += 1
-                if not avg_50_above_150_and_200:
-                    failed_conditions += 1
-                if not price_above_50:
-                    failed_conditions += 1
-                if not price_above_1p3_52wk_low:
-                    failed_conditions += 1
-                if not price_near_52wk_high_range:
-                    failed_conditions += 1
                 
-                plot_color = 'green' if failed_conditions == 0 else 'gold' if failed_conditions == 1 else 'red'
-                colors.append(plot_color)
+            # Store the results of checks in variables
+            price_above_150_and_200 = self.check_if_price_above_150_and_200_moving(daily_data)[1]
+            avg_150_above_200 = self.check_if_150_moving_above_200_moving(daily_data)[1]
+            avg_200_uptrend_1mo = self.check_if_200_moving_up_for_1mo(daily_data)[1]
+            avg_50_above_150_and_200 = self.check_if_50_day_above_150_and_200_moving(daily_data)[1]
+            price_above_50 = self.check_if_price_above_50_moving(daily_data)[1]
+            price_above_1p3_52wk_low = self.check_if_price_above_1p3_52wk_low(daily_data)[1]
+            price_near_52wk_high_range = self.check_if_price_near_52wk_high_range(daily_data)[1]
+
+            # Use stored results to calculate failed_conditions
+            failed_conditions = 0
+            if not price_above_150_and_200:
+                failed_conditions += 1
+            if not avg_150_above_200:
+                failed_conditions += 1
+            if not avg_200_uptrend_1mo:
+                failed_conditions += 1
+            if not avg_50_above_150_and_200:
+                failed_conditions += 1
+            if not price_above_50:
+                failed_conditions += 1
+            if not price_above_1p3_52wk_low:
+                failed_conditions += 1
+            if not price_near_52wk_high_range:
+                failed_conditions += 1
+            
+            plot_color = 'green' if failed_conditions == 0 else 'gold' if failed_conditions == 1 else 'red'
+            colors.append(plot_color)
 
 
             trend_data.append({
@@ -337,29 +330,29 @@ class StockAnalysis():
         log_df.to_csv(csv_filename, index=False)
     
 
-    def check_if_price_above_150_and_200_moving(self, breakout_df, close="Close"):
+    def check_if_price_above_150_and_200_moving(self, daily_data, close="Close"):
 
         description = 'Price Above 150 & 200 day avgs.'
-        if breakout_df.iloc[-1][close] > breakout_df.iloc[-1]['150_day_rolling'] and breakout_df.iloc[-1][
-                close] > breakout_df.iloc[-1]['200_day_rolling']:
+        if daily_data.iloc[-1][close] > daily_data.iloc[-1]['150_day_rolling'] and daily_data.iloc[-1][
+                close] > daily_data.iloc[-1]['200_day_rolling']:
             value = True
         else:
             value = False
         return [description, value]
 
-    def check_if_150_moving_above_200_moving(self, breakout_df):
+    def check_if_150_moving_above_200_moving(self, daily_data):
 
         description = '150 day avg. above 200 day avg.'
-        if breakout_df.iloc[-1]['150_day_rolling'] > breakout_df.iloc[-1]['200_day_rolling']:
+        if daily_data.iloc[-1]['150_day_rolling'] > daily_data.iloc[-1]['200_day_rolling']:
             value = True
         else:
             value = False
         return [description, value]
 
-    def check_if_200_moving_up_for_1mo(self, breakout_df):
+    def check_if_200_moving_up_for_1mo(self, daily_data):
 
         description = '200 day avg. uptrend for 1 mo [n mo.]'
-        no_of_months_trend_above = self.get_200_moving_up_for_n_mo(breakout_df)
+        no_of_months_trend_above = self.get_200_moving_up_for_n_mo(daily_data)
         if no_of_months_trend_above >= 1:
             value = True
         else:
@@ -370,25 +363,25 @@ class StockAnalysis():
             value
         ]
 
-    def get_200_moving_up_for_n_mo(self, breakout_df):
+    def get_200_moving_up_for_n_mo(self, daily_data):
 
         # Standard library imports
         import datetime
 
-        breakout_df = breakout_df.copy() 
+        daily_data = daily_data.copy() 
         # Use .loc to safely assign the new column to avoid SettingWithCopyWarning
-        breakout_df.loc[:, '200_day_diff'] = breakout_df['200_day_rolling'].diff(periods=1).values
+        daily_data.loc[:, '200_day_diff'] = daily_data['200_day_rolling'].diff(periods=1).values
 
         no_of_months_trend_above = 0
         half_months = 11
         for no_of_half_months in range(1, half_months):
             no_of_months_trend_above = 0.5 * (no_of_half_months - 1)
             days_period = 0.5 * no_of_half_months * 30
-            start_time = breakout_df.Date.iloc[-1] + datetime.timedelta(
+            start_time = daily_data.Date.iloc[-1] + datetime.timedelta(
                 days=-days_period)
-            if start_time > breakout_df.Date.iloc[0]:
-                breakout_df_temp = breakout_df[breakout_df.Date > start_time].copy()
-                if breakout_df_temp['200_day_diff'].min() > 0:
+            if start_time > daily_data.Date.iloc[0]:
+                daily_data_temp = daily_data[daily_data.Date > start_time].copy()
+                if daily_data_temp['200_day_diff'].min() > 0:
                     no_of_months_trend_above = 0.5 * (no_of_half_months - 1)
                 else:
                     break
@@ -397,25 +390,25 @@ class StockAnalysis():
 
         return no_of_months_trend_above
 
-    def check_if_50_day_above_150_and_200_moving(self, breakout_df):
+    def check_if_50_day_above_150_and_200_moving(self, daily_data):
 
         description = '50 day avg. Above 150 & 200 day avgs.'
-        if breakout_df.iloc[-1]['50_day_rolling'] > breakout_df.iloc[-1][
-                '150_day_rolling'] and breakout_df.iloc[-1]['50_day_rolling'] > breakout_df.iloc[
+        if daily_data.iloc[-1]['50_day_rolling'] > daily_data.iloc[-1][
+                '150_day_rolling'] and daily_data.iloc[-1]['50_day_rolling'] > daily_data.iloc[
                     -1]['200_day_rolling']:
             value = True
         else:
             value = False
         return [description, value]
 
-    def check_if_price_above_50_moving(self, breakout_df, close='Close'):
+    def check_if_price_above_50_moving(self, daily_data, close='Close'):
 
         description = 'Price Above 50 day avg. [x; y %]'
-        price_above_50_moving = (breakout_df.iloc[-1][close] -
-                                 breakout_df.iloc[-1]['50_day_rolling']).__round__(1)
+        price_above_50_moving = (daily_data.iloc[-1][close] -
+                                 daily_data.iloc[-1]['50_day_rolling']).__round__(1)
         percent_price_above_50_moving = (
-            (breakout_df.iloc[-1][close] - breakout_df.iloc[-1]['50_day_rolling']) /
-            breakout_df.iloc[-1]['50_day_rolling'] * 100).__round__(0)
+            (daily_data.iloc[-1][close] - daily_data.iloc[-1]['50_day_rolling']) /
+            daily_data.iloc[-1]['50_day_rolling'] * 100).__round__(0)
         if price_above_50_moving > 0:
             value = True
         else:
@@ -425,15 +418,15 @@ class StockAnalysis():
             value
         ]
 
-    def check_if_price_above_1p3_52wk_low(self, breakout_df, close='Close'):
+    def check_if_price_above_1p3_52wk_low(self, daily_data, close='Close'):
 
         # Standard library imports
         import datetime
         description = 'Price 30% Above 52 wk low [% above]'
-        fiftyTwoWeekLow = breakout_df[breakout_df['Date'] > datetime.datetime.now(
+        fiftyTwoWeekLow = daily_data[daily_data['Date'] > datetime.datetime.now(
             pytz.timezone('America/New_York')) +
                              datetime.timedelta(days=-365)].Close.min()
-        percent_above_52wklow = ((breakout_df.iloc[-1][close] / fiftyTwoWeekLow - 1) *
+        percent_above_52wklow = ((daily_data.iloc[-1][close] / fiftyTwoWeekLow - 1) *
                                  100).__round__(0)
         if percent_above_52wklow > 30:
             value = True
@@ -445,15 +438,15 @@ class StockAnalysis():
             value
         ]
 
-    def check_if_price_near_52wk_high_range(self, breakout_df, close='Close'):
+    def check_if_price_near_52wk_high_range(self, daily_data, close='Close'):
         
         # Standard library imports
         import datetime
         description = 'Price within 25% of 52 wk high range [% value]'
-        fiftyTwoWeekHigh = breakout_df[breakout_df['Date'] > datetime.datetime.now(
+        fiftyTwoWeekHigh = daily_data[daily_data['Date'] > datetime.datetime.now(
             pytz.timezone('America/New_York')) +
                               datetime.timedelta(days=-365)].Close.max()
-        percent_above_52wkhigh = ((breakout_df.iloc[-1][close] / fiftyTwoWeekHigh - 1) *
+        percent_above_52wkhigh = ((daily_data.iloc[-1][close] / fiftyTwoWeekHigh - 1) *
                                   100).__round__(0)
         if percent_above_52wkhigh > -25:
             value = True
