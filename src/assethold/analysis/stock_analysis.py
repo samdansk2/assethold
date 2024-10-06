@@ -78,7 +78,7 @@ class StockAnalysis():
     def save_plots(self,cfg,breakout_df,daily_data):
         
         self.plot_breakout_trend(cfg,breakout_df,daily_data)
-        self.save_and_Close_plots(cfg)
+        self.save_and_close_plots(cfg)
 
     def plot_breakout_trend(self, cfg, breakout_df, daily_data):
 
@@ -152,13 +152,13 @@ class StockAnalysis():
         for index, row in daily_data.iterrows():
                 
             # Store the results of checks in variables
-            price_above_150_and_200 = self.check_if_price_above_150_and_200_moving(row)[1]
-            avg_150_above_200 = self.check_if_150_moving_above_200_moving(row)[1]
-            avg_200_uptrend_1mo = self.check_if_200_moving_up_for_1mo(row)[1].split()[0] == 'True'
-            avg_50_above_150_and_200 = self.check_if_50_day_above_150_and_200_moving(row)[1]
-            price_above_50 = self.check_if_price_above_50_moving(row)[1].split()[0] == 'True'
-            price_above_1p3_52wk_low = self.check_if_price_above_1p3_52wk_low(row)[1].split()[0] == 'True'
-            price_near_52wk_high_range = self.check_if_price_near_52wk_high_range(row)[1].split()[0] == 'True'
+            price_above_150_and_200 = self.check_if_price_above_150_and_200_moving(daily_data)[1]
+            avg_150_above_200 = self.check_if_150_moving_above_200_moving(daily_data)[1]
+            avg_200_uptrend_1mo = self.check_if_200_moving_up_for_1mo(daily_data)[1].split()[0] == 'True'
+            avg_50_above_150_and_200 = self.check_if_50_day_above_150_and_200_moving(daily_data)[1]
+            price_above_50 = self.check_if_price_above_50_moving(daily_data)[1].split()[0] == 'True'
+            price_above_1p3_52wk_low = self.check_if_price_above_1p3_52wk_low(daily_data)[1].split()[0] == 'True'
+            price_near_52wk_high_range = self.check_if_price_near_52wk_high_range(daily_data)[1].split()[0] == 'True'
 
             # Use stored results to calculate failed_conditions
             failed_conditions = sum([not price_above_150_and_200, not avg_150_above_200, not avg_200_uptrend_1mo,
