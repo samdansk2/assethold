@@ -72,14 +72,13 @@ class StockAnalysis():
         breakout_trend = {'data': breakout_df.to_dict(orient='records'), 'status': True} 
         
         self.save_plots(cfg,breakout_df,daily_data)
-        #self.backtest(cfg, daily_data)
         
         return cfg, breakout_trend
     
     def save_plots(self,cfg,breakout_df,daily_data):
         
         self.plot_breakout_trend(cfg,breakout_df,daily_data)
-        self.save_and_close_plots(cfg)
+        self.save_and_Close_plots(cfg)
 
     def plot_breakout_trend(self, cfg, breakout_df, daily_data):
 
@@ -138,15 +137,14 @@ class StockAnalysis():
                 value_cleaned,                                   
                 analysis                                         
             ]
-
+        
         breakout_daily_data_trend_df = pd.DataFrame(columns=[
         'Date', 'Close','Price Above 150 & 200 day avgs.', '150 day avg. above 200 day avg.',
         '200 day avg. uptrend for 1 mo [n mo.]', '50 day avg. Above 150 & 200 day avgs.',
-        'Price Above 50 day avg. [x; y %]', 'Price 30% Above 52 wk low [% above]', 
-        'Price within 25% of 52 wk high range [% value]', 'no_of_fails', 'plot_color'
+        'Price Above 50 day avg. [x; y %]', 'Price 30% Above 52 wk low [% Above]', 
+        'Price within 25% Of 52 wk high range [% value]', 'no_of_fails', 'plot_color'
             ])
 
-        default_color = 'black'
         colors = []  # For plot color points 
 
         trend_data = []
@@ -154,30 +152,18 @@ class StockAnalysis():
         for index, row in daily_data.iterrows():
                 
             # Store the results of checks in variables
-            price_above_150_and_200 = self.check_if_price_above_150_and_200_moving(daily_data)[1]
-            avg_150_above_200 = self.check_if_150_moving_above_200_moving(daily_data)[1]
-            avg_200_uptrend_1mo = self.check_if_200_moving_up_for_1mo(daily_data)[1]
-            avg_50_above_150_and_200 = self.check_if_50_day_above_150_and_200_moving(daily_data)[1]
-            price_above_50 = self.check_if_price_above_50_moving(daily_data)[1]
-            price_above_1p3_52wk_low = self.check_if_price_above_1p3_52wk_low(daily_data)[1]
-            price_near_52wk_high_range = self.check_if_price_near_52wk_high_range(daily_data)[1]
+            price_above_150_and_200 = self.check_if_price_above_150_and_200_moving(row)[1]
+            avg_150_above_200 = self.check_if_150_moving_above_200_moving(row)[1]
+            avg_200_uptrend_1mo = self.check_if_200_moving_up_for_1mo(row)[1].split()[0] == 'True'
+            avg_50_above_150_and_200 = self.check_if_50_day_above_150_and_200_moving(row)[1]
+            price_above_50 = self.check_if_price_above_50_moving(row)[1].split()[0] == 'True'
+            price_above_1p3_52wk_low = self.check_if_price_above_1p3_52wk_low(row)[1].split()[0] == 'True'
+            price_near_52wk_high_range = self.check_if_price_near_52wk_high_range(row)[1].split()[0] == 'True'
 
             # Use stored results to calculate failed_conditions
-            failed_conditions = 0
-            if not price_above_150_and_200:
-                failed_conditions += 1
-            if not avg_150_above_200:
-                failed_conditions += 1
-            if not avg_200_uptrend_1mo:
-                failed_conditions += 1
-            if not avg_50_above_150_and_200:
-                failed_conditions += 1
-            if not price_above_50:
-                failed_conditions += 1
-            if not price_above_1p3_52wk_low:
-                failed_conditions += 1
-            if not price_near_52wk_high_range:
-                failed_conditions += 1
+            failed_conditions = sum([not price_above_150_and_200, not avg_150_above_200, not avg_200_uptrend_1mo,
+                                     not avg_50_above_150_and_200, not price_above_50, not price_above_1p3_52wk_low,
+                                     not price_near_52wk_high_range])
             
             plot_color = 'green' if failed_conditions == 0 else 'gold' if failed_conditions == 1 else 'red'
             colors.append(plot_color)
@@ -358,10 +344,7 @@ class StockAnalysis():
         else:
             value = False
 
-        return [
-            description,
-            value
-        ]
+        return [description, str(value) + " [{} mo.]".format(no_of_months_trend_above)]
 
     def get_200_moving_up_for_n_mo(self, daily_data):
 
@@ -413,10 +396,8 @@ class StockAnalysis():
             value = True
         else:
             value = False
-        return [
-            description,
-            value
-        ]
+        return [description, str(value) + " [{}; {}%]".format(price_above_50_moving,
+                                             percent_price_above_50_moving)]
 
     def check_if_price_above_1p3_52wk_low(self, daily_data, close='Close'):
 
@@ -433,10 +414,7 @@ class StockAnalysis():
         else:
             value = False
 
-        return [
-            description,
-            value
-        ]
+        return [description, str(value) + " [{} %]".format(percent_above_52wklow)]
 
     def check_if_price_near_52wk_high_range(self, daily_data, close='Close'):
         
@@ -453,10 +431,7 @@ class StockAnalysis():
         else:
             value = False
 
-        return [
-            description,
-            value
-        ]
+        return [description, str(value) + " [{} %]".format(percent_above_52wkhigh)]
     
 
     def get_plot_name_path(self, cfg):
