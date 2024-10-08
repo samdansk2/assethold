@@ -9,6 +9,12 @@ dictitems:
         output: true
   analysis:
     flag: true
+    breakout: true
+  breakout_settings:
+    duration: 5 yrs
+    period:
+    - start_date: 2018-09-01
+    - end_date: 2024-09-30
   input:
     ticker: TSLA
   Analysis:
@@ -18,7 +24,7 @@ dictitems:
     file_name_for_overwrite: breakout_TSLA
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-09-26 15:22:24.969010
+    start_time: 2024-10-08 11:37:57.072267
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\breakout_TSLA.yml

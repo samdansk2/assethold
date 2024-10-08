@@ -9,6 +9,12 @@ dictitems:
         output: true
   analysis:
     flag: true
+    breakout: true
+  breakout_settings:
+    duration: 5 yrs
+    period:
+    - start_date: 2018-09-01
+    - end_date: 2024-09-30
   input:
     ticker: TCS
   Analysis:
@@ -18,7 +24,7 @@ dictitems:
     file_name_for_overwrite: breakout_TCS
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-09-26 15:41:19.028940
+    start_time: 2024-10-08 11:39:19.002539
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\breakout_TCS.yml
