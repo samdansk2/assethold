@@ -248,11 +248,11 @@ class StockAnalysis():
             elif breakout_color == 'gold':
                 self.buy_stock(portfolio, stock_price, 1000)
                 # sell 200 positions till reaching 50% of portfolio
-                self.sell_stock(portfolio, 200, stock_price, limit_percent=50)
+                self.sell_stock(portfolio, 200, stock_price, limit_percent=50,cash_amount=1000)
             elif breakout_color == 'red':
                 self.buy_stock(portfolio, stock_price, 1000)
                 # ell 500 positions till reaching 20% of portfolio
-                self.sell_stock(portfolio, 500, stock_price, limit_percent=20)
+                self.sell_stock(portfolio, 500, stock_price, limit_percent=20, cash_amount=1000)
         
             # Update portfolio value based on current stock price
             self.update_portfolio_value(portfolio, row['Close'])
@@ -274,16 +274,18 @@ class StockAnalysis():
         else:
             print("Not enough cash to buy stocks.")
 
-    def sell_stock(self,portfolio, position_amount, stock_price, limit_percent):
+    def sell_stock(self,portfolio, position_amount, stock_price, limit_percent,cash_amount):
         """
         Sell stock based on conditions in breakout_settings.
         """
+
+        num_shares = cash_amount // stock_price
         if portfolio['positions'] > 0:
             limit_positions = (limit_percent / 100) * portfolio['positions']
             if portfolio['positions'] > limit_positions:
                 sell_amount = min(portfolio['positions'], position_amount)
                 proceeds = sell_amount * stock_price 
-                portfolio['positions'] -= sell_amount #number of stock positions held
+                portfolio['positions']+= num_shares #number of stock positions held
                 portfolio['cash'] += proceeds # cash balance after selling stocks
         else:
             self.buy_stock(portfolio, stock_price, 1000)        
