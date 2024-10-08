@@ -320,9 +320,11 @@ class StockAnalysis():
 
         description = 'Price Above 150 & 200 day avgs.'
         if is_single_row:
-            value = daily_data[close] > daily_data['150_day_rolling'] and daily_data[close] > daily_data['200_day_rolling']
+            value = ( daily_data[close] > daily_data['150_day_rolling'] if pd.notna(daily_data['150_day_rolling']) else True 
+                     ) and ( daily_data[close] > daily_data['200_day_rolling'] if pd.notna(daily_data['200_day_rolling']) else True )
         else:
-            value = daily_data.iloc[-1][close] > daily_data.iloc[-1]['150_day_rolling'] and daily_data.iloc[-1][close] > daily_data.iloc[-1]['200_day_rolling']
+            value = ( daily_data.iloc[-1][close] > daily_data.iloc[-1]['150_day_rolling'] if pd.notna(daily_data.iloc[-1]['150_day_rolling']) else True
+                    )  and ( daily_data.iloc[-1][close] > daily_data.iloc[-1]['200_day_rolling'] if pd.notna(daily_data.iloc[-1]['200_day_rolling']) else True )
         
         return [description, value]
 
@@ -330,9 +332,9 @@ class StockAnalysis():
 
         description = '150 day avg. above 200 day avg.'
         if is_single_row:
-            value = daily_data['150_day_rolling'] > daily_data['200_day_rolling']
+            value =  daily_data['150_day_rolling'] > daily_data['200_day_rolling'] if pd.notna(daily_data['200_day_rolling']) else True 
         else:
-            value = daily_data.iloc[-1]['150_day_rolling'] > daily_data.iloc[-1]['200_day_rolling']
+            value = daily_data.iloc[-1]['150_day_rolling'] > daily_data.iloc[-1]['200_day_rolling'] if pd.notna(daily_data.iloc[-1]['200_day_rolling']) else True
 
         return [description, value]
 
@@ -375,9 +377,11 @@ class StockAnalysis():
 
         description = '50 day avg. Above 150 & 200 day avgs.'
         if is_single_row:
-            value = daily_data['50_day_rolling'] > daily_data['150_day_rolling'] and daily_data['50_day_rolling'] > daily_data['200_day_rolling']
+            value = ( daily_data['50_day_rolling'] > daily_data['150_day_rolling'] if pd.notna(daily_data['150_day_rolling']) else True 
+                     ) and ( daily_data['50_day_rolling'] > daily_data['200_day_rolling'] if pd.notna(daily_data['200_day_rolling']) else True )
         else:
-            value = daily_data.iloc[-1]['50_day_rolling'] > daily_data.iloc[-1]['150_day_rolling'] and daily_data.iloc[-1]['50_day_rolling'] > daily_data.iloc[-1]['200_day_rolling']
+            value = ( daily_data.iloc[-1]['50_day_rolling'] > daily_data.iloc[-1]['150_day_rolling'] if pd.notna(daily_data.iloc[-1]['150_day_rolling']) else True 
+                    ) and ( daily_data.iloc[-1]['50_day_rolling'] > daily_data.iloc[-1]['200_day_rolling'] if pd.notna(daily_data.iloc[-1]['200_day_rolling']) else True )
         
         return [description, value]
 
@@ -385,15 +389,17 @@ class StockAnalysis():
 
         description = 'Price Above 50 day avg. [x; y %]'
         if is_single_row:
-            price_above_50_moving = (daily_data[close] - daily_data['50_day_rolling']).__round__(1)
+            price_above_50_moving = (daily_data[close] - daily_data['50_day_rolling']).__round__(1) if pd.notna(daily_data['50_day_rolling']) else 0
             percent_price_above_50_moving = (
-                (daily_data[close] - daily_data['50_day_rolling']) /
-                daily_data['50_day_rolling'] * 100).__round__(0)
+            ((daily_data[close] - daily_data['50_day_rolling']) / daily_data['50_day_rolling'] * 100).__round__(0)
+            if pd.notna(daily_data['50_day_rolling']) else 0
+            )
         else:
-            price_above_50_moving = (daily_data.iloc[-1][close] - daily_data.iloc[-1]['50_day_rolling']).__round__(1)
-            percent_price_above_50_moving = (
-                (daily_data.iloc[-1][close] - daily_data.iloc[-1]['50_day_rolling']) /
-                daily_data.iloc[-1]['50_day_rolling'] * 100).__round__(0)
+             price_above_50_moving = (daily_data.iloc[-1][close] - daily_data.iloc[-1]['50_day_rolling']).__round__(1) if pd.notna(daily_data.iloc[-1]['50_day_rolling']) else 0
+             percent_price_above_50_moving = (
+            ((daily_data.iloc[-1][close] - daily_data.iloc[-1]['50_day_rolling']) / daily_data.iloc[-1]['50_day_rolling'] * 100).__round__(0)
+            if pd.notna(daily_data.iloc[-1]['50_day_rolling']) else 0
+        )
             
         value = price_above_50_moving > 0
         return [description, str(value) + " [{}; {}%]".format(price_above_50_moving,
@@ -476,8 +482,6 @@ class StockAnalysis():
             current_price = daily_data.iloc[idx]['Close']
             percent_above_52wklow = ((current_price / fiftyTwoWeekLow - 1) * 100).__round__(0)
             value = percent_above_52wklow > 30
-        else:
-            value = False
 
         return [description, value]
         
@@ -494,8 +498,6 @@ class StockAnalysis():
             current_price = daily_data.iloc[idx]['Close']
             percent_above_52wkhigh = ((current_price / fiftyTwoWeekHigh - 1) * 100).__round__(0)
             value = percent_above_52wkhigh > -25
-        else:
-            value = False
 
         return [description, value]
     
