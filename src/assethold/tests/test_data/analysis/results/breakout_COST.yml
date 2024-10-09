@@ -10,12 +10,11 @@ dictitems:
   analysis:
     flag: true
     breakout: true
-  data:
-    period: 10y
-    by_date:
-    - start: 2010-09-01
-    - end: 2024-09-30
   breakout_settings:
+    duration: 5 yrs
+    period:
+    - start_date: 2018-09-01
+    - end_date: 2024-09-30
     portfolio:
     - criteria: breakout_2_or_more_fail
       colour: red
@@ -33,25 +32,25 @@ dictitems:
       amount: 1000
       limit: 50
   input:
-    ticker: XOM
+    ticker: COST
   Analysis:
     basename: stock
     analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis
-    file_name: breakout_XOM
-    file_name_for_overwrite: breakout_XOM
+    file_name: breakout_COST
+    file_name_for_overwrite: breakout_COST
     result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
     log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-10-09 10:53:52.963186
+    start_time: 2024-10-09 10:27:11.409542
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\breakout_XOM.yml
+    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\breakout_COST.yml
     fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
   stock:
     data:
       status:
         daily: true
         info: true
-        insider: true
+        insider: false
     analysis:
       status:
         breakout_trend: true

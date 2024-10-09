@@ -38,8 +38,9 @@ class StockAnalysis():
         if 'analysis' in cfg and cfg['analysis'].get('breakout', False):
             daily_data = data['daily']['data']
             daily_data['Date'] = pd.to_datetime(daily_data['Date'])
-            start_date = pd.to_datetime(cfg['breakout_settings']['period'][0]['start_date']).tz_localize('America/New_York')
-            end_date = pd.to_datetime(cfg['breakout_settings']['period'][1]['end_date']).tz_localize('America/New_York')
+            start_date = pd.to_datetime(cfg['data']['by_date'][0]['start']).tz_localize('America/New_York')
+            end_date = pd.to_datetime(cfg['data']['by_date'][1]['end']).tz_localize('America/New_York')
+            #TODO if period is NUL, populate period here in the cfg.
             daily_data = daily_data.loc[(daily_data['Date'] >= start_date) & (daily_data['Date'] <= end_date)]
             cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
 
@@ -444,6 +445,7 @@ class StockAnalysis():
         check if 200 day moving average uptrend for 1 month
         """
         
+        # Standard library imports
         import datetime
 
         description = '200 day avg. uptrend for 1 mo [n mo.]'
@@ -479,6 +481,7 @@ class StockAnalysis():
         check if price is 30% above 52 week low
         """
 
+        # Standard library imports
         import datetime
 
         description = 'Price 30% Above 52 wk low [% above]'
@@ -498,6 +501,7 @@ class StockAnalysis():
         check if price is within 25% of 52 week high range
         """
         
+        # Standard library imports
         import datetime
 
         description = 'Price within 25% of 52 wk high range [% value]'

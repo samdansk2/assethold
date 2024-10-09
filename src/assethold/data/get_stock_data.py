@@ -252,7 +252,7 @@ class GetStockData():
         df.head()
 
     def get_daily_data_by_ticker(self, cfg, ticker):
-        period = cfg.get('period', '5y')
+        period = cfg['data']['period']
         if ticker is not None:
             yf_ticker = yf.Ticker(str(ticker))
             df = yf_ticker.history(period=period)
