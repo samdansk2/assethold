@@ -205,7 +205,7 @@ class StockAnalysis():
         fig, ax = plt.subplots(figsize=(10, 6))
         ax.plot(daily_data['Date'], daily_data['Close'], color='skyblue',label='Close Price')
 
-        ax.scatter(filtered_dates, filtered_close, color= filtered_colors, s=70)
+        ax.scatter(filtered_dates, filtered_close, color= filtered_colors, s=40)
 
         ax.scatter([], [], color='green', label='breakout 0 fails')
         ax.scatter([], [], color='gold', label='breakout 1 fail')
@@ -285,7 +285,7 @@ class StockAnalysis():
             if portfolio['positions'] > limit_positions:
                 sell_amount = min(portfolio['positions'], position_amount)
                 proceeds = sell_amount * stock_price 
-                portfolio['positions']+= num_shares #number of stock positions held
+                portfolio['positions']+= num_shares # number of stock positions held
                 portfolio['cash'] += proceeds # cash balance after selling stocks
         else:
             self.buy_stock(portfolio, stock_price, 1000)        
@@ -440,6 +440,9 @@ class StockAnalysis():
         return [description, str(value) + " [{} %]".format(percent_above_52wkhigh)]
     
     def breakout_plot_helper(self,daily_data,idx):
+        """
+        check if 200 day moving average uptrend for 1 month
+        """
         
         import datetime
 
@@ -472,6 +475,9 @@ class StockAnalysis():
         return [description, value]
     
     def breakout_plot_helper_2(self,daily_data,idx):
+        """
+        check if price is 30% above 52 week low
+        """
 
         import datetime
 
@@ -488,6 +494,9 @@ class StockAnalysis():
         return [description, value]
         
     def breakout_plot_helper_3(self,daily_data,idx):
+        """
+        check if price is within 25% of 52 week high range
+        """
         
         import datetime
 
