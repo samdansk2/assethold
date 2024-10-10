@@ -6,13 +6,8 @@ import matplotlib.pyplot as plt  # noqa
 import pandas as pd  # noqa
 import pytz
 from assetutilities.common.update_deep import update_deep_dictionary
-
-# from assetutilities.common.visualization.visualization_common import VisualizationCommon
-
-# visualization_common = VisualizationCommon()
-# from stockhold.data.get_stock_data import GetStockData
-# get_data = GetStockData()
-
+from assethold.analysis.portfolio import Portfolio
+portfolio = Portfolio(cfg=None)
 
 class StockAnalysis():
 
@@ -224,99 +219,100 @@ class StockAnalysis():
 
         plt.xticks(rotation=45) # rotates x-axis labels
         fig.autofmt_xdate() # auto formats x-axis date
+        portfolio.calculation(cfg, daily_data, breakout_daily_data_trend_df)
 
-        self.backtest(cfg, daily_data, breakout_daily_data_trend_df)
 
-    def backtest(self,cfg, daily_data, breakout_daily_data_trend_df):
+    #     self.backtest(cfg, daily_data, breakout_daily_data_trend_df)
+
+    # def backtest(self,cfg, daily_data, breakout_daily_data_trend_df):
         
-        portfolio = {
-        'cash': 1000,           # Starting cash value (based on green condition)
-        'stock_value': 0,       # Initial stock value
-        'total_value': lambda: portfolio['cash'],   # Total portfolio value (initially cash only)
-        'positions': 0          # No stock positions held initially
-        }
-        portfolio_history = []  # To store daily portfolio updates
+    #     portfolio = {
+    #     'cash': 1000,           # Starting cash value (based on green condition)
+    #     'stock_value': 0,       # Initial stock value
+    #     'total_value': lambda: portfolio['cash'],   # Total portfolio value (initially cash only)
+    #     'positions': 0          # No stock positions held initially
+    #     }
+    #     portfolio_history = []  # To store daily portfolio updates
 
-        ticker = cfg['input']['ticker']
+    #     ticker = cfg['input']['ticker']
 
-        for i, row in breakout_daily_data_trend_df.iterrows():
-            breakout_color = row['plot_color'] 
-            stock_price = row['Close'] 
+    #     for i, row in breakout_daily_data_trend_df.iterrows():
+    #         breakout_color = row['plot_color'] 
+    #         stock_price = row['Close'] 
             
-            if breakout_color == 'green':
-                # Buy stock with $1000
-                self.buy_stock(portfolio, stock_price, 1000)
-            elif breakout_color == 'gold':
-                self.buy_stock(portfolio, stock_price, 1000)
-                # sell 200 positions till reaching 50% of portfolio
-                self.sell_stock(portfolio, 200, stock_price, limit_percent=50,cash_amount=1000)
-            elif breakout_color == 'red':
-                self.buy_stock(portfolio, stock_price, 1000)
-                # ell 500 positions till reaching 20% of portfolio
-                self.sell_stock(portfolio, 500, stock_price, limit_percent=20, cash_amount=1000)
+    #         if breakout_color == 'green':
+    #             # Buy stock with $1000
+    #             self.buy_stock(portfolio, stock_price, 1000)
+    #         elif breakout_color == 'gold':
+    #             self.buy_stock(portfolio, stock_price, 1000)
+    #             # sell 200 positions till reaching 50% of portfolio
+    #             self.sell_stock(portfolio, 200, stock_price, limit_percent=50,cash_amount=1000)
+    #         elif breakout_color == 'red':
+    #             self.buy_stock(portfolio, stock_price, 1000)
+    #             # ell 500 positions till reaching 20% of portfolio
+    #             self.sell_stock(portfolio, 500, stock_price, limit_percent=20, cash_amount=1000)
         
-            # Update portfolio value based on current stock price
-            self.update_portfolio_value(portfolio, row['Close'])
+    #         # Update portfolio value based on current stock price
+    #         self.update_portfolio_value(portfolio, row['Close'])
 
-            self.log_portfolio(portfolio_history, portfolio, row['Date'])
+    #         self.log_portfolio(portfolio_history, portfolio, row['Date'])
 
-        self.save_portfolio_history(portfolio_history, ticker)
+    #     self.save_portfolio_history(portfolio_history, ticker)
 
-    def buy_stock(self, portfolio, stock_price, cash_amount):
-        """
-        Buy stocks using a specified amount of cash.
-        """
-        num_shares = cash_amount // stock_price
-        cost = num_shares * stock_price
+    # def buy_stock(self, portfolio, stock_price, cash_amount):
+    #     """
+    #     Buy stocks using a specified amount of cash.
+    #     """
+    #     num_shares = cash_amount // stock_price
+    #     cost = num_shares * stock_price
 
-        if cost <= portfolio['cash']:  # Only buy if enough cash is available
-            portfolio['cash'] -= cost
-            portfolio['positions'] += num_shares
-        else:
-            print("Not enough cash to buy stocks.")
+    #     if cost <= portfolio['cash']:  # Only buy if enough cash is available
+    #         portfolio['cash'] -= cost
+    #         portfolio['positions'] += num_shares
+    #     else:
+    #         print("Not enough cash to buy stocks.")
 
-    def sell_stock(self,portfolio, position_amount, stock_price, limit_percent,cash_amount):
-        """
-        Sell stock based on conditions in breakout_settings.
-        """
+    # def sell_stock(self,portfolio, position_amount, stock_price, limit_percent,cash_amount):
+    #     """
+    #     Sell stock based on conditions in breakout_settings.
+    #     """
 
-        num_shares = cash_amount // stock_price
-        if portfolio['positions'] > 0:
-            limit_positions = (limit_percent / 100) * portfolio['positions']
-            if portfolio['positions'] > limit_positions:
-                sell_amount = min(portfolio['positions'], position_amount)
-                proceeds = sell_amount * stock_price 
-                portfolio['positions']+= num_shares # number of stock positions held
-                portfolio['cash'] += proceeds # cash balance after selling stocks
-        else:
-            self.buy_stock(portfolio, stock_price, 1000)        
-
-
-    def update_portfolio_value(self,portfolio, stock_price):
-        """
-        Update the portfolio value based on current stock price
-        """
-        portfolio['stock_value'] = portfolio['positions'] * stock_price # Value of stock holdings
-        portfolio['total_value'] = portfolio['cash'] + portfolio['stock_value'] # Total portfolio value at the end of the day
+    #     num_shares = cash_amount // stock_price
+    #     if portfolio['positions'] > 0:
+    #         limit_positions = (limit_percent / 100) * portfolio['positions']
+    #         if portfolio['positions'] > limit_positions:
+    #             sell_amount = min(portfolio['positions'], position_amount)
+    #             proceeds = sell_amount * stock_price 
+    #             portfolio['positions']+= num_shares # number of stock positions held
+    #     else:
+    #         self.buy_stock(portfolio, stock_price, 1000)        
 
 
-    def log_portfolio(self,portfolio_history, portfolio, date):
-        """
-        Log the portfolio state.
-        """
-        portfolio_history.append({
-            'Date': date,
-            'Cash': portfolio['cash'],
-            'Stock Value': portfolio['stock_value'],
-            'Total Value': portfolio['total_value'],
-            'Positions': portfolio['positions']
-        })
+    # def update_portfolio_value(self,portfolio, stock_price):
+    #     """
+    #     Update the portfolio value based on current stock price
+    #     """
+    #     portfolio['stock_value'] = portfolio['positions'] * stock_price # Value of stock holdings
+    #     portfolio['total_value'] = portfolio['cash'] + portfolio['stock_value'] # Total portfolio value at the end of the day
 
-    def save_portfolio_history(self,portfolio_history, ticker):
 
-        log_df = pd.DataFrame(portfolio_history)
-        csv_filename = f'src/assethold/tests/test_data/analysis/results/Data/portfolio_report_{ticker}.csv'
-        log_df.to_csv(csv_filename, index=False)
+    # def log_portfolio(self,portfolio_history, portfolio, date):
+    #     """
+    #     Log the portfolio state.
+    #     """
+    #     portfolio_history.append({
+    #         'Date': date,
+    #         'Cash': portfolio['cash'],
+    #         'Stock Value': portfolio['stock_value'],
+    #         'Total Value': portfolio['total_value'],
+    #         'Positions': portfolio['positions']
+    #     })
+
+    # def save_portfolio_history(self,portfolio_history, ticker):
+
+    #     log_df = pd.DataFrame(portfolio_history)
+    #     csv_filename = f'src/assethold/tests/test_data/analysis/results/Data/portfolio_report_{ticker}.csv'
+    #     log_df.to_csv(csv_filename, index=False)
     
 
     def check_if_price_above_150_and_200_moving(self, daily_data, close="Close", is_single_row=False):

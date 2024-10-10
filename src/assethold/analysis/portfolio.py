@@ -1,12 +1,4 @@
-
 class Portfolio():
-
-    def __init__(self, assets):
-        pass
-        
-    def TBA(self, asset):
-        pass
-    
     '''
     cash in or cash out, dividend payout. 
     value of portfolio. dercerase in asset value
@@ -18,3 +10,14 @@ class Portfolio():
     if a stock is sold, then add the value of the stock to the cash value.
     
     '''
+    def __init__(self, cfg):
+        self.cfg = cfg
+        self.cash = 10000  # Example starting cash
+        self.holdings = 0
+        self.transactions = []  
+    
+    def router(self, cfg):
+        pass
+    def calculation(self, cfg, daily_data, breakout_daily_data_trend_df):
+        pass
+        
