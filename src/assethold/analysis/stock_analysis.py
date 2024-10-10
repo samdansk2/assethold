@@ -6,7 +6,10 @@ import matplotlib.pyplot as plt  # noqa
 import pandas as pd  # noqa
 import pytz
 from assetutilities.common.update_deep import update_deep_dictionary
+
+# Reader imports
 from assethold.analysis.portfolio import Portfolio
+
 portfolio = Portfolio(cfg=None)
 
 class StockAnalysis():
@@ -34,7 +37,7 @@ class StockAnalysis():
             daily_data = data['daily']['data']
             daily_data['Date'] = pd.to_datetime(daily_data['Date'])
             # #TODO if period is NULL, populate period here in the cfg.
-            if 'period' is None:
+            if 'period' == None:
                 period = cfg['data']['period']
                 daily_data = daily_data[daily_data['Date'] > pd.Timestamp.now() - pd.Timedelta(days=period)] 
             cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
@@ -219,7 +222,7 @@ class StockAnalysis():
 
         plt.xticks(rotation=45) # rotates x-axis labels
         fig.autofmt_xdate() # auto formats x-axis date
-        portfolio.calculation(cfg, breakout_daily_data_trend_df)
+        portfolio.portfolio_value(cfg, breakout_daily_data_trend_df)
 
 
     #     self.backtest(cfg, daily_data, breakout_daily_data_trend_df)

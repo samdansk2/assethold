@@ -10,6 +10,7 @@ dictitems:
   analysis:
     flag: true
     breakout: true
+    
   data:
     period: 10y
     by_date:

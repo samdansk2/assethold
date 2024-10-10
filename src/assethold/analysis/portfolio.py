@@ -25,20 +25,39 @@ class Portfolio():
         self.holdings = 0 # number of stocks
         self.portfolio_history = []  
     
-    def calculation(self, cfg, breakout_daily_data_trend_df):
-        for i, row in breakout_daily_data_trend_df.iterrows():
-            breakout_color = row['plot_color'] 
-            stock_price = row['Close'] 
+    def portfolio_value(self, cfg, breakout_daily_data_trend_df):
+        cfg_portfolio = cfg['portfolio']
+        portfolio_value = 0
+        transactions = cfg_portfolio['transactions']
+        for transaction in transactions:
+            cash = self.get_cash(transaction)
+            portfolio_value += cash 
 
-            if breakout_color == 'green':
-                # buy stocks
-                pass
-            elif breakout_color == 'gold':
-                # sell stocks
-                pass
-            elif breakout_color == 'red':
-                # sell stocks
-                pass
+        print(portfolio_value)
+
+
+    def get_cash(self, transaction):
+        return transaction['cash']
+
+    def get_stock_value(self, transaction):
+        #     stock_price = row['Close'] 
+        pass
+
+        # for i, row in breakout_daily_data_trend_df.iterrows():
+        #     breakout_color = row['plot_color'] 
+
+        #     if breakout_color == 'green':
+        #         # buy stocks
+        #         pass
+        #     elif breakout_color == 'gold':
+        #         # sell stocks
+        #         pass
+        #     elif breakout_color == 'red':
+        #         # sell stocks
+        #         pass
+
+    def get_portfolio_value(self, stock_price):    
+        pass
 
     def update_portfolio_value(self, stock_price):
         pass
