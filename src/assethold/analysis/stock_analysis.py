@@ -33,10 +33,10 @@ class StockAnalysis():
         if 'analysis' in cfg and cfg['analysis'].get('breakout', False):
             daily_data = data['daily']['data']
             daily_data['Date'] = pd.to_datetime(daily_data['Date'])
-            start_date = pd.to_datetime(cfg['data']['by_date'][0]['start']).tz_localize('America/New_York')
-            end_date = pd.to_datetime(cfg['data']['by_date'][1]['end']).tz_localize('America/New_York')
-            #TODO if period is NULL, populate period here in the cfg.
-            daily_data = daily_data.loc[(daily_data['Date'] >= start_date) & (daily_data['Date'] <= end_date)]
+            # #TODO if period is NULL, populate period here in the cfg.
+            if 'period' is None:
+                period = cfg['data']['period']
+                daily_data = daily_data[daily_data['Date'] > pd.Timestamp.now() - pd.Timedelta(days=period)] 
             cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
 
             analysis_output = {
