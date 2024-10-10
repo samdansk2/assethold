@@ -8,16 +8,44 @@ class Portfolio():
     
     if a stock pays dividend, add dividend to the cash value.
     if a stock is sold, then add the value of the stock to the cash value.
+
+    Green : Currency 1000 buy next trading day every week.
+    Gold: 200 position sell next trading day every week till reaching 50% portofolio.
+    Red: 500 position sell next trading day every week till reaching 20% portofolio.
+
+    Track/plot total portoflio value, cash value, stock value , profit etc. every day.
     
     '''
     def __init__(self, cfg):
         self.cfg = cfg
-        self.cash = 10000  # Example starting cash
-        self.holdings = 0
-        self.transactions = []  
+        self.cash = 10000  # initial cash
+        self.stock_value = 0 # initial stock value
+        self.holdings = 0 # number of stocks
+        self.portfolio_history = []  
     
-    def router(self, cfg):
+    def calculation(self, cfg, breakout_daily_data_trend_df):
+        for i, row in breakout_daily_data_trend_df.iterrows():
+            breakout_color = row['plot_color'] 
+            stock_price = row['Close'] 
+
+            if breakout_color == 'green':
+                # buy stocks
+                pass
+            elif breakout_color == 'gold':
+                # sell stocks
+                pass
+            elif breakout_color == 'red':
+                # sell stocks
+                pass
+
+    def update_portfolio_value(self, stock_price):
         pass
-    def calculation(self, cfg, daily_data, breakout_daily_data_trend_df):
+
+    def log_portfolio(self, portfolio_history):
         pass
+
+    def save_portfolio_history(self,portfolio_history, ticker):
+        pass
+
+        
         

@@ -219,7 +219,7 @@ class StockAnalysis():
 
         plt.xticks(rotation=45) # rotates x-axis labels
         fig.autofmt_xdate() # auto formats x-axis date
-        portfolio.calculation(cfg, daily_data, breakout_daily_data_trend_df)
+        portfolio.calculation(cfg, breakout_daily_data_trend_df)
 
 
     #     self.backtest(cfg, daily_data, breakout_daily_data_trend_df)
