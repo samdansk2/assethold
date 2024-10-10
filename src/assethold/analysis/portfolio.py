@@ -1,5 +1,7 @@
 class Portfolio():
     '''
+    Objective: Calculate value of a single or group of assets over time.
+
     cash in or cash out, dividend payout. 
     value of portfolio. dercerase in asset value
     
