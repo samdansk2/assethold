@@ -1,4 +1,9 @@
 Folder,Filename,Status
-analysis,breakout.yml,Success
+analysis,breakout_COST.yml,Success
+analysis,breakout_RIG.yml,Success
+analysis,breakout_TCS.yml,Success
+analysis,breakout_TSLA.yml,Success
+analysis,breakout_WMT.yml,Success
+analysis,breakout_XOM.yml,Success
 data,data_AAPL.yml,Success
 data,data_RIG.yml,Success

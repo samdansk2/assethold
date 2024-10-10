@@ -77,6 +77,6 @@ def run_yaml_files(root_directory):
 
 
 if __name__ == '__main__':
-    library = 'stockhold'
+    library = 'assethold'
     root_directory = f'src/{library}/tests/test_data' 
     run_yaml_files(root_directory)
