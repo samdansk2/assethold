@@ -40,7 +40,7 @@ class StockAnalysis():
             daily_data['Date'] = pd.to_datetime(daily_data['Date'])
             start_date = pd.to_datetime(cfg['data']['by_date'][0]['start']).tz_localize('America/New_York')
             end_date = pd.to_datetime(cfg['data']['by_date'][1]['end']).tz_localize('America/New_York')
-            #TODO if period is NUL, populate period here in the cfg.
+            #TODO if period is NULL, populate period here in the cfg.
             daily_data = daily_data.loc[(daily_data['Date'] >= start_date) & (daily_data['Date'] <= end_date)]
             cfg, breakout_trend = self.breakout_trend_analysis(cfg, daily_data)
 
@@ -188,7 +188,7 @@ class StockAnalysis():
         ticker = cfg['input']['ticker']
         breakout_daily_data_trend_df = pd.DataFrame(trend_data) 
 
-        csv_file_path = f'src/assethold/tests/test_data/analysis/breakout_data_trend_{ticker}.csv'
+        csv_file_path = f'src/assethold/tests/test_data/analysis/results/Data/breakout_data_trend_{ticker}.csv'
         breakout_daily_data_trend_df.to_csv(csv_file_path, index=False)
            
               
@@ -315,7 +315,7 @@ class StockAnalysis():
     def save_portfolio_history(self,portfolio_history, ticker):
 
         log_df = pd.DataFrame(portfolio_history)
-        csv_filename = f'src/assethold/tests/test_data/analysis/portfolio_report_{ticker}.csv'
+        csv_filename = f'src/assethold/tests/test_data/analysis/results/Data/portfolio_report_{ticker}.csv'
         log_df.to_csv(csv_filename, index=False)
     
 

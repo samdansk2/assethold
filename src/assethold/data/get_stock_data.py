@@ -42,7 +42,7 @@ class GetStockData():
         ticker = cfg['input']['ticker']
         daily_data = self.get_daily_data_by_ticker(cfg, ticker)
         daily_data_df = daily_data['data']
-        daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date']).dt.tz_localize(None)
+        daily_data_df['Date'] = pd.to_datetime(daily_data_df['Date'])
 
         if "data" in cfg and cfg['data'].get('flag', False):
             """ 
