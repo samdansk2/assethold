@@ -1,0 +1,77 @@
+&id001 !!python/object/new:assetutilities.common.data.AttributeDict
+state: *id001
+dictitems:
+  basename: stock
+  default:
+    log_level: INFO
+    config:
+      overwrite:
+        output: true
+  analysis:
+    flag: true
+    breakout: true
+    portfolio: false
+  data:
+    period: 10y
+    by_date:
+    - start: 2010-09-01
+    - end: 2024-09-30
+  breakout_settings:
+    portfolio:
+    - criteria: breakout_2_or_more_fail
+      colour: red
+      action: sell
+      amount: 500
+      limit: 20
+    - criteria: breakout_1_fail
+      colour: gold
+      action: sell
+      amount: 200
+      limit: 50
+    - criteria: breakout_0_fail
+      colour: green
+      action: buy
+      amount: 1000
+      limit: 50
+  portfolio:
+    by_date:
+    - start: 2019-09-01
+    - end: 2024-09-30
+    transactions:
+    - date: 2020-03-01
+      cash: 10000
+    - date: 2020-04-01
+      stocks:
+      - ticker: XOM
+        action: buy
+        amount: 5000
+    - date: 2021-03-01
+      stocks:
+      - ticker: XOM
+        action: sell
+        shares: 20
+    - date: 2021-03-01
+      cash: -2000
+  input:
+    ticker: CVX
+  Analysis:
+    basename: stock
+    analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis
+    file_name: breakout_CVX
+    file_name_for_overwrite: breakout_CVX
+    result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
+    log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\logs
+    start_time: 2024-10-10 11:45:34.096756
+    cfg_array_file_names: ~
+    DefaultInputFile: ~
+    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\breakout_CVX.yml
+    fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
+  stock:
+    data:
+      status:
+        daily: true
+        info: true
+        insider: true
+    analysis:
+      status:
+        breakout_trend: true

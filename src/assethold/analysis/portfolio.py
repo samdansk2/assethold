@@ -30,14 +30,17 @@ class Portfolio():
         portfolio_value = 0
         transactions = cfg_portfolio['transactions']
         for transaction in transactions:
-            cash = self.get_cash(transaction)
+            cash = self.get_transation_cash(transaction)
             portfolio_value += cash 
 
         print(portfolio_value)
 
 
-    def get_cash(self, transaction):
-        return transaction['cash']
+    def get_transation_cash(self, transaction):
+        cash = 0
+        if 'cash' in transaction:
+            cash = transaction['cash']
+        return cash
 
     def get_stock_value(self, transaction):
         #     stock_price = row['Close'] 
