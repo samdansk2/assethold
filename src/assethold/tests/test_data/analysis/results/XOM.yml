@@ -9,7 +9,7 @@ dictitems:
         output: true
   analysis:
     flag: true
-    breakout: true
+    breakout: false
     portfolio: true
   data:
     period: 10y
@@ -61,7 +61,7 @@ dictitems:
     file_name_for_overwrite: XOM
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-10-11 10:19:10.652929
+    start_time: 2024-10-11 10:35:28.789828
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\XOM.yml
@@ -73,5 +73,4 @@ dictitems:
         info: true
         insider: true
     analysis:
-      status:
-        breakout_trend: true
+      status: {}
