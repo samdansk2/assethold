@@ -10,7 +10,7 @@ dictitems:
   analysis:
     flag: true
     breakout: true
-    
+    portfolio: true
   data:
     period: 10y
     by_date:
@@ -33,20 +33,39 @@ dictitems:
       action: buy
       amount: 1000
       limit: 50
+  portfolio:
+    by_date:
+    - start: 2019-09-01
+    - end: 2024-09-30
+    transactions:
+    - date: 2020-03-01
+      cash: 10000
+    - date: 2020-04-01
+      stocks:
+      - ticker: XOM
+        action: buy
+        amount: 5000
+    - date: 2021-03-01
+      stocks:
+      - ticker: XOM
+        action: sell
+        shares: 20
+    - date: 2021-03-01
+      cash: -2000
   input:
     ticker: XOM
   Analysis:
     basename: stock
-    analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis
-    file_name: breakout_XOM
-    file_name_for_overwrite: breakout_XOM
-    result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
-    log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-10-10 10:56:01.653057
+    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis
+    file_name: XOM
+    file_name_for_overwrite: XOM
+    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
+    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
+    start_time: 2024-10-11 10:19:10.652929
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\breakout_XOM.yml
-    fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
+    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\XOM.yml
+    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
   stock:
     data:
       status:

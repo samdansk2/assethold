@@ -24,8 +24,12 @@ class Portfolio():
         self.stock_value = 0 # initial stock value
         self.holdings = 0 # number of stocks
         self.portfolio_history = []  
+    def router(self, cfg):
+
+        self.portfolio_value(cfg)
+        return cfg
     
-    def portfolio_value(self, cfg, breakout_daily_data_trend_df):
+    def portfolio_value(self, cfg):
         cfg_portfolio = cfg['portfolio']
         portfolio_value = 0
         transactions = cfg_portfolio['transactions']

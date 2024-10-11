@@ -2,7 +2,7 @@ basename: stock
 
 analysis:
   flag: True
-  breakout: True
+  breakout: False
   portfolio: True
 
 data:

@@ -25,7 +25,7 @@ class StockAnalysis():
         self.insider_df_sell = pd.DataFrame()
         self.status = {'insider': {}}
 
-    def router(self, cfg,data):
+    def router(self, cfg, data):
         """
         Router function for StockAnalysis
         """
@@ -36,7 +36,6 @@ class StockAnalysis():
         if 'analysis' in cfg and cfg['analysis'].get('breakout', False):
             daily_data = data['daily']['data']
             daily_data['Date'] = pd.to_datetime(daily_data['Date'])
-            # #TODO if period is NULL, populate period here in the cfg.
             if 'period' == None:
                 period = cfg['data']['period']
                 daily_data = daily_data[daily_data['Date'] > pd.Timestamp.now() - pd.Timedelta(days=period)] 
@@ -48,6 +47,8 @@ class StockAnalysis():
 
             analysis_status = {'breakout_trend': breakout_trend['status']}
             analysis = {'data': analysis_output, 'status': status}
+        elif 'analysis' in cfg and cfg['analysis'].get('portfolio', False):
+            cfg = portfolio.router(cfg)
 
         cfg_status_dict = {cfg['basename']: {'analysis': {'status': analysis_status}}}
         cfg = update_deep_dictionary(cfg, cfg_status_dict)
@@ -222,7 +223,6 @@ class StockAnalysis():
 
         plt.xticks(rotation=45) # rotates x-axis labels
         fig.autofmt_xdate() # auto formats x-axis date
-        portfolio.portfolio_value(cfg, breakout_daily_data_trend_df)
 
 
     #     self.backtest(cfg, daily_data, breakout_daily_data_trend_df)
