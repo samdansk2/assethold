@@ -56,16 +56,16 @@ dictitems:
     ticker: XOM
   Analysis:
     basename: stock
-    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis
+    analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis
     file_name: XOM
     file_name_for_overwrite: XOM
-    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
-    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-10-11 10:35:28.789828
+    result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
+    log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\logs
+    start_time: 2024-10-15 14:19:56.943119
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\XOM.yml
-    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
+    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\XOM.yml
+    fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
   stock:
     data:
       status:
