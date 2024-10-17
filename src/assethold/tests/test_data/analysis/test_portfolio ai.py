@@ -3,6 +3,7 @@ import pandas as pd
 
 # Read CSV data into a pandas DataFrame
 #TODO dividends need to be formatted and read
+data_format = 'fidelity'
 file_path = 'src/assethold/data/stocks/client1/2020.csv'
 # df = pd.read_csv(file_path, on_bad_lines='skip')
 
