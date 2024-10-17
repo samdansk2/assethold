@@ -13,3 +13,6 @@ Repositories
 
 Good resources for basic python skills:
 <https://github.com/jpmorganchase/python-training>
+
+Literature / Maintenance :
+https://www.linkedin.com/company/pyquant-news/posts/

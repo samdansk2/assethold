@@ -63,17 +63,7 @@ class Portfolio():
         #         # sell stocks
         #         pass
 
-    def get_portfolio_value(self, stock_price):    
-        pass
 
-    def update_portfolio_value(self, stock_price):
-        pass
-
-    def log_portfolio(self, portfolio_history):
-        pass
-
-    def save_portfolio_history(self,portfolio_history, ticker):
-        pass
 
         
         
