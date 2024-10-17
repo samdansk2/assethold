@@ -61,7 +61,7 @@ dictitems:
     file_name_for_overwrite: XOM
     result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
     log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-10-15 14:19:56.943119
+    start_time: 2024-10-17 10:54:40.208581
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\XOM.yml
