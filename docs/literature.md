@@ -1,4 +1,4 @@
-For stock market analysis:
+For stock analysis:
 
 <https://www.linkedin.com/company/pyquant-news/posts/>
 
