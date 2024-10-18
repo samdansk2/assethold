@@ -1,6 +1,4 @@
-﻿
-
-Run Date,Account,Action,Symbol,Description,Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
+﻿Run Date,Account,Action,Symbol,Description,Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
  12/31/2020,"Individual" X78707567," REINVESTMENT FIDELITY GOVERNMENT MONEY MARKET (SPAXX) (Cash)", SPAXX," FIDELITY GOVERNMENT MONEY MARKET",Cash,0.15,1,,,,-0.15,
  12/31/2020,"Individual" X78707567," DIVIDEND RECEIVED FIDELITY GOVERNMENT MONEY MARKET (SPAXX) (Cash)", SPAXX," FIDELITY GOVERNMENT MONEY MARKET",Cash,0.000,,,,,0.15,
  12/31/2020,"Traditional IRA" 224886419," INTEREST EARNED FDIC INSURED DEPOSIT AT TRUIST BANK ... (QPIGQ) (Cash)", QPIGQ," FDIC INSURED DEPOSIT AT TRUIST BANK IRA",Cash,0.000,,,,,0.05,

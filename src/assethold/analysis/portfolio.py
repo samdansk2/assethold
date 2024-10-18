@@ -18,7 +18,6 @@ class Portfolio():
         data_format = 'fidelity'
         file_path = cfg['portfolio']['transaction_csv']
 
-        # Define the expected columns
         expected_columns = ['Run Date', 'Account', 'Action', 'Symbol', 'Description', 'Type', 'Quantity', 'Price ($)', 'Commission ($)', 'Fees ($)', 'Accrued Interest ($)', 'Amount ($)', 'Settlement Date']
 
         # Read the CSV file, ignoring rows with more than 13 columns

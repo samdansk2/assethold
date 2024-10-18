@@ -1,6 +1,4 @@
-﻿
-
-Run Date,Account,Action,Symbol,Description,Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
+﻿Run Date,Account,Action,Symbol,Description,Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
  12/31/2021,"Individual" X78707567," REINVESTMENT FIDELITY GOVERNMENT MONEY MARKET (SPAXX) (Cash)", SPAXX," FIDELITY GOVERNMENT MONEY MARKET",Cash,0.01,1,,,,-0.01,
  12/31/2021,"Traditional IRA" 224886419," INTEREST EARNED FDIC INSURED DEPOSIT AT TRUIST BANK ... (QPIGQ) (Cash)", QPIGQ," FDIC INSURED DEPOSIT AT TRUIST BANK IRA",Cash,0.000,,,,,0.05,
  12/31/2021,"Individual" X78707567," DIVIDEND RECEIVED FIDELITY GOVERNMENT MONEY MARKET (SPAXX) (Cash)", SPAXX," FIDELITY GOVERNMENT MONEY MARKET",Cash,0.000,,,,,0.01,
@@ -118,17 +116,3 @@ Run Date,Account,Action,Symbol,Description,Type,Quantity,Price ($),Commission ($
  01/06/2021,"CENCORA" 82897," Change In Market Value",,"FID GROWTH CO POOL A",,0.000,,,,,3.36,,
  01/06/2021,"CENCORA" 82897," RECORDKEEPING FEE",,"FID GROWTH CO POOL A",,-0.172,,,,,-7.33,,
  01/04/2021,"Individual" X78707567," YOU SOLD MODERNA INC COM (MRNA) (Cash)", MRNA," MODERNA INC COM",Cash,-50,111.9,,0.13,,5594.62,01/06/2021
-
-
-
-"The data and information in this spreadsheet is provided to you solely for your use and is not for distribution. The spreadsheet is provided for"
-"informational purposes only, and is not intended to provide advice, nor should it be construed as an offer to sell, a solicitation of an offer to buy or a"
-"recommendation for any security or insurance product by Fidelity or any third party. Data and information shown is based on information known to Fidelity as of the date it was"
-"exported and is subject to change. It should not be used in place of your account statements or trade confirmations and is not intended for tax reporting"
-"purposes. For more information on the data included in this spreadsheet, including any limitations thereof, go to Fidelity.com."
-
-"Brokerage services are provided by Fidelity Brokerage Services LLC (FBS), 900 Salem Street, Smithfield, RI 02917. Custody and other services provided by National"
-"Financial Services LLC (NFS). Both are Fidelity Investment companies and members SIPC, NYSE. Insurance products at Fidelity are distributed by"
-"Fidelity Insurance Agency, Inc., and, for certain products, by Fidelity Brokerage Services, Member NYSE, SIPC."
-
-Date downloaded 10/12/2024 10:49 pm
