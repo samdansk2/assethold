@@ -1,0 +1,42 @@
+&id001 !!python/object/new:assetutilities.common.data.AttributeDict
+state: *id001
+dictitems:
+  basename: stock
+  default:
+    log_level: INFO
+    config:
+      overwrite:
+        output: true
+  analysis:
+    flag: true
+    breakout: false
+    portfolio: true
+  data:
+    period: 10y
+    by_date:
+    - start: 2010-09-01
+    - end: 2024-09-30
+  portfolio:
+    transaction_csv: src/assethold/data/stocks/client1/2020.csv
+  input:
+    ticker: XOM
+  Analysis:
+    basename: stock
+    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis
+    file_name: portfolio_AI
+    file_name_for_overwrite: portfolio_AI
+    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
+    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\logs
+    start_time: 2024-10-18 10:35:21.207252
+    cfg_array_file_names: ~
+    DefaultInputFile: ~
+    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\portfolio_AI.yml
+    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\results
+  stock:
+    data:
+      status:
+        daily: true
+        info: true
+        insider: true
+    analysis:
+      status: {}

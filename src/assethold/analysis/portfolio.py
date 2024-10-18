@@ -1,67 +1,56 @@
+# Third party imports
+import pandas as pd # noqa
+
 class Portfolio():
-    '''
-    Objective: Calculate value of a single or group of assets over time.
-
-    cash in or cash out, dividend payout. 
-    value of portfolio. dercerase in asset value
     
-    if you are depositing cash in to the account, then this increases. 1 month 1000
-    if you are withdrawing cash from the account, then this decreases. 1 month -1000
-    
-    if a stock pays dividend, add dividend to the cash value.
-    if a stock is sold, then add the value of the stock to the cash value.
-
-    Green : Currency 1000 buy next trading day every week.
-    Gold: 200 position sell next trading day every week till reaching 50% portofolio.
-    Red: 500 position sell next trading day every week till reaching 20% portofolio.
-
-    Track/plot total portoflio value, cash value, stock value , profit etc. every day.
-    
-    '''
     def __init__(self, cfg):
+
         self.cfg = cfg
-        self.cash = 10000  # initial cash
-        self.stock_value = 0 # initial stock value
-        self.holdings = 0 # number of stocks
-        self.portfolio_history = []  
+
     def router(self, cfg):
 
         self.portfolio_value(cfg)
         return cfg
     
     def portfolio_value(self, cfg):
-        cfg_portfolio = cfg['portfolio']
-        portfolio_value = 0
-        transactions = cfg_portfolio['transactions']
-        for transaction in transactions:
-            cash = self.get_transation_cash(transaction)
-            portfolio_value += cash 
 
-        print(portfolio_value)
+        #TODO dividends need to be formatted and read
+        data_format = 'fidelity'
+        file_path = cfg['portfolio']['transaction_csv']
 
+        # Define the expected columns
+        expected_columns = ['Run Date', 'Account', 'Action', 'Symbol', 'Description', 'Type', 'Quantity', 'Price ($)', 'Commission ($)', 'Fees ($)', 'Accrued Interest ($)', 'Amount ($)', 'Settlement Date']
 
-    def get_transation_cash(self, transaction):
-        cash = 0
-        if 'cash' in transaction:
-            cash = transaction['cash']
-        return cash
+        # Read the CSV file, ignoring rows with more than 13 columns
+        df = pd.read_csv(file_path, usecols=range(13), names=expected_columns, header=0, on_bad_lines='skip')
 
-    def get_stock_value(self, transaction):
-        #     stock_price = row['Close'] 
-        pass
+        # Convert 'Run Date' to datetime
+        df['Run Date'] = pd.to_datetime(df['Run Date'])
 
-        # for i, row in breakout_daily_data_trend_df.iterrows():
-        #     breakout_color = row['plot_color'] 
+        # Calculate cumulative value by account and symbol
+        df['Amount ($)'] = pd.to_numeric(df['Amount ($)'], errors='coerce').fillna(0)
 
-        #     if breakout_color == 'green':
-        #         # buy stocks
-        #         pass
-        #     elif breakout_color == 'gold':
-        #         # sell stocks
-        #         pass
-        #     elif breakout_color == 'red':
-        #         # sell stocks
-        #         pass
+        accounts = df['Account'].unique()
+        account_dfs = {account: df[df['Account'] == account] for account in accounts}
+
+        print(account_dfs)
+
+        # Calculate cumulative value by account
+        cumulative_values = {}
+        for account, account_df in account_dfs.items():
+            cumulative_values[account] = account_df['Amount ($)'].sum()
+
+        print(cumulative_values)
+
+        # Calculate cumulative value by symbol
+        cumulative_values = {}
+        for account, account_df in account_dfs.items():
+            symbols = account_df['Symbol'].unique()
+            symbol_dfs = {symbol: account_df[account_df['Symbol'] == symbol] for symbol in symbols}
+            cumulative_values[account] = {symbol: symbol_df['Amount ($)'].sum() for symbol, symbol_df in symbol_dfs.items()}
+
+        print(cumulative_values)
+
 
 
 
