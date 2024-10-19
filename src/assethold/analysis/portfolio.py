@@ -20,14 +20,19 @@ class Portfolio():
 
         expected_columns = ['Run Date', 'Account', 'Action', 'Symbol', 'Description', 'Type', 'Quantity', 'Price ($)', 'Commission ($)', 'Fees ($)', 'Accrued Interest ($)', 'Amount ($)', 'Settlement Date']
 
-        # Read the CSV file, ignoring rows with more than 13 columns
         df = pd.read_csv(file_path, usecols=range(13), names=expected_columns, header=0, on_bad_lines='skip')
 
         df['Run Date'] = pd.to_datetime(df['Run Date'])
 
-        df['Amount ($)'] = pd.to_numeric(df['Amount ($)'], errors='coerce').fillna(0) # Convert to numeric, fill NaN with 0
+        df['Amount ($)'] = pd.to_numeric(df['Amount ($)'], errors='coerce').fillna(0) # fill NaN with 0
 
-        accounts = df['Account'].unique()
+        df['Symbol'] = df['Symbol'].str.strip() # Remove trailing whitespaces
+
+        # Replace with 'Unknown'
+        df['Symbol'] = df['Symbol'].fillna('Unknown') 
+        df.loc[df['Symbol'] == '', 'Symbol'] = 'Unknown'
+
+        accounts = df['Account'].unique() 
         account_dfs = {account: df[df['Account'] == account] for account in accounts}
 
         print(account_dfs)
