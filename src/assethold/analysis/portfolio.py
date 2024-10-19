@@ -23,25 +23,23 @@ class Portfolio():
         # Read the CSV file, ignoring rows with more than 13 columns
         df = pd.read_csv(file_path, usecols=range(13), names=expected_columns, header=0, on_bad_lines='skip')
 
-        # Convert 'Run Date' to datetime
         df['Run Date'] = pd.to_datetime(df['Run Date'])
 
-        # Calculate cumulative value by account and symbol
-        df['Amount ($)'] = pd.to_numeric(df['Amount ($)'], errors='coerce').fillna(0)
+        df['Amount ($)'] = pd.to_numeric(df['Amount ($)'], errors='coerce').fillna(0) # Convert to numeric, fill NaN with 0
 
         accounts = df['Account'].unique()
         account_dfs = {account: df[df['Account'] == account] for account in accounts}
 
         print(account_dfs)
 
-        # Calculate cumulative value by account
+        # Cumulative value by account
         cumulative_values = {}
         for account, account_df in account_dfs.items():
             cumulative_values[account] = account_df['Amount ($)'].sum()
 
         print(cumulative_values)
 
-        # Calculate cumulative value by symbol
+        # Cumulative value by symbol
         cumulative_values = {}
         for account, account_df in account_dfs.items():
             symbols = account_df['Symbol'].unique()
