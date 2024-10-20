@@ -1,5 +1,6 @@
 # Third party imports
 import pandas as pd # noqa
+import numpy as np # noqa
 
 class Portfolio():
     
@@ -14,7 +15,6 @@ class Portfolio():
     
     def portfolio_value(self, cfg):
 
-        #TODO dividends need to be formatted and read
         data_format = 'fidelity'
         file_path = cfg['portfolio']['transaction_csv']
 
@@ -24,20 +24,17 @@ class Portfolio():
 
         df['Run Date'] = pd.to_datetime(df['Run Date'])
 
-        df['Amount ($)'] = pd.to_numeric(df['Amount ($)'], errors='coerce').fillna(0) # fill NaN with 0
+        df['Amount ($)'] = pd.to_numeric(df['Amount ($)'], errors='coerce').fillna(0)
 
-        df['Symbol'] = df['Symbol'].str.strip() 
+        df['Symbol'] = df['Symbol'].str.strip()
+        df['Symbol'].replace('', np.nan, inplace=True) # replace empty strings with NaN
         df['Account'] = df['Account'].str.strip()
 
         #  replace missing 'Symbol' with 'cash'
         mask_individual = (df['Account'] == 'Individual X78707567') & df['Symbol'].isna() & df['Action'].str.contains('cash', case=False, na=False)
         df.loc[mask_individual, 'Symbol'] = 'cash'
 
-        #  replace empty string ('')  with 'cash'
-        mask_individual = (df['Account'] == 'Individual X78707567') & (df['Symbol'] == '') & df['Action'].str.contains('cash', case=False)
-        df.loc[mask_individual, 'Symbol'] = 'cash'
-
-        # Handle 'CENCORA 82897' account: replace missing 'Symbol' with the 'Description' value
+        # replace missing 'Symbol' with the 'Description' value
         cencora_acc = (df['Account'] == 'CENCORA 82897') & df['Symbol'].isna() 
         df.loc[cencora_acc, 'Symbol'] = df.loc[cencora_acc, 'Description']
 
