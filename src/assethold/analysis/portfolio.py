@@ -26,11 +26,20 @@ class Portfolio():
 
         df['Amount ($)'] = pd.to_numeric(df['Amount ($)'], errors='coerce').fillna(0) # fill NaN with 0
 
-        df['Symbol'] = df['Symbol'].str.strip() # Remove trailing whitespaces
+        df['Symbol'] = df['Symbol'].str.strip() 
+        df['Account'] = df['Account'].str.strip()
 
-        # Replace with 'Unknown'
-        df['Symbol'] = df['Symbol'].fillna('Unknown') 
-        df.loc[df['Symbol'] == '', 'Symbol'] = 'Unknown'
+        #  replace missing 'Symbol' with 'cash'
+        mask_individual = (df['Account'] == 'Individual X78707567') & df['Symbol'].isna() & df['Action'].str.contains('cash', case=False, na=False)
+        df.loc[mask_individual, 'Symbol'] = 'cash'
+
+        #  replace empty string ('')  with 'cash'
+        mask_individual = (df['Account'] == 'Individual X78707567') & (df['Symbol'] == '') & df['Action'].str.contains('cash', case=False)
+        df.loc[mask_individual, 'Symbol'] = 'cash'
+
+        # Handle 'CENCORA 82897' account: replace missing 'Symbol' with the 'Description' value
+        cencora_acc = (df['Account'] == 'CENCORA 82897') & df['Symbol'].isna() 
+        df.loc[cencora_acc, 'Symbol'] = df.loc[cencora_acc, 'Description']
 
         accounts = df['Account'].unique() 
         account_dfs = {account: df[df['Account'] == account] for account in accounts}
