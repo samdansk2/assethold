@@ -56,16 +56,16 @@ dictitems:
     ticker: CVX
   Analysis:
     basename: stock
-    analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis
+    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\./input_files
     file_name: breakout_CVX
     file_name_for_overwrite: breakout_CVX
-    result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
-    log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\logs
-    start_time: 2024-10-10 11:45:34.096756
+    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\./input_files\results
+    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\./input_files\logs
+    start_time: 2024-10-21 10:00:22.106610
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\breakout_CVX.yml
-    fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\results
+    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\./input_files/breakout_CVX.yml
+    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\./input_files\results
   stock:
     data:
       status:

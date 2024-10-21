@@ -187,7 +187,7 @@ class StockAnalysis():
         ticker = cfg['input']['ticker']
         breakout_daily_data_trend_df = pd.DataFrame(trend_data) 
 
-        csv_file_path = f'src/assethold/tests/test_data/analysis/results/Data/breakout_data_trend_{ticker}.csv'
+        csv_file_path = f'src/assethold/tests/test_data/analysis/input_files/results/Data/breakout_data_trend_{ticker}.csv'
         breakout_daily_data_trend_df.to_csv(csv_file_path, index=False)
            
               

@@ -4,28 +4,11 @@ analysis:
   flag: True
   breakout: True
 
-breakout_settings:
-  duration: 5 
-  period:
-    - start_date: 2018-09-01
-    - end_date: 2024-09-30
-
-  portfolio:
-    - criteria: breakout_2_or_more_fail
-      colour: red
-      action: sell
-      amount: 500 # per week
-      limit: 20 # % of the total holdings
-    - criteria: breakout_1_fail
-      colour: gold
-      action: sell
-      amount: 200 # per week
-      limit: 50 # % of the total holdings
-    - criteria: breakout_0_fail
-      colour: green
-      action: buy
-      amount: 1000 # per week
-      limit: 50 # % of the total holdings
+data:
+  period: 1y
+  by_date:
+    - start: 2023-09-01
+    - end: 2024-09-30
 
 input:
   ticker: WMT
