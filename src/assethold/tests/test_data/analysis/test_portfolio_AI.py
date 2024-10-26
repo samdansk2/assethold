@@ -14,11 +14,11 @@ def run_process(input_file, expected_result={}):
     if input_file is not None and not os.path.isfile(input_file):
         input_file = os.path.join(os.path.dirname(__file__), input_file)
     cfg = engine(input_file)
-    #assert(cfg[cfg['basename']] == expected_result[expected_result['basename']])
+    assert(cfg[cfg['basename']] == expected_result[expected_result['basename']])
 
 def test_run_process():
     input_file = './input_files/portfolio_AI.yml'
-    pytest_output_file = 'results/pytest_breakout_RIG.yml'
+    pytest_output_file = './input_files/_pytest_portfolio.yml'
 
     file_is_valid, pytest_output_file = is_file_valid_func(pytest_output_file, os.path.dirname(__file__))
 
