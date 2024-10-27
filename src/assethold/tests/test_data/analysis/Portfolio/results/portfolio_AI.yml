@@ -28,7 +28,7 @@ dictitems:
     file_name_for_overwrite: portfolio_AI
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\logs
-    start_time: 2024-10-27 10:45:01.827451
+    start_time: 2024-10-27 11:25:17.275041
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\portfolio_AI.yml

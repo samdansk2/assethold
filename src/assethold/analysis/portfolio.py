@@ -10,8 +10,8 @@ class Portfolio:
 
     def router(self, cfg):
 
-        csv_folder = r"src\assethold\tests\test_data\analysis\Portfolio\results\Data" 
-        os.makedirs(csv_folder, exist_ok=True)  
+        results_path = r"src\assethold\tests\test_data\analysis\Portfolio\results\Data" 
+        os.makedirs(results_path, exist_ok=True)  
 
         all_years_by_account = {}
         all_years_by_symbol = {}
@@ -21,33 +21,34 @@ class Portfolio:
             year = file_path.split('/')[-1].split('.')[0]  # Extract year from file name
             yearly_data = self.portfolio_value(file_path)
 
-            for account, value in yearly_data['by_account'].items():
-                if account not in all_years_by_account:
-                    all_years_by_account[account] = {}
-                all_years_by_account[account][year] = value
-
-            for symbol, value in yearly_data['by_symbol'].items():
-                if symbol not in all_years_by_symbol:
-                    all_years_by_symbol[symbol] = {}
-                all_years_by_symbol[symbol][year] = value
+            all_years_by_account[year] = yearly_data['by_account']
+            all_years_by_symbol[year] = yearly_data['by_symbol']
         
-        by_account_path = os.path.join(csv_folder, "by_account.txt")
-        by_symbol_path = os.path.join(csv_folder, "by_symbol.txt")
+        by_account_path = os.path.join(results_path, "by_account.txt")
+        by_symbol_path = os.path.join(results_path, "by_symbol.txt")
 
         with open(by_account_path, "w") as f:
-            f.write("Account-wise Cumulative Values by Year:\n")
-            for account, years in all_years_by_account.items():
-                f.write(f"\nAccount: {account}\n")
-                for year, value in years.items():
-                    f.write(f"  {year}: {value}\n")
-
-
+            for year, accounts in all_years_by_account.items():
+                f.write(f"Year: {year}\n")
+                f.write("+" + "-"*25 + "+" + "-"*20 + "+\n")
+                f.write("| Account                 | Cumulative Value    |\n")
+                f.write("+" + "-"*25 + "+" + "-"*20 + "+\n")
+                for account, value in accounts.items():
+                    f.write(f"| {account:<23} | {value:<18} |\n")
+                f.write("+" + "-"*25 + "+" + "-"*20 + "+\n\n")
+        
         with open(by_symbol_path, "w") as f:
-            f.write("Symbol-wise Cumulative Values by Year:\n")
-            for symbol, years in all_years_by_symbol.items():
-                f.write(f"\nSymbol: {symbol}\n")
-                for year, value in years.items():
-                    f.write(f"  {year}: {value}\n")
+            for year, symbols in all_years_by_symbol.items():
+                f.write(f"Year: {year}\n")
+                for account, symbol_values in symbols.items():
+                    f.write(f"| Account: {account:<19} |\n")
+                    f.write("+" + "-"*25 + "+" + "-"*20 + "+\n")
+                    f.write("| Symbol                  | Cumulative Value    |\n")
+                    f.write("+" + "-"*25 + "+" + "-"*20 + "+\n")
+                    for symbol, value in symbol_values.items():
+                        f.write(f"| {symbol:<23} | {value:<18} |\n")
+                    f.write("+" + "-"*25 + "+" + "-"*20 + "+\n")
+                f.write("\n")
 
         print(f"****Cumulative values for each year have been saved successfully.****")
         print()
