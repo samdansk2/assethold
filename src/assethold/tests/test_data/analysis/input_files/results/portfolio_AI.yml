@@ -14,7 +14,11 @@ dictitems:
   data:
     period: 10y
   portfolio:
-    transaction_csv: src/assethold/data/stocks/client1/2020.csv
+    2020_csv: src/assethold/data/stocks/client1/2020.csv
+    2021_csv: src/assethold/data/stocks/client1/2021.csv
+    2022_csv: src/assethold/data/stocks/client1/2022.csv
+    2023_csv: src/assethold/data/stocks/client1/2023.csv
+    2024_csv: src/assethold/data/stocks/client1/2024.csv
   input:
     ticker: XOM
   Analysis:
@@ -24,7 +28,7 @@ dictitems:
     file_name_for_overwrite: portfolio_AI
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\./input_files\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\./input_files\logs
-    start_time: 2024-10-20 11:06:31.065310
+    start_time: 2024-10-27 09:57:12.731266
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\./input_files/portfolio_AI.yml

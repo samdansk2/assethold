@@ -47,6 +47,7 @@ class StockAnalysis():
 
             analysis_status = {'breakout_trend': breakout_trend['status']}
             analysis = {'data': analysis_output, 'status': status}
+
         elif 'analysis' in cfg and cfg['analysis'].get('portfolio', False):
             cfg = portfolio.router(cfg)
 

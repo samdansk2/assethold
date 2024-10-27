@@ -18,7 +18,7 @@ def run_process(input_file, expected_result={}):
 
 def test_run_process():
     input_file = './input_files/portfolio_AI.yml'
-    pytest_output_file = './input_files/_pytest_portfolio.yml'
+    pytest_output_file = './input_files/results/pytest_portfolio.yml'
 
     file_is_valid, pytest_output_file = is_file_valid_func(pytest_output_file, os.path.dirname(__file__))
 

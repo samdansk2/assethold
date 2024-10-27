@@ -22,6 +22,8 @@ class Portfolio:
                 print(f"  Account: {account}, Cumulative Value: {account_values}")
             print(f"  By Symbol: {values['by_symbol']}")
             print()
+            
+        return cfg
 
     def portfolio_value(self, file_path):
 
