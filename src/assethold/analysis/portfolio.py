@@ -1,6 +1,7 @@
 import pandas as pd #noqa
 import yaml #noqa
 import numpy as np #noqa
+import os #noqa
 
 class Portfolio:
     
@@ -9,20 +10,48 @@ class Portfolio:
 
     def router(self, cfg):
 
-        years_data = cfg['portfolio']
-        cumulative_results = {}
+        csv_folder = r"src\assethold\tests\test_data\analysis\Portfolio\results\Data" 
+        os.makedirs(csv_folder, exist_ok=True)  
 
+        all_years_by_account = {}
+        all_years_by_symbol = {}
+
+        years_data = cfg['portfolio']
         for key, file_path in years_data.items():
             year = file_path.split('/')[-1].split('.')[0]  # Extract year from file name
-            cumulative_results[year] = self.portfolio_value(file_path)
+            yearly_data = self.portfolio_value(file_path)
 
-        for year, values in cumulative_results.items():
-            print(f"Year: {year}")
-            for account, account_values in values['by_account'].items():
-                print(f"  Account: {account}, Cumulative Value: {account_values}")
-            print(f"  By Symbol: {values['by_symbol']}")
-            print()
-            
+            for account, value in yearly_data['by_account'].items():
+                if account not in all_years_by_account:
+                    all_years_by_account[account] = {}
+                all_years_by_account[account][year] = value
+
+            for symbol, value in yearly_data['by_symbol'].items():
+                if symbol not in all_years_by_symbol:
+                    all_years_by_symbol[symbol] = {}
+                all_years_by_symbol[symbol][year] = value
+        
+        by_account_path = os.path.join(csv_folder, "by_account.txt")
+        by_symbol_path = os.path.join(csv_folder, "by_symbol.txt")
+
+        with open(by_account_path, "w") as f:
+            f.write("Account-wise Cumulative Values by Year:\n")
+            for account, years in all_years_by_account.items():
+                f.write(f"\nAccount: {account}\n")
+                for year, value in years.items():
+                    f.write(f"  {year}: {value}\n")
+
+
+        with open(by_symbol_path, "w") as f:
+            f.write("Symbol-wise Cumulative Values by Year:\n")
+            for symbol, years in all_years_by_symbol.items():
+                f.write(f"\nSymbol: {symbol}\n")
+                for year, value in years.items():
+                    f.write(f"  {year}: {value}\n")
+
+        print(f"****Cumulative values for each year have been saved successfully.****")
+        print()
+
         return cfg
 
     def portfolio_value(self, file_path):
@@ -38,7 +67,7 @@ class Portfolio:
         df['Run Date'] = pd.to_datetime(df['Run Date'])
         df['Amount ($)'] = pd.to_numeric(df['Amount ($)'], errors='coerce').fillna(0)
         df['Symbol'] = df['Symbol'].str.strip()
-        df['Symbol'].replace('', np.nan, inplace=True) # replace empty strings with NaN
+        df['Symbol'] = df['Symbol'].replace('', np.nan) # replace empty strings with NaN
         df['Account'] = df['Account'].str.strip()
 
         #  replace missing 'Symbol' with 'cash'
