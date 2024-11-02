@@ -10,7 +10,7 @@ from assetutilities.common.update_deep import update_deep_dictionary
 # Reader imports
 from assethold.analysis.portfolio import Portfolio
 
-portfolio = Portfolio(cfg=None)
+portfolio = Portfolio()
 
 class StockAnalysis():
 

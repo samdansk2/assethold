@@ -5,50 +5,38 @@ import os #noqa
 
 class Portfolio:
     
-    def __init__(self, cfg):
-        self.cfg = cfg
+    def __init__(self):
+        pass
 
     def router(self, cfg):
+        self.cfg = cfg
 
         results_path = r"src\assethold\tests\test_data\analysis\Portfolio\results\Data" 
         os.makedirs(results_path, exist_ok=True)  
 
-        all_years_by_account = {}
-        all_years_by_symbol = {}
-
+        cumulative_by_account = {}
+        cumulative_by_symbol = {}
         years_data = cfg['portfolio']
+
         for key, file_path in years_data.items():
-            year = file_path.split('/')[-1].split('.')[0]  # Extract year from file name
-            yearly_data = self.portfolio_value(file_path)
+            year = file_path.split('/')[-1].split('.')[0]
+            year_data = self.portfolio_value(file_path)
 
-            all_years_by_account[year] = yearly_data['by_account']
-            all_years_by_symbol[year] = yearly_data['by_symbol']
-        
-        by_account_path = os.path.join(results_path, "by_account.txt")
-        by_symbol_path = os.path.join(results_path, "by_symbol.txt")
+            for account, value in year_data['by_account'].items():
+                if account not in cumulative_by_account:
+                    cumulative_by_account[account]={}
+                cumulative_by_account[account][year]=value
 
-        with open(by_account_path, "w") as f:
-            for year, accounts in all_years_by_account.items():
-                f.write(f"Year: {year}\n")
-                f.write("+" + "-"*25 + "+" + "-"*20 + "+\n")
-                f.write("| Account                 | Cumulative Value    |\n")
-                f.write("+" + "-"*25 + "+" + "-"*20 + "+\n")
-                for account, value in accounts.items():
-                    f.write(f"| {account:<23} | {value:<18} |\n")
-                f.write("+" + "-"*25 + "+" + "-"*20 + "+\n\n")
-        
-        with open(by_symbol_path, "w") as f:
-            for year, symbols in all_years_by_symbol.items():
-                f.write(f"Year: {year}\n")
-                for account, symbol_values in symbols.items():
-                    f.write(f"| Account: {account:<19} |\n")
-                    f.write("+" + "-"*25 + "+" + "-"*20 + "+\n")
-                    f.write("| Symbol                  | Cumulative Value    |\n")
-                    f.write("+" + "-"*25 + "+" + "-"*20 + "+\n")
-                    for symbol, value in symbol_values.items():
-                        f.write(f"| {symbol:<23} | {value:<18} |\n")
-                    f.write("+" + "-"*25 + "+" + "-"*20 + "+\n")
-                f.write("\n")
+            for symbol, value in year_data['by_symbol'].items():
+                if symbol not in cumulative_by_symbol:
+                    cumulative_by_symbol[symbol]={}
+                cumulative_by_symbol[symbol][year]=value
+
+            df_account = pd.DataFrame(cumulative_by_account)
+            df_symbol = pd.DataFrame(cumulative_by_symbol)
+
+            df_account.to_csv(os.path.join(results_path,"by_account.csv"))
+            df_symbol.to_csv(os.path.join(results_path,"by_symbol.csv"))
 
         print(f"****Cumulative values for each year have been saved successfully.****")
         print()
