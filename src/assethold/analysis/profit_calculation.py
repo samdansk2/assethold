@@ -10,20 +10,20 @@ class TickerProfit:
     def router(self, cfg):
         
         self.cfg = cfg
+        self.calculate_profit(cfg)
         return cfg
 
-    def calculate_profit(cfg):
+    def calculate_profit(self, cfg):
 
         ticker = cfg['input']['ticker']
-        initial_investment = cfg['data']['initial_investment']
-        start_date = cfg['data']['start_date']
-        end_date = cfg['data']['end_date']
-        interval = cfg['data']['interval']
+        initial_investment = cfg['parameters']['initial_investment']
+        start_date = cfg['parameters']['start_date']
+        end_date = cfg['parameters']['end_date']
 
         stock_ticker_object = yf.Ticker(ticker)
         dividends = stock_ticker_object.dividends
 
-        price_data = yf.download(ticker, start=start_date, end=end_date, interval=interval)
+        price_data = yf.download(ticker, start=start_date, end=end_date,interval='1d') 
 
         price_data['Price Change %'] = price_data['Adj Close'].iloc[:].subtract(price_data['Adj Close'].iloc[0])
 

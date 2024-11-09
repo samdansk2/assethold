@@ -8,9 +8,12 @@ analysis:
 
 data:
   period: 10y
+
+type: frequent investment
+parameters:
   initial_investment: 100 # rupees
-  frequency: monthly
-  interval: 1mo
+  frequency: daily
+  interval: 1d # day
   buy_date: 2020-01-01
   start_date: 2020-01-01
   end_date: 2024-01-01

@@ -14,9 +14,10 @@ dictitems:
     profit: true
   data:
     period: 10y
+  parameters:
     initial_investment: 100
-    frequency: monthly
-    interval: 1mo
+    frequency: daily
+    interval: 1d
     buy_date: 2020-01-01
     start_date: 2020-01-01
     end_date: 2024-01-01
@@ -29,7 +30,7 @@ dictitems:
     file_name_for_overwrite: ticker_profit
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\logs
-    start_time: 2024-11-09 11:32:08.959091
+    start_time: 2024-11-09 12:50:28.898840
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\ticker_profit.yml
