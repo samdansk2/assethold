@@ -9,8 +9,10 @@ from assetutilities.common.update_deep import update_deep_dictionary
 
 # Reader imports
 from assethold.analysis.portfolio import Portfolio
+from assethold.analysis.profit_calculation import TickerProfit
 
 portfolio = Portfolio()
+profit = TickerProfit()
 
 class StockAnalysis():
 
@@ -50,6 +52,8 @@ class StockAnalysis():
 
         elif 'analysis' in cfg and cfg['analysis'].get('portfolio', False):
             cfg = portfolio.router(cfg)
+        elif 'analysis' in cfg and cfg['analysis'].get('profit', False):
+            cfg = profit.router(cfg)
 
         cfg_status_dict = {cfg['basename']: {'analysis': {'status': analysis_status}}}
         cfg = update_deep_dictionary(cfg, cfg_status_dict)
@@ -188,7 +192,7 @@ class StockAnalysis():
         ticker = cfg['input']['ticker']
         breakout_daily_data_trend_df = pd.DataFrame(trend_data) 
 
-        csv_file_path = f'src/assethold/tests/test_data/analysis/input_files/results/Data/breakout_data_trend_{ticker}.csv'
+        csv_file_path = f'src\assethold\tests\test_data\analysis\breakout\results\Data\breakout_data_trend_{ticker}.csv'
         breakout_daily_data_trend_df.to_csv(csv_file_path, index=False)
            
               

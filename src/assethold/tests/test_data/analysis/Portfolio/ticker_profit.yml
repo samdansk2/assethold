@@ -1,0 +1,25 @@
+basename: stock
+
+analysis:
+  flag: True
+  breakout: False
+  portfolio: False
+  profit: True
+
+data:
+  period: 10y
+  initial_investment: 100 # rupees
+  frequency: monthly
+  interval: 1mo
+  buy_date: 2020-01-01
+  start_date: 2020-01-01
+  end_date: 2024-01-01
+
+input:
+  ticker: XOM
+
+default:
+  log_level: INFO
+  config:
+    overwrite:
+      output: True
