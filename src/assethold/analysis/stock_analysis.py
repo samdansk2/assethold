@@ -12,7 +12,7 @@ from assethold.analysis.portfolio import Portfolio
 from assethold.analysis.profit_calculation import TickerProfit
 
 portfolio = Portfolio()
-profit = TickerProfit()
+tp = TickerProfit()
 
 class StockAnalysis():
 
@@ -53,7 +53,7 @@ class StockAnalysis():
         elif 'analysis' in cfg and cfg['analysis'].get('portfolio', False):
             cfg = portfolio.router(cfg)
         elif 'analysis' in cfg and cfg['analysis'].get('profit', False):
-            cfg = profit.router(cfg)
+            cfg = tp.router(cfg)
 
         cfg_status_dict = {cfg['basename']: {'analysis': {'status': analysis_status}}}
         cfg = update_deep_dictionary(cfg, cfg_status_dict)

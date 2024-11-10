@@ -11,6 +11,7 @@ class TickerProfit:
         
         self.cfg = cfg
         self.calculate_profit(cfg)
+
         return cfg
 
     def calculate_profit(self, cfg):
@@ -25,7 +26,7 @@ class TickerProfit:
 
         price_data = yf.download(ticker, start=start_date, end=end_date,interval='1d') 
 
-        price_data['Price Change %'] = price_data['Adj Close'].iloc[:].subtract(price_data['Adj Close'].iloc[0])
+        price_data['Price Change %'] = price_data['Adj Close'].iloc[:].subtract(price_data['Adj Close'].iloc[0]) 
 
         price_data['overall_profit'] = price_data['Price Change %'] * (initial_investment / 100)
         price_data['value'] = price_data['overall_profit'].add(initial_investment)
