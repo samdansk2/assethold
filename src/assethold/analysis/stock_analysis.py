@@ -8,11 +8,11 @@ import pytz
 from assetutilities.common.update_deep import update_deep_dictionary
 
 # Reader imports
+from assethold.analysis.investment_value import InvestmentValue
 from assethold.analysis.portfolio import Portfolio
-from assethold.analysis.profit_calculation import TickerProfit
 
 portfolio = Portfolio()
-tp = TickerProfit()
+tp = InvestmentValue()
 
 class StockAnalysis():
 

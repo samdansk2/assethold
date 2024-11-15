@@ -19,7 +19,7 @@ parameters:
   end_date: 2024-01-01
 
 input:
-  ticker: AAPL
+  ticker: XOM
 
 default:
   log_level: INFO

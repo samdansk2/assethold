@@ -23,24 +23,24 @@ dictitems:
     start_date: 2023-01-01
     end_date: 2024-01-01
   input:
-    ticker: AAPL
+    ticker: XOM
   Analysis:
     basename: stock
-    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio
+    analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio
     file_name: ticker_profit
     file_name_for_overwrite: ticker_profit
-    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\results
-    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\logs
-    start_time: 2024-11-15 17:05:45.384148
+    result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\results
+    log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\logs
+    start_time: 2024-11-15 10:57:22.139488
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\ticker_profit.yml
-    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\results
+    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\ticker_profit.yml
+    fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\results
   stock:
     data:
       status:
         daily: true
         info: true
-        insider: false
+        insider: true
     analysis:
       status: {}

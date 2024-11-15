@@ -1,16 +1,15 @@
 # Third party imports
+import pandas as pd
 import yfinance as yf
 
-import pandas as pd
 
-
-class TickerProfit:
+class InvestmentValue:
 
     def __init__(self):
         pass
 
     def router(self, cfg):
-        
+
         self.cfg = cfg
         self.calculate_profit(cfg)
 
@@ -18,6 +17,7 @@ class TickerProfit:
 
     def calculate_profit(self, cfg):
 
+        # Data
         ticker = cfg['input']['ticker']
         investment_amount = cfg['parameters']['initial_investment']
         start_date = cfg['parameters']['start_date']
@@ -33,7 +33,7 @@ class TickerProfit:
         monthly_data = stock_data.groupby('Month').first()  # Get the first day of each month
         total_months = len(monthly_data)
         total_invested_monthly = total_months * investment_amount
-        
+
         # total value calculation
         monthly_units = (investment_amount / monthly_data['Close']).sum()
         current_price = stock_data['Close'][-1]
@@ -42,6 +42,7 @@ class TickerProfit:
             "total_invested": total_invested_monthly,
             "total_value": total_value_monthly,
             "profit": total_value_monthly - total_invested_monthly,
+            "% profit": ((total_value_monthly - total_invested_monthly) / total_invested_monthly) * 100,
         }
 
         total_days = len(stock_data)
@@ -62,5 +63,18 @@ class TickerProfit:
         daily_df = pd.DataFrame([daily_results])
         daily_df.to_csv(f"{csv_path}/daily_investment_.csv", index=False)
 
-        
-        
+    def single_investment_value_calculation(cfg):
+        '''
+        Calcuate single investement value with time
+        A dataframe with daily price, unit bought, value of investment, profit and % profit
+        '''
+        pass
+    
+    def multiple_investment_value_calculation(cfg):
+        '''
+        Calcuate multiple investement value with time
+        Assume investment is done on a monthly basis 
+        Other investment intervals: semi-monthly, 1 month low, 2 month low, 3 month low, 6 month low, 1 year low
+        A dataframe with daily price, unit bought, value of investment, profit and % profit
+        '''
+        pass

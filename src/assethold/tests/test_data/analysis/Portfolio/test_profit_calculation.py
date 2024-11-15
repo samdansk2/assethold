@@ -2,12 +2,12 @@
 import os
 import sys
 
+# Reader imports
+from assethold.engine import engine
+
 # Third party imports
 from assetutilities.common.utilities import is_file_valid_func
 from assetutilities.common.yml_utilities import ymlInput
-
-# Reader imports
-from assethold.engine import engine
 
 
 def run_process(input_file, expected_result={}):
