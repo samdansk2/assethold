@@ -33,6 +33,8 @@ class TickerProfit:
         monthly_data = stock_data.groupby('Month').first()  # Get the first day of each month
         total_months = len(monthly_data)
         total_invested_monthly = total_months * investment_amount
+        
+        # total value calculation
         monthly_units = (investment_amount / monthly_data['Close']).sum()
         current_price = stock_data['Close'][-1]
         total_value_monthly = monthly_units * current_price
