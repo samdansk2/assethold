@@ -11,31 +11,29 @@ dictitems:
     flag: true
     breakout: false
     portfolio: false
-    profit: true
+    investment: true
   data:
-    period: 10y
+    period: 1y
   type: frequent investment
   parameters:
     initial_investment: 100
     frequency: daily
     interval: 1d
-    buy_date: 2020-01-01
-    start_date: 2023-01-01
-    end_date: 2024-01-01
+    buy_date: 2023-11-01
   input:
     ticker: XOM
   Analysis:
     basename: stock
-    analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio
+    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio
     file_name: ticker_profit
     file_name_for_overwrite: ticker_profit
-    result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\results
-    log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\logs
-    start_time: 2024-11-15 10:57:22.139488
+    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\results
+    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\logs
+    start_time: 2024-11-16 12:31:35.494628
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\ticker_profit.yml
-    fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\results
+    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\ticker_profit.yml
+    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\results
   stock:
     data:
       status:
