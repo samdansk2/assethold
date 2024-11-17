@@ -9,7 +9,6 @@ analysis:
 data:
   period: 1y
 
-type: frequent investment
 parameters:
   initial_investment: 100 # rupees
   frequency: daily
