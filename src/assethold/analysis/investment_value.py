@@ -1,6 +1,5 @@
 # Third party imports
 import pandas as pd
-import yfinance as yf
 
 
 class InvestmentValue:
@@ -21,6 +20,7 @@ class InvestmentValue:
         Single investement value with time
         A dataframe with daily price, unit bought, value of investment and profit
         '''
+        ticker_data = ticker_data.copy()
         initial_investment = cfg['parameters']['initial_investment']
 
         ticker_data['Price Change %'] = ticker_data['Close'].subtract(ticker_data['Close'].iloc[0]) / ticker_data['Close'].iloc[0] * 100
@@ -37,27 +37,35 @@ class InvestmentValue:
         this is investment done on a monthly basis 
         A dataframe with daily price, unit bought, value of investment and profit
         '''
+        ticker_data = ticker_data.copy()
         initial_investment = cfg['parameters']['initial_investment']
 
-        ticker_data['Cumulative Units'] = 0
-        ticker_data['Cumulative Investment'] = 0
-        ticker_data['Cumulative Value'] = 0
+        ticker_data['Date'] = pd.to_datetime(ticker_data['Date'])
+        ticker_data = ticker_data.sort_values(by='Date')
 
-        total_units = 0
-        total_investment = 0
+        ticker_data['Units bought'] = 0.0
+        ticker_data['Investment'] = 0.0
+        ticker_data['Value'] = 0.0
+
+        total_units = 0.0
+        total_investment = 0.0
+        last_month = None
 
         for idx, row in ticker_data.iterrows():
-            if idx % 30 == 0:  # Assume data is daily; invest every 30 days
+
+            current_month = row['Date'].month
+
+            if current_month != last_month:
                 total_units += initial_investment / row['Close']
                 total_investment += initial_investment
-
-            # Calculate cumulative value for the current day
+                last_month = current_month
+            
             current_value = total_units * row['Close']
-            ticker_data.at[idx, 'Cumulative Units'] = total_units
-            ticker_data.at[idx, 'Cumulative Investment'] = total_investment
-            ticker_data.at[idx, 'Cumulative Value'] = current_value
+            ticker_data.at[idx, 'Units bought'] = total_units
+            ticker_data.at[idx, 'Investment'] = total_investment
+            ticker_data.at[idx, 'Value'] = current_value
 
-        ticker_data['Profit'] = ticker_data['Cumulative Value'] - ticker_data['Cumulative Investment']
+        ticker_data['Overall Profit'] = ticker_data['Value'] - ticker_data['Investment']
 
         csv_path = r'src\assethold\tests\test_data\analysis\Portfolio\results\Data'
         ticker_data.to_csv(f'{csv_path}\\multiple_investment.csv', index=False)
