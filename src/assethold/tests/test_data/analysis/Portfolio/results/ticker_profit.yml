@@ -16,7 +16,6 @@ dictitems:
     period: 1y
   parameters:
     initial_investment: 100
-    frequency: daily
     interval: 1d
     buy_date: 2023-11-01
   input:
@@ -28,7 +27,7 @@ dictitems:
     file_name_for_overwrite: ticker_profit
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\logs
-    start_time: 2024-11-17 11:39:04.293559
+    start_time: 2024-11-19 11:00:37.097648
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\ticker_profit.yml

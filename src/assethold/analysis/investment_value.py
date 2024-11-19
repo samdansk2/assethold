@@ -9,7 +9,6 @@ class InvestmentValue:
 
     def router(self, cfg, daily_data):
 
-        self.cfg = cfg
         self.single_investment(cfg, daily_data)
         self.multiple_investment(cfg, daily_data)
 
@@ -19,12 +18,9 @@ class InvestmentValue:
         
         ticker_data = ticker_data.copy()
         initial_investment = cfg['parameters']['initial_investment']
-        frequency = cfg['parameters']['frequency']
 
-        if frequency == 'daily':
-            self.calculate_single_investment(initial_investment, ticker_data)
-        else:
-            raise ValueError('Frequency not given for investment calculation')
+        self.calculate_single_investment(initial_investment, ticker_data)
+       
         
     def calculate_single_investment(self, initial_investment, ticker_data):
         '''
@@ -43,21 +39,17 @@ class InvestmentValue:
         
         ticker_data = ticker_data.copy()
         initial_investment = cfg['parameters']['initial_investment']
-        frequency = cfg['parameters']['frequency']
-        frequency = frequency.replace('daily', 'monthly')
         
         ticker_data['Date'] = pd.to_datetime(ticker_data['Date'])
         ticker_data = ticker_data.sort_values(by='Date')
 
-        if frequency == "monthly":
-            self.calculate_multiple_investment(initial_investment, ticker_data)
-        else:
-            raise ValueError("Frequency not given for investment calculation")
-    
+        self.calculate_multiple_investment(initial_investment, ticker_data)
+        
     def calculate_multiple_investment(self, initial_investment, ticker_data):
         '''
-        Multiple investement value with time i.e, monthly investment
-        this is investment done on a monthly basis 
+        Calcuate multiple investement value with time
+        Assume investment is done on a 'monthly basis' 
+        Other investment intervals: semi-monthly, 1 month low, 2 month low, 3 month low, 6 month low, 1 year low
         A dataframe with daily price, unit bought, value of investment and profit
         '''
 
