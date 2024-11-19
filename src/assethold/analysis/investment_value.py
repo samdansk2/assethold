@@ -20,8 +20,7 @@ class InvestmentValue:
         initial_investment = cfg['parameters']['initial_investment']
 
         self.calculate_single_investment(initial_investment, ticker_data)
-       
-        
+
     def calculate_single_investment(self, initial_investment, ticker_data):
         '''
         Single investement value with time
@@ -32,7 +31,7 @@ class InvestmentValue:
         ticker_data['Units Bought'] = initial_investment / ticker_data['Close']
         ticker_data['Overall Profit'] = ticker_data['Price Change %'] * (initial_investment / 100)
         ticker_data['Value'] = ticker_data['Overall Profit'] + initial_investment
-        
+
         # Calculate average_annual_invesment
         ticker_data['average_annual_investment'] = 0
         for idx, row in ticker_data.iterrows():
