@@ -22,16 +22,16 @@ dictitems:
     ticker: XOM
   Analysis:
     basename: stock
-    analysis_root_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio
+    analysis_root_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio
     file_name: ticker_profit
     file_name_for_overwrite: ticker_profit
-    result_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\results
-    log_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\logs
-    start_time: 2024-11-19 11:00:37.097648
+    result_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\results
+    log_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\logs
+    start_time: 2024-11-19 10:54:11.272552
     cfg_array_file_names: ~
     DefaultInputFile: ~
-    CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\ticker_profit.yml
-    fe_folder: c:\Users\Sk Samdan\Desktop\assethold\src\assethold\tests\test_data\analysis\Portfolio\results
+    CustomInputFile: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\ticker_profit.yml
+    fe_folder: c:\github\assethold\src\assethold\tests\test_data\analysis\portfolio\results
   stock:
     data:
       status:

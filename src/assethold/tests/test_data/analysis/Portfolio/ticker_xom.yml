@@ -1,0 +1,24 @@
+basename: stock
+
+analysis:
+  flag: True
+  breakout: False
+  portfolio: False
+  investment: True
+
+data:
+  period: 1y
+
+parameters:
+  initial_investment: 100 # rupees
+  interval: 1d # day
+  buy_date: 2023-11-01
+
+input:
+  ticker: XOM
+
+default:
+  log_level: INFO
+  config:
+    overwrite:
+      output: True

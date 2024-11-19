@@ -27,11 +27,23 @@ class InvestmentValue:
         Single investement value with time
         A dataframe with daily price, unit bought, value of investment and profit
         '''
-
+        ticker_data['Investment'] = initial_investment
         ticker_data['Price Change %'] = ticker_data['Close'].subtract(ticker_data['Close'].iloc[0]) / ticker_data['Close'].iloc[0] * 100
         ticker_data['Units Bought'] = initial_investment / ticker_data['Close']
         ticker_data['Overall Profit'] = ticker_data['Price Change %'] * (initial_investment / 100)
         ticker_data['Value'] = ticker_data['Overall Profit'] + initial_investment
+        
+        # Calculate average_annual_invesment
+        ticker_data['average_annual_investment'] = 0
+        for idx, row in ticker_data.iterrows():
+            if idx != 0:
+                average_annual_investment_increment = ticker_data.at[idx-1, 'Investment']*(row['Date'] - ticker_data['Date'].iloc[idx-1]).days/365
+                average_annual_investment = ticker_data.at[idx-1, 'average_annual_investment'] + average_annual_investment_increment
+                ticker_data.at[idx, 'average_annual_investment'] = average_annual_investment
+
+        ticker_data['average_days'] = ticker_data['Investment']*(ticker_data['Date'] - ticker_data['Date'].iloc[0]).dt.days
+
+        ticker_data['annual_profit'] = (ticker_data['Value'] - ticker_data['Investment'])/ticker_data['average_annual_investment']*100
 
         self.save_results(ticker_data, 'single_investment.csv')
     
