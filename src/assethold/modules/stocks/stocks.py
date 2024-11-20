@@ -1,6 +1,6 @@
 # Reader imports
-from assethold.analysis.stock_analysis import StockAnalysis
-from assethold.data.get_stock_data import GetStockData
+from assethold.modules.stocks.stock_analysis import StockAnalysis
+from assethold.modules.stocks.get_stock_data import GetStockData
 
 stk_data = GetStockData(cfg=None)
 stk_analysis = StockAnalysis(cfg=None)

@@ -8,8 +8,8 @@ import pytz
 from assetutilities.common.update_deep import update_deep_dictionary
 
 # Reader imports
-from assethold.analysis.investment_value import InvestmentValue
-from assethold.analysis.portfolio import Portfolio
+from assethold.modules.stocks.investment_value import InvestmentValue
+from assethold.modules.stocks.portfolio import Portfolio
 
 portfolio = Portfolio()
 tp = InvestmentValue()
