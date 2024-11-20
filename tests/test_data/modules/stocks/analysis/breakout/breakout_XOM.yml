@@ -1,5 +1,13 @@
 basename: stock
 
+config-dependency: 
+  assethold\tests\basename.yml
+  assethold\tests\modules\basename.yml
+  file not found error
+
+  assethold\base_configs\basename.yml
+
+
 analysis:
   flag: True
   breakout: True
