@@ -193,8 +193,8 @@ class StockAnalysis():
         ticker = cfg['input']['ticker']
         breakout_daily_data_trend_df = pd.DataFrame(trend_data) 
 
-        csv_file_path = f'src\assethold\tests\test_data\modules\stocks\analysis\breakout\results\Data\breakout_data_trend_{ticker}.csv'
-        breakout_daily_data_trend_df.to_csv(csv_file_path, index=False)
+        csv_file_path = f'src/assethold/tests/test_data/modules/stocks/analysis/breakout/results/Data/breakout_trend_{ticker}.csv'
+        breakout_daily_data_trend_df.to_csv(csv_file_path, index=False) 
            
               
         # Apply colors only when there's a change in plot color

@@ -14,49 +14,49 @@ class InvestmentValue:
 
         return cfg
 
-    def single_investment(self, cfg, ticker_data):
+    def single_investment(self, cfg, holdings_df):
         
-        ticker_data = ticker_data.copy()
+        holdings_df = holdings_df.copy()
         initial_investment = cfg['parameters']['initial_investment']
 
-        self.calculate_single_investment(initial_investment, ticker_data)
+        self.calculate_single_investment(initial_investment, holdings_df)
 
-    def calculate_single_investment(self, initial_investment, ticker_data):
+    def calculate_single_investment(self, initial_investment, holdings_df):
         '''
         Single investement value with time
         A dataframe with daily price, unit bought, value of investment and profit
         '''
-        ticker_data['Investment'] = initial_investment
-        ticker_data['Price Change %'] = ticker_data['Close'].subtract(ticker_data['Close'].iloc[0]) / ticker_data['Close'].iloc[0] * 100
-        ticker_data['Units Bought'] = initial_investment / ticker_data['Close']
-        ticker_data['Overall Profit'] = ticker_data['Price Change %'] * (initial_investment / 100)
-        ticker_data['Value'] = ticker_data['Overall Profit'] + initial_investment
+        holdings_df['investment'] = initial_investment
+        holdings_df['Price Change %'] = holdings_df['Close'].subtract(holdings_df['Close'].iloc[0]) / holdings_df['Close'].iloc[0] * 100
+        holdings_df['Units Bought'] = initial_investment / holdings_df['Close']
+        holdings_df['Overall Profit'] = holdings_df['Price Change %'] * (initial_investment / 100)
+        holdings_df['Value'] = holdings_df['Overall Profit'] + initial_investment
 
         # Calculate average_annual_invesment
-        ticker_data['average_annual_investment'] = 0
-        for idx, row in ticker_data.iterrows():
+        holdings_df['average_annual_investment'] = 0
+        for idx, row in holdings_df.iterrows():
             if idx != 0:
-                average_annual_investment_increment = ticker_data.at[idx-1, 'Investment']*(row['Date'] - ticker_data['Date'].iloc[idx-1]).days/365
-                average_annual_investment = ticker_data.at[idx-1, 'average_annual_investment'] + average_annual_investment_increment
-                ticker_data.at[idx, 'average_annual_investment'] = average_annual_investment
+                average_annual_investment_increment = holdings_df.at[idx-1, 'investment']*(row['Date'] - holdings_df['Date'].iloc[idx-1]).days/365
+                average_annual_investment = holdings_df.at[idx-1, 'average_annual_investment'] + average_annual_investment_increment
+                holdings_df.at[idx, 'average_annual_investment'] = average_annual_investment
 
-        ticker_data['average_days'] = ticker_data['Investment']*(ticker_data['Date'] - ticker_data['Date'].iloc[0]).dt.days
+        holdings_df['average_days'] = holdings_df['investment']*(holdings_df['Date'] - holdings_df['Date'].iloc[0]).dt.days
 
-        ticker_data['annual_profit'] = (ticker_data['Value'] - ticker_data['Investment'])/ticker_data['average_annual_investment']*100
+        holdings_df['annual_profit'] = (holdings_df['Value'] - holdings_df['investment'])/holdings_df['average_annual_investment']*100
 
-        self.save_results(ticker_data, 'single_investment.csv')
+        self.save_results(holdings_df, 'single_investment.csv')
     
-    def multiple_investment(self, cfg, ticker_data):
+    def multiple_investment(self, cfg, holdings_df):
         
-        ticker_data = ticker_data.copy()
+        holdings_df = holdings_df.copy()
         initial_investment = cfg['parameters']['initial_investment']
         
-        ticker_data['Date'] = pd.to_datetime(ticker_data['Date'])
-        ticker_data = ticker_data.sort_values(by='Date')
+        holdings_df['Date'] = pd.to_datetime(holdings_df['Date'])
+        holdings_df = holdings_df.sort_values(by='Date')
 
-        self.calculate_multiple_investment(initial_investment, ticker_data)
+        self.calculate_multiple_investment(initial_investment, holdings_df)
         
-    def calculate_multiple_investment(self, initial_investment, ticker_data):
+    def calculate_multiple_investment(self, initial_investment, holdings_df):
         '''
         Calcuate multiple investement value with time
         Assume investment is done on a 'monthly basis' 
@@ -64,15 +64,15 @@ class InvestmentValue:
         A dataframe with daily price, unit bought, value of investment and profit
         '''
 
-        ticker_data['Units bought'] = 0.0
-        ticker_data['Investment'] = 0.0
-        ticker_data['Value'] = 0.0
+        holdings_df['Units bought'] = 0.0
+        holdings_df['investment'] = 0.0
+        holdings_df['Value'] = 0.0
 
         total_units = 0.0
         total_investment = 0.0
         last_month = None
 
-        for idx, row in ticker_data.iterrows():
+        for idx, row in holdings_df.iterrows():
             current_month = row['Date'].month
 
             # Invest on the first occurrence of each month
@@ -82,14 +82,14 @@ class InvestmentValue:
                 last_month = current_month
 
             current_value = total_units * row['Close']
-            ticker_data.at[idx, 'Units bought'] = total_units
-            ticker_data.at[idx, 'Investment'] = total_investment
-            ticker_data.at[idx, 'Value'] = current_value
+            holdings_df.at[idx, 'Units bought'] = total_units
+            holdings_df.at[idx, 'investment'] = total_investment
+            holdings_df.at[idx, 'Value'] = current_value
         
-        ticker_data['Overall Profit'] = ticker_data['Value'] - ticker_data['Investment']
-        self.save_results(ticker_data, 'multiple_investment.csv')
+        holdings_df['Overall Profit'] = holdings_df['Value'] - holdings_df['investment']
+        self.save_results(holdings_df, 'multiple_investment.csv')
 
-    def save_results(self, ticker_data, file_name):
-        csv_path = r'src\assethold\tests\test_data\analysis\Portfolio\results\Data'
-        ticker_data.to_csv(f'{csv_path}\\{file_name}', index=False)
+    def save_results(self, holdings_df, file_name):
+        csv_path = r'src\assethold\tests\test_data\modules\stocks\analysis\portfolio\results\Data'
+        holdings_df.to_csv(f'{csv_path}\\{file_name}', index=False)
 
