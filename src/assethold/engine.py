@@ -7,7 +7,7 @@ import logging
 from assetutilities.common.ApplicationManager import ConfigureApplicationInputs
 from assetutilities.common.update_deep import AttributeDict
 from assetutilities.common.yml_utilities import ymlInput
-from assethold.custom.stocks import Stocks
+from assethold.modules.stocks.stocks import Stocks
 from assetutilities.common.data import SaveData
 from assetutilities.common.utilities import save_application_cfg
 from assetutilities.common.file_management import FileManagement
