@@ -27,7 +27,7 @@ dictitems:
     file_name_for_overwrite: ticker_profit
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\portfolio\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\portfolio\logs
-    start_time: 2024-11-21 10:19:30.206356
+    start_time: 2024-11-21 12:16:36.853798
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\portfolio\ticker_profit.yml

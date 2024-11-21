@@ -54,9 +54,9 @@ class InvestmentValue:
         holdings_df['Date'] = pd.to_datetime(holdings_df['Date'])
         holdings_df = holdings_df.sort_values(by='Date')
 
-        self.calculate_multiple_investment(initial_investment, holdings_df)
+        self.calculate_multiple_investment(cfg, initial_investment, holdings_df)
         
-    def calculate_multiple_investment(self, initial_investment, holdings_df):
+    def calculate_multiple_investment(self, cfg, initial_investment, holdings_df):
         '''
         Calcuate multiple investement value with time
         Assume investment is done on a 'monthly basis' 
@@ -87,8 +87,29 @@ class InvestmentValue:
             holdings_df.at[idx, 'Value'] = current_value
         
         holdings_df['Overall Profit'] = holdings_df['Value'] - holdings_df['investment']
+
+        self.calculate_interest(cfg, holdings_df, total_investment)
+
         self.save_results(holdings_df, 'multiple_investment.csv')
 
+    def calculate_interest(self, cfg, holdings_df, total_investment):
+        """
+        Simple and compound interest based on cumulative investment.
+        """
+        annual_rate =  0.05 # sample interest rate of 5%
+        principal = total_investment
+        start_date = holdings_df['Date'].iloc[0]
+        end_date = holdings_df['Date'].iloc[-1]
+        time_in_years = (end_date - start_date).days / 365
+
+        # SI 
+        simple_interest = principal * annual_rate * time_in_years
+
+        # CI
+        compound_interest = principal * ((1 + annual_rate) ** time_in_years - 1)
+
+        return simple_interest, compound_interest
+    
     def save_results(self, holdings_df, file_name):
         csv_path = r'tests\modules\stocks\analysis\portfolio\results\Data'
         holdings_df.to_csv(f'{csv_path}\\{file_name}', index=False)
