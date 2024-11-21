@@ -33,7 +33,7 @@ class InvestmentValue:
         holdings_df['Value'] = holdings_df['Overall Profit'] + initial_investment
 
         # Calculate average_annual_invesment
-        holdings_df['average_annual_investment'] = 0
+        holdings_df['average_annual_investment'] = 0.0
         for idx, row in holdings_df.iterrows():
             if idx != 0:
                 average_annual_investment_increment = holdings_df.at[idx-1, 'investment']*(row['Date'] - holdings_df['Date'].iloc[idx-1]).days/365
@@ -90,6 +90,6 @@ class InvestmentValue:
         self.save_results(holdings_df, 'multiple_investment.csv')
 
     def save_results(self, holdings_df, file_name):
-        csv_path = r'src\assethold\tests\test_data\modules\stocks\analysis\portfolio\results\Data'
+        csv_path = r'tests\modules\stocks\analysis\portfolio\results\Data'
         holdings_df.to_csv(f'{csv_path}\\{file_name}', index=False)
 
