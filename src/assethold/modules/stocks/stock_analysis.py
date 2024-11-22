@@ -12,7 +12,7 @@ from assethold.modules.stocks.investment_value import InvestmentValue
 from assethold.modules.stocks.portfolio import Portfolio
 
 portfolio = Portfolio()
-tp = InvestmentValue()
+iv = InvestmentValue()
 
 class StockAnalysis():
 
@@ -54,7 +54,9 @@ class StockAnalysis():
             cfg = portfolio.router(cfg)
         elif 'analysis' in cfg and cfg['analysis'].get('investment', False):
             ticker_data = data['daily']['data']
-            cfg = tp.router(cfg, ticker_data)
+            cfg = iv.router(cfg, ticker_data)
+        else:
+            raise Exception("Analysis not requested by user.")
 
         cfg_status_dict = {cfg['basename']: {'analysis': {'status': analysis_status}}}
         cfg = update_deep_dictionary(cfg, cfg_status_dict)

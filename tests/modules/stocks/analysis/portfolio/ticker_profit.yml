@@ -1,4 +1,4 @@
-basename: stock
+basename: stocks
 
 analysis:
   flag: True

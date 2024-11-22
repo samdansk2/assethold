@@ -1,4 +1,4 @@
-basename: stock
+basename: stocks
 
 default:
   log_level: DEBUG

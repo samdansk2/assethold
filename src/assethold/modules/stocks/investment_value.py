@@ -15,11 +15,13 @@ class InvestmentValue:
         return cfg
 
     def single_investment(self, cfg, holdings_df):
-        
+
         holdings_df = holdings_df.copy()
         initial_investment = cfg['parameters']['initial_investment']
 
-        self.calculate_single_investment(initial_investment, holdings_df)
+        holdings_df = self.calculate_single_investment(initial_investment, holdings_df)
+
+        return holdings_df
 
     def calculate_single_investment(self, initial_investment, holdings_df):
         '''
@@ -45,10 +47,13 @@ class InvestmentValue:
         holdings_df['annual_profit'] = (holdings_df['Value'] - holdings_df['investment'])/holdings_df['average_annual_investment']*100
 
         self.save_results(holdings_df, 'single_investment.csv')
-    
+        
+        return holdings_df
+
     def multiple_investment(self, cfg, holdings_df):
         
         holdings_df = holdings_df.copy()
+
         initial_investment = cfg['parameters']['initial_investment']
         
         holdings_df['Date'] = pd.to_datetime(holdings_df['Date'])
