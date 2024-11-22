@@ -17,17 +17,19 @@ class InvestmentValue:
     def single_investment(self, cfg, holdings_df):
 
         holdings_df = holdings_df.copy()
-        initial_investment = cfg['parameters']['initial_investment']
+        single_investment_cfg = cfg['investment_settings']
 
-        holdings_df = self.calculate_single_investment(initial_investment, holdings_df)
+        holdings_df = self.calculate_single_investment(investment, holdings_df)
 
         return holdings_df
 
-    def calculate_single_investment(self, initial_investment, holdings_df):
+    def calculate_single_investment(self, single_investment_cfg, holdings_df):
         '''
         Single investement value with time
         A dataframe with daily price, unit bought, value of investment and profit
         '''
+
+        initial_investment = single_investment_cfg['investment']
         holdings_df['investment'] = initial_investment
         holdings_df['Price Change %'] = holdings_df['Close'].subtract(holdings_df['Close'].iloc[0]) / holdings_df['Close'].iloc[0] * 100
         holdings_df['Units Bought'] = initial_investment / holdings_df['Close']
@@ -51,8 +53,19 @@ class InvestmentValue:
         return holdings_df
 
     def multiple_investment(self, cfg, holdings_df):
+        # Convert to group of single investments
         
-        holdings_df = holdings_df.copy()
+        for every day:
+            single_investment_cfg = {
+                'investment': 100,
+                'buy_date': '2021-01-01'
+            }
+
+            single_holdings_df = holdings_df.copy() # Edit with buy date
+            
+            single_holdings_df = self.calculate_single_investment(single_investment_cfg, holdings_df)
+            multiple_holdings_df = multiple_holdings_df.add_by_date(single_holdings_df)
+        
 
         initial_investment = cfg['parameters']['initial_investment']
         
@@ -60,7 +73,7 @@ class InvestmentValue:
         holdings_df = holdings_df.sort_values(by='Date')
 
         self.calculate_multiple_investment(cfg, initial_investment, holdings_df)
-        
+
     def calculate_multiple_investment(self, cfg, initial_investment, holdings_df):
         '''
         Calcuate multiple investement value with time

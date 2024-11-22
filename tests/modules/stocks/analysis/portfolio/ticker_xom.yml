@@ -9,10 +9,14 @@ analysis:
 data:
   period: 1y
 
-parameters:
-  initial_investment: 100 # rupees
-  interval: 1d # day
-  buy_date: 2023-11-01
+investment_settings:
+  single:
+    investment: 100 # rupees
+    buy_date: 2023-11-01
+  multiple:
+    investment: 100 # rupees
+    interval: 1d # day
+    start_date: 2023-11-01
 
 input:
   ticker: XOM
