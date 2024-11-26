@@ -15,7 +15,6 @@ investment_settings:
     buy_date: 2023-11-01
   multiple:
     investment: 100 # rupees
-    interval: 1d # day
     start_date: 2023-11-01
 
 input:

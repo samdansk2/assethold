@@ -10,7 +10,6 @@ class InvestmentValue:
     def router(self, cfg, daily_data):
 
         self.single_investment(cfg, daily_data)
-        self.multiple_investment(cfg, daily_data)
 
         return cfg
 
@@ -18,16 +17,6 @@ class InvestmentValue:
 
         holdings_df = holdings_df.copy()
         single_investment_cfg = cfg['investment_settings']
-
-        holdings_df = self.calculate_single_investment(investment, holdings_df)
-
-        return holdings_df
-
-    def calculate_single_investment(self, single_investment_cfg, holdings_df):
-        '''
-        Single investement value with time
-        A dataframe with daily price, unit bought, value of investment and profit
-        '''
 
         initial_investment = single_investment_cfg['investment']
         holdings_df['investment'] = initial_investment
@@ -53,7 +42,7 @@ class InvestmentValue:
         return holdings_df
 
     def multiple_investment(self, cfg, holdings_df):
-        # Convert to group of single investments
+        Convert to group of single investments
         
         for every day:
             single_investment_cfg = {
@@ -67,12 +56,12 @@ class InvestmentValue:
             multiple_holdings_df = multiple_holdings_df.add_by_date(single_holdings_df)
         
 
-        initial_investment = cfg['parameters']['initial_investment']
-        
-        holdings_df['Date'] = pd.to_datetime(holdings_df['Date'])
-        holdings_df = holdings_df.sort_values(by='Date')
+            initial_investment = cfg['parameters']['initial_investment']
+            
+            holdings_df['Date'] = pd.to_datetime(holdings_df['Date'])
+            holdings_df = holdings_df.sort_values(by='Date')
 
-        self.calculate_multiple_investment(cfg, initial_investment, holdings_df)
+            self.calculate_multiple_investment(cfg, initial_investment, holdings_df)
 
     def calculate_multiple_investment(self, cfg, initial_investment, holdings_df):
         '''

@@ -17,7 +17,7 @@ def run_process(input_file, expected_result={}):
     #assert(cfg[cfg['basename']] == expected_result[expected_result['basename']])
 
 def test_run_process():
-    input_file = 'ticker_profit.yml'
+    input_file = 'investment_value.yml'
     pytest_output_file = 'results/pytest_portfolio.yml'
 
     file_is_valid, pytest_output_file = is_file_valid_func(pytest_output_file, os.path.dirname(__file__))
