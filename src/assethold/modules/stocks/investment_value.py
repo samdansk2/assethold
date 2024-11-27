@@ -42,26 +42,27 @@ class InvestmentValue:
         return holdings_df
 
     def multiple_investment(self, cfg, holdings_df):
-        Convert to group of single investments
+
+        #Convert to group of single investments
         
-        for every day:
+        for idx, row in holdings_df.iterrows():
             single_investment_cfg = {
                 'investment': 100,
-                'buy_date': '2021-01-01'
+                'buy_date': row['Date']
             }
 
-            single_holdings_df = holdings_df.copy() # Edit with buy date
-            
-            single_holdings_df = self.calculate_single_investment(single_investment_cfg, holdings_df)
-            multiple_holdings_df = multiple_holdings_df.add_by_date(single_holdings_df)
+        single_holdings_df = holdings_df.copy() # Edit with buy date
         
+        single_holdings_df = self.calculate_single_investment(single_investment_cfg, holdings_df)
+        multiple_holdings_df = multiple_holdings_df.add_by_date(single_holdings_df)
+    
 
-            initial_investment = cfg['parameters']['initial_investment']
-            
-            holdings_df['Date'] = pd.to_datetime(holdings_df['Date'])
-            holdings_df = holdings_df.sort_values(by='Date')
+        initial_investment = cfg['parameters']['initial_investment']
+        
+        holdings_df['Date'] = pd.to_datetime(holdings_df['Date'])
+        holdings_df = holdings_df.sort_values(by='Date')
 
-            self.calculate_multiple_investment(cfg, initial_investment, holdings_df)
+        self.calculate_multiple_investment(cfg, initial_investment, holdings_df)
 
     def calculate_multiple_investment(self, cfg, initial_investment, holdings_df):
         '''
@@ -118,6 +119,6 @@ class InvestmentValue:
         return simple_interest, compound_interest
     
     def save_results(self, holdings_df, file_name):
-        csv_path = r'tests\modules\stocks\analysis\portfolio\results\Data'
+        csv_path = r'tests\modules\stocks\analysis\investment\results\Data'
         holdings_df.to_csv(f'{csv_path}\\{file_name}', index=False)
 
