@@ -56,49 +56,7 @@ class InvestmentValue:
         single_holdings_df = self.calculate_single_investment(single_investment_cfg, holdings_df)
         multiple_holdings_df = multiple_holdings_df.add_by_date(single_holdings_df)
     
-
-        initial_investment = cfg['parameters']['initial_investment']
-        
-        holdings_df['Date'] = pd.to_datetime(holdings_df['Date'])
-        holdings_df = holdings_df.sort_values(by='Date')
-
-        self.calculate_multiple_investment(cfg, initial_investment, holdings_df)
-
-    def calculate_multiple_investment(self, cfg, initial_investment, holdings_df):
-        '''
-        Calcuate multiple investement value with time
-        Assume investment is done on a 'monthly basis' 
-        Other investment intervals: semi-monthly, 1 month low, 2 month low, 3 month low, 6 month low, 1 year low
-        A dataframe with daily price, unit bought, value of investment and profit
-        '''
-
-        holdings_df['Units bought'] = 0.0
-        holdings_df['investment'] = 0.0
-        holdings_df['Value'] = 0.0
-
-        total_units = 0.0
-        total_investment = 0.0
-        last_month = None
-
-        for idx, row in holdings_df.iterrows():
-            current_month = row['Date'].month
-
-            # Invest on the first occurrence of each month
-            if current_month != last_month:
-                total_units += initial_investment / row['Close']
-                total_investment += initial_investment
-                last_month = current_month
-
-            current_value = total_units * row['Close']
-            holdings_df.at[idx, 'Units bought'] = total_units
-            holdings_df.at[idx, 'investment'] = total_investment
-            holdings_df.at[idx, 'Value'] = current_value
-        
-        holdings_df['Overall Profit'] = holdings_df['Value'] - holdings_df['investment']
-
-        self.calculate_interest(cfg, holdings_df, total_investment)
-
-        self.save_results(holdings_df, 'multiple_investment.csv')
+        pass
 
     def calculate_interest(self, cfg, holdings_df, total_investment):
         """
