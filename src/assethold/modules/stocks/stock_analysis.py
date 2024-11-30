@@ -9,12 +9,12 @@ from assetutilities.common.update_deep import update_deep_dictionary
 
 # Reader imports
 from assethold.modules.stocks.investment_value import InvestmentValue
-from assethold.modules.stocks.investment_value_fnn import InvestmentValueFnn
+from assethold.modules.stocks.investment_value_ffn import InvestmentValueFfn
 from assethold.modules.stocks.portfolio import Portfolio
 
 portfolio = Portfolio()
 iv = InvestmentValue()
-ivf = InvestmentValueFnn()
+ivf = InvestmentValueFfn()
 
 class StockAnalysis():
 
@@ -57,7 +57,7 @@ class StockAnalysis():
         elif 'analysis' in cfg and cfg['analysis'].get('investment', False):
             ticker_data = data['daily']['data']
             cfg = iv.router(cfg, ticker_data)
-        elif 'analysis' in cfg and cfg['analysis'].get('fnn', False):
+        elif 'analysis' in cfg and cfg['analysis'].get('ffn', False):
             ticker_data = data['daily']['data']
             cfg = ivf.router(cfg, ticker_data)
         else:

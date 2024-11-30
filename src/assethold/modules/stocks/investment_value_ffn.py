@@ -2,7 +2,7 @@ import ffn
 import pandas as pd
 import matplotlib.pyplot as plt
 
-class InvestmentValueFnn:
+class InvestmentValueFfn:
 
     def __init__(self):
         pass
@@ -12,7 +12,7 @@ class InvestmentValueFnn:
         prices_data = self.prepare_data(holdings_df)
         self.get_returns(cfg, prices_data)
 
-        return cfg, prices_data
+        return cfg
         
     def prepare_data(self, data: pd.DataFrame) -> pd.DataFrame:
         """
@@ -39,8 +39,6 @@ class InvestmentValueFnn:
         # - monthly_returns 
         # - visualize the data
 
-
-        
         return prices_data
         
         
