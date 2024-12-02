@@ -10,7 +10,8 @@ class InvestmentValueFfn:
     def router(self, cfg, holdings_df):
 
         prices_data = self.prepare_data(holdings_df)
-        self.get_returns(cfg, prices_data)
+        self.get_daily_returns(cfg, prices_data)
+        self.get_monthly_returns(cfg, prices_data)
 
         return cfg
         
@@ -28,18 +29,31 @@ class InvestmentValueFfn:
         
         return data
 
-    def get_returns(self, cfg, prices_data):
-        """
-        Process historical price data to calculate returns.
-        """
+    def get_daily_returns(self, cfg, prices_data):
+      
         prices_data = prices_data.copy()
         prices_data['daily_returns'] = ffn.to_returns(prices_data['Close'])
-        prices_data['monthly_returns'] = ffn.to_monthly(prices_data['Close']).to_returns()
-
-        #TODO - Add more return calculations
-        # - monthly_returns 
-        # - visualize the data
+        self.save_results(prices_data, 'ffn_daily_returns.csv')
 
         return prices_data
+    
+    def get_monthly_returns(self, cfg, prices_data):
+     
+        prices_data = prices_data.copy()
+        prices_data.sort_index(inplace=True)  # Ensure data is sorted
+        prices_data = prices_data[~prices_data.index.duplicated()] 
+
+        monthly_prices = prices_data['Close'].resample('ME').last()
+        monthly_returns = monthly_prices.pct_change()
+
+        prices_data['monthly_returns'] = monthly_returns
+        self.save_results(prices_data, 'ffn_monthly_returns.csv')
+        return prices_data
+    
+    def save_results(self, prices_data,file_name):
+        csv_path = r'tests\modules\stocks\analysis\investment\results\Data'
+        prices_data.to_csv(f'{csv_path}\\{file_name}', index=True)
+
+       
         
         
