@@ -34,6 +34,7 @@ class InvestmentValueFfn:
         """
         prices_data = prices_data.copy()
         prices_data['daily_returns'] = ffn.to_returns(prices_data['Close'])
+        prices_data['monthly_returns'] = ffn.to_monthly(prices_data['Close']).to_returns()
 
         #TODO - Add more return calculations
         # - monthly_returns 
