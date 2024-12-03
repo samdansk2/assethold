@@ -11,7 +11,6 @@ from assetutilities.common.update_deep import AttributeDict
 from assetutilities.common.utilities import save_application_cfg
 from assetutilities.common.yml_utilities import ymlInput
 
-from assethold.modules.stocks.stocks import Stocks
 # Reader imports
 from assethold.modules.stocks.stocks import Stocks
 
