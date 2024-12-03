@@ -27,7 +27,16 @@ class InvestmentValueFfn:
             else:
                 raise ValueError("Data must include a 'Date' column to set as a DatetimeIndex.")
         
+        self.get_statistics(data)
         return data
+    
+    def get_statistics(self, data):
+
+        perf_stats = data.calc_stats()
+        stats_summary = perf_stats.stats
+        lookback_returns = perf_stats.lookback_returns
+
+        return perf_stats, stats_summary, lookback_returns
 
     def get_daily_returns(self, cfg, prices_data):
       
@@ -69,8 +78,8 @@ class InvestmentValueFfn:
         plt.legend()
         ax.grid(True)
 
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
-        ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y')) # Date axis in months 
+        ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1)) # interval of 1 month
 
         plt.savefig('tests/modules/stocks/analysis/investment/results/Plot/daily_returns.png')
     

@@ -30,7 +30,7 @@ dictitems:
     file_name_for_overwrite: investment_value_ffn
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\investment\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\investment\logs
-    start_time: 2024-12-03 12:02:53.437393
+    start_time: 2024-12-03 12:17:34.201603
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\investment\investment_value_ffn.yml
