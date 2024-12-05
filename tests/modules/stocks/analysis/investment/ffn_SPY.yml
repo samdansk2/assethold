@@ -9,16 +9,8 @@ analysis:
 data:
   period: 1y
 
-investment_settings:
-  single:
-    investment: 100 # rupees
-    buy_date: 2023-11-01
-  multiple:
-    investment: 100 # rupees
-    start_date: 2023-11-01
-
 input:
-  ticker: XOM
+  ticker: SPY
 
 default:
   log_level: INFO

@@ -15,7 +15,8 @@ ffn is chosen for return analysis.
 | --- | --- | --- | --- | --- | --- |
 | XOM | ? | 0.006 |  | ffn | Matches  |
 | SPY |
-| BRKB | ?
+| BRK.B | ?
+| AAPL | ?
 
 ### References
 

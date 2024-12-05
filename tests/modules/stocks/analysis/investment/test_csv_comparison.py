@@ -4,16 +4,10 @@ def compare_daily_returns_simple(manual_csv_path: str, ffn_csv_path: str, output
     """
     Compare manually calculated daily returns with ffn-calculated daily returns
     and save the discrepancies as a CSV file.
-
-    :param manual_csv_path: Path to the manually calculated returns CSV file.
-    :param ffn_csv_path: Path to the ffn-calculated returns CSV file.
-    :param output_csv_path: Path to save the comparison results as a CSV file.
     """
-    # Load the CSV files into DataFrames
     manual_data = pd.read_csv(manual_csv_path, index_col='Date', parse_dates=True)
     ffn_data = pd.read_csv(ffn_csv_path, index_col='Date', parse_dates=True)
-    
-    # Select only the 'daily_returns' column
+
     manual_returns = manual_data[['daily_returns']]
     ffn_returns = ffn_data[['daily_returns']]
     
@@ -25,8 +19,7 @@ def compare_daily_returns_simple(manual_csv_path: str, ffn_csv_path: str, output
     
     # Filter discrepancies where the difference exceeds a small tolerance
     discrepancies = comparison[comparison['difference'] > 1e-6]
-    
-    # Save the discrepancies to a CSV file
+
     discrepancies.to_csv(output_csv_path)
     
     print(f"Comparison complete. Discrepancies saved to {output_csv_path}")
