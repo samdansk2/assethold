@@ -1,6 +1,6 @@
 ## Introduction
 
-Percentage returns for stocks is to be calulcated. THe following two methods are evaluated:
+Percentage returns for stocks is to be calulcated. The following two methods are evaluated :
 
 - ffn (Financial Functions for Python) standard library
 - assethold hand calculation
@@ -11,14 +11,14 @@ ffn is chosen for return analysis.
 
 ### Detailed Analysis
 
-| Ticker | Analysis Duration | Dividend | % Return | Method | Conclusion |
+| Ticker | Analysis Duration | Dividends | % Return | Method | Conclusion |
 | --- | --- | --- | --- | --- | --- |
-| XOM | ? | 0.006 |  | ffn | Matches  |
-| SPY |
-| BRK.B | ?
-| AAPL | ?
+| XOM | 1 yr | Yes | 17.66 | ffn | Matches |
+| SPY | 1 yr | Yes | 34.88 | ffn | Matches | 
+| DJIA | 1 yr | Yes | 16.93 | ffn  | Matches  |
+| AAPL | 1 yr | Yes | 26.25 | ffn | Matches |
 
 ### References
 
-- [ffn](https://pmorissette.github.io/ffn/)
-- [assethold repo tests] 
+- [ffn] (https://pmorissette.github.io/ffn/)
+- [assethold repo tests] <https://github.com/samdansk2/assethold/tree/first_pass_run/tests/modules/stocks/analysis/investment>

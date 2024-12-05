@@ -56,7 +56,8 @@ class InvestmentValueFfn:
         prices_data = prices_data[~prices_data.index.duplicated()] 
 
         stats = prices_data['Close'].calc_stats()
-
+        return_percentage = stats.total_return * 100
+        
         monthly_returns = stats.return_table
 
         self.save_results(cfg, monthly_returns, 'ffn_monthly_returns.csv')
