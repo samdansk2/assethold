@@ -23,7 +23,7 @@ dictitems:
     file_name_for_overwrite: ffn_AAPL
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\investment\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\investment\logs
-    start_time: 2024-12-05 11:31:32.245058
+    start_time: 2024-12-06 10:12:36.587310
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\investment\ffn_AAPL.yml

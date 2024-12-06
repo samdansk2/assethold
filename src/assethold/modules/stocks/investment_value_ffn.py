@@ -56,6 +56,7 @@ class InvestmentValueFfn:
         prices_data = prices_data[~prices_data.index.duplicated()] 
 
         stats = prices_data['Close'].calc_stats()
+
         return_percentage = stats.total_return * 100
         
         monthly_returns = stats.return_table
