@@ -20,3 +20,6 @@
 
 ### Investment strategy
 <https://www.navyfederal.org/makingcents/investing/dollar-cost-averaging.html#:~:text=With%20a%20dollar%2Dcost%20averaging,per%2Dshare%20cost%20over%20time.>
+
+
+https://www.tradingview.com/pricing/#compare
