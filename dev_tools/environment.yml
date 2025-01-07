@@ -8,4 +8,3 @@ dependencies:
   - pip
   - pip:
       - -r requirements.txt # source pip specific requirements
-

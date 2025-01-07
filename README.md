@@ -9,13 +9,13 @@ Helps manage a stock as a stand-alone portfolio
 
 # Usage
 
-See test file for example ticker, [test file](https://github.com/vamseeachanta/stockhold/blob/master/src/stockhold/tests/test_stock_visualization_for_ticker_text_area.py)
+See test file for example ticker, [test file](https://github.com/samdansk2/assethold/blob/master/src/assethold/tests/test_stock_visualization_for_ticker_text_area.py)
 
 Analysis output is: 
-https://github.com/vamseeachanta/stockhold/blob/master/docs/2022-11-26_RIG_Analysis.png
+https://github.com/samdansk2/assethold/blob/master/docs/2022-11-26_RIG_Analysis.png
 
 
-See a [test file](https://github.com/vamseeachanta/stockhold/blob/master/src/stockhold/test/test_all_analysis_xom.py) to see how to perform analysis
+See a [test file](https://github.com/samdansk2/assethold/blob/master/src/assethold/tests/test_all_analysis_xom.py) to see how to perform analysis
 
 
 

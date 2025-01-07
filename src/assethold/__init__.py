@@ -1,6 +1,6 @@
 """
 
-See https://github.com/vamseeachanta/stockhold/ for more information.
+See https://github.com/samdansk2/assethold/ for more information.
 """
 
 # Version of package
