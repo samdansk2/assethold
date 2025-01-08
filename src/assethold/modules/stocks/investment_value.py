@@ -20,6 +20,7 @@ class InvestmentValue:
         single_investment_cfg = cfg['investment_settings']
 
         initial_investment = single_investment_cfg['single']['investment']
+
         prices_data['investment'] = initial_investment
         prices_data['Units Bought'] = initial_investment / prices_data['Close']
         prices_data['daily_returns'] = prices_data['Close'].pct_change()
@@ -43,11 +44,18 @@ class InvestmentValue:
 
     def multiple_investment(self, prices_data):
 
+
         prices_data['Date'] = pd.to_datetime(prices_data['Date'])
         prices_data.set_index('Date', inplace=True)
 
         if not isinstance(prices_data.index, pd.DatetimeIndex):
             raise ValueError("prices_data index must be a pandas DatetimeIndex.")
+
+
+        #Convert to group of single investments
+
+        #TODO - Implement multiple investment
+
         
         prices_data = prices_data.sort_index()
 
@@ -66,7 +74,17 @@ class InvestmentValue:
         monthly_returns_df = monthly_returns_df[month_order]
         monthly_returns_df = monthly_returns_df.reset_index()
         
+
         self.save_results(monthly_returns_df, 'multiple_investment.csv')
+
+        single_holdings_df = self.calculate_single_investment(single_investment_cfg, holdings_df)
+        
+        # multiple_holdings_df = multiple_holdings_df.add_by_date(single_holdings_df)
+    
+        pass
+
+        self.save_results(monthly_returns_df, 'multiple_investment.csv')
+
 
         return monthly_returns_df
 

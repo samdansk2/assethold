@@ -44,9 +44,11 @@ class InvestmentValueFfn:
         returns = ffn.to_log_returns(prices_data['Close'])
         prices_data['daily_returns'] = returns
 
+
         self.plot_returns(cfg, returns, prices_data)
         self.save_results(cfg, prices_data, 'ffn_daily_returns.csv')
 
+      
         return prices_data
     
     def get_monthly_returns(self, cfg, prices_data):
@@ -56,6 +58,7 @@ class InvestmentValueFfn:
         prices_data = prices_data[~prices_data.index.duplicated()] 
 
         stats = prices_data['Close'].calc_stats()
+
 
         return_percentage = stats.total_return * 100
         
@@ -71,6 +74,18 @@ class InvestmentValueFfn:
 
         ticker = cfg['input']['ticker']
 
+
+        monthly_returns = stats.return_table
+
+        self.save_results(monthly_returns, 'ffn_monthly_returns.csv')
+
+        return monthly_returns
+    
+    def plot_returns(self, daily_returns, prices_data):
+        
+        import matplotlib.dates as mdates #noqa
+
+
         daily_returns = daily_returns.dropna()
         daily_returns = daily_returns[:100]
         fig, ax = plt.subplots(figsize=(12, 6))
@@ -85,6 +100,7 @@ class InvestmentValueFfn:
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y')) # Date axis in months 
         ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1)) # interval of 1 month
 
+
         plt.savefig(f'tests/modules/stocks/analysis/investment/results/Plot/{ticker}_daily_returns.png')
     
     def save_results(self, cfg, prices_data,file_name):
@@ -92,6 +108,14 @@ class InvestmentValueFfn:
         ticker = cfg['input']['ticker']
         csv_path = r'tests\modules\stocks\analysis\investment\results\Data\ffn'
         prices_data.to_csv(f'{csv_path}\\{ticker}_{file_name}', index=True)
+
+        plt.savefig('tests/modules/stocks/analysis/investment/results/Plot/daily_returns.png')
+    
+    def save_results(self, prices_data,file_name):
+
+        csv_path = r'tests\modules\stocks\analysis\investment\results\Data'
+        prices_data.to_csv(f'{csv_path}\\{file_name}', index=True)
+
 
 
 
