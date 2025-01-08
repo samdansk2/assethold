@@ -17,5 +17,7 @@ More information is available at:
 Version:
 --------
 
-- stockhold v0.0.1
+
+=======
+- assethold v0.0.1
 """

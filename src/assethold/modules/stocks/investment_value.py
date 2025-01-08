@@ -20,17 +20,11 @@ class InvestmentValue:
         single_investment_cfg = cfg['investment_settings']
 
         initial_investment = single_investment_cfg['single']['investment']
-<<<<<<< HEAD
+
         prices_data['investment'] = initial_investment
         prices_data['Units Bought'] = initial_investment / prices_data['Close']
         prices_data['daily_returns'] = prices_data['Close'].pct_change()
         prices_data['Value'] = prices_data['daily_returns'] + initial_investment
-=======
-        holdings_df['investment'] = initial_investment
-        holdings_df['Units Bought'] = initial_investment / holdings_df['Close']
-        holdings_df['daily_returns'] = holdings_df['Close'].pct_change()
-        holdings_df['Value'] = holdings_df['daily_returns'] + initial_investment
->>>>>>> c079670dab98451e0cbf743f6f414adb1634b695
 
         # Calculate average_annual_invesment
         prices_data['average_annual_investment'] = 0.0
@@ -50,17 +44,18 @@ class InvestmentValue:
 
     def multiple_investment(self, prices_data):
 
-<<<<<<< HEAD
+
         prices_data['Date'] = pd.to_datetime(prices_data['Date'])
         prices_data.set_index('Date', inplace=True)
 
         if not isinstance(prices_data.index, pd.DatetimeIndex):
             raise ValueError("prices_data index must be a pandas DatetimeIndex.")
-=======
+
+
         #Convert to group of single investments
 
         #TODO - Implement multiple investment
->>>>>>> c079670dab98451e0cbf743f6f414adb1634b695
+
         
         prices_data = prices_data.sort_index()
 
@@ -79,15 +74,17 @@ class InvestmentValue:
         monthly_returns_df = monthly_returns_df[month_order]
         monthly_returns_df = monthly_returns_df.reset_index()
         
-<<<<<<< HEAD
+
         self.save_results(monthly_returns_df, 'multiple_investment.csv')
-=======
+
         single_holdings_df = self.calculate_single_investment(single_investment_cfg, holdings_df)
         
         # multiple_holdings_df = multiple_holdings_df.add_by_date(single_holdings_df)
     
         pass
->>>>>>> c079670dab98451e0cbf743f6f414adb1634b695
+
+        self.save_results(monthly_returns_df, 'multiple_investment.csv')
+
 
         return monthly_returns_df
 

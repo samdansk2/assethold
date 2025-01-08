@@ -30,11 +30,10 @@ dictitems:
     file_name_for_overwrite: investment_value
     result_folder: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\investment\results
     log_folder: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\investment\logs
-<<<<<<< HEAD
+
+
     start_time: 2024-12-06 10:31:12.342601
-=======
-    start_time: 2024-12-02 10:28:42.796500
->>>>>>> c079670dab98451e0cbf743f6f414adb1634b695
+
     cfg_array_file_names: ~
     DefaultInputFile: ~
     CustomInputFile: c:\Users\Sk Samdan\Desktop\assethold\tests\modules\stocks\analysis\investment\investment_value.yml
