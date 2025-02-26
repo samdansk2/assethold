@@ -20,3 +20,7 @@ Simple rules recommended to invest in a sustainable manner are:
     - This will reduce the risk of investing all the capital at a high price.
     - This will also reduce the risk of keeping all the capital at a low price.
 
+## Back Testing
+
+- Back testing is a method to test the effectiveness of a strategy by applying it to historical data.
+- 
