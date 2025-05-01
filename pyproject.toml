@@ -13,26 +13,6 @@ documentation = "https://github.com/samdansk2/assethold/blob/main/README.md"
 [tool.poetry.dependencies]
 assetutilities = { path = "../assetutilities", develop = true }
 python = ">=3.9,<4.0"
-pandas = "*"
-pyyaml = "*"
-numpy_financial = "*"
-bumpver = "*"
-plotly = "*"
-dash = "*"
-dash_bootstrap_components = "*"
-urllib3 = "*"
-xmltodict = "*"
-bs4 = "*"
-sqlalchemy = "*"
-yfinance = "*"
-yahoo_fin = "*"
-finvizfinance = "*"
-sec_edgar_downloader = "*"
-ta = "*"
-flask_wtf = "*"
-flask_httpauth = "*"
-flask_restful = "*"
-ffn = "*"
 
 [tool.poetry.extras]
 build = ["build", "twine"]
