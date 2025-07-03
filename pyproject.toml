@@ -11,8 +11,10 @@ repository = "https://github.com/samdansk2/assethold"
 documentation = "https://github.com/samdansk2/assethold/blob/main/README.md"
 
 [tool.poetry.dependencies]
-assetutilities = { path = "../assetutilities", develop = true }
 python = ">=3.9,<4.0"
+
+[tool.poetry.group.local.dependencies]
+assetutilities = { path = "../assetutilities", develop = true }
 
 [tool.poetry.extras]
 build = ["build", "twine"]
