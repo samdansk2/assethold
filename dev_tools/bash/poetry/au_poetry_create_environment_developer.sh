@@ -60,5 +60,3 @@ else
 fi
 
 echo "[INFO] Local development environment setup complete!"
-echo "[INFO] To install without local dependencies (e.g., for CI/CD), use: poetry install"
-echo "[INFO] To install with local dependencies, use: poetry install --with local"

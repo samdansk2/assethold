@@ -13,9 +13,6 @@ documentation = "https://github.com/samdansk2/assethold/blob/main/README.md"
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 
-[tool.poetry.group.local.dependencies]
-assetutilities = { path = "../assetutilities", develop = true }
-
 [tool.poetry.extras]
 build = ["build", "twine"]
 dev = ["black", "bumpver", "isort", "mypy", "pytest"]
@@ -52,3 +49,6 @@ strict = true
 [[tool.mypy.overrides]]
 module = "feedparser"
 ignore_missing_imports = true
+
+[tool.poetry.group.local.dependencies]
+assetutilities = { path = "../assetutilities", develop = true }
