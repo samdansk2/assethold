@@ -1,11 +1,18 @@
 
 #TODO - implement the FixedDeposit class
 
-def calculate_interest(self, cfg, prices_data, total_investment):
+class FixedDeposit:
+    
+    def __init__(self):
+        pass
+
+    def calculate_interest(self, cfg, prices_data, total_investment):
+        pass
+
         """
         Simple and compound interest based on cumulative investment.
         """
-        annual_rate =  0.05 # sample interest rate of 5%
+        annual_rate =  1
         principal = total_investment
         start_date = prices_data['Date'].iloc[0]
         end_date = prices_data['Date'].iloc[-1]
