@@ -34,6 +34,35 @@
 **Rationale**: Reduces dependency on single provider, enables data validation through comparison
 **Implementation**: Abstracted data access through common interfaces
 
+## 2025-07-30: Agent OS Development Methodology Adoption
+
+**ID:** DEC-015
+**Status:** Accepted
+**Category:** Process
+**Related Spec:** @.agent-os/specs/2025-07-30-agent-os-integration/
+
+### Decision
+
+Adopt buildermethods Agent OS development methodology for structured feature development, comprehensive product documentation, and systematic development workflows while preserving all existing functionality and architecture.
+
+### Context
+
+AssetHold has reached maturity as a financial analysis platform with comprehensive functionality across stocks, real estate, and portfolio management. To support continued growth and enable structured development of new features, we need established development workflows that maintain our high standards for financial accuracy while improving development velocity and documentation quality.
+
+### Consequences
+
+**Positive:**
+- Structured development workflows for new financial analysis features
+- Comprehensive product documentation reflecting our mature platform capabilities
+- Systematic approach to breaking down complex financial modeling tasks
+- Clear development standards specifically adapted for financial software
+- Enhanced ability to onboard new contributors to the project
+
+**Negative:**
+- Additional documentation overhead for new feature development
+- Learning curve for developers to adopt Agent OS command workflows
+- Potential initial slowdown as team adapts to new development processes
+
 ## Development Process Decisions
 
 ### Comprehensive Testing Strategy
