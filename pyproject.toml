@@ -24,65 +24,61 @@ classifiers = [
 ]
 
 dependencies = [
-    "assetutilities"
-    "beautifulsoup4 == 4.13.4"
-    "bs4"
-    "build"
-    "bumpver"
-    "bumpver == 2024.1130"
-    "chardet"
-    "crochet"
-    "dash == 3.0.4"
-    "dash_bootstrap_components == 2.0.2"
-    "deepdiff"
-    "excel2img"
-    "excel2img; sys_platform == 'win32'"
-    "fake_headers"
-    "finvizfinance == 1.1.0"
-    "flask"
-    "flask_httpauth == 4.8.0"
-    "flask_restful == 0.3.10"
-    "flask_wtf == 1.2.2"
-    "gitpython==3.1.31"
-    "jinja2"
-    "loguru"
-    "matplotlib"
-    "numpy"
-    "numpy_financial == 1.0.0"
-    "openpyxl"
-    "pandas"
-    "pandas == 2.2.3"
-    "pandoc"
-    "parsel"
-    "plantuml"
-    "playwright"
-    "plotly"
-    "plotly == 6.0.1"
-    "PyPDF2"
-    "pytest"
-    "python-certifi-win32"
-    "python-docx"
-    "pyyaml"
-    "pyyaml == 6.0.2"
-    "ruamel.yaml"
-    "ruff"
-    "scrapy==2.12"
-    "sec_edgar_downloader == 5.0.3"
-    "selenium"
-    "sqlalchemy == 2.0.40"
-    "sympy>=1.13.3"
-    "ta == 0.11.0"
-    "tabula"
-    "twine"
-    "undetected-chromedriver "
-    "urllib3 == 2.4.0"
-    "utm"
-    "webcolors"
-    "wkhtmltopdf"
-    "xlsxwriter"
-    "xmltodict == 0.14.2"
-    "yahoo_fin == 0.8.9.1"
-    "yfinance == 0.2.57"
+    "assetutilities",
+    "beautifulsoup4==4.13.4",
+    "bs4",
+    "build",
+    "bumpver==2024.1130",
+    "chardet",
+    "crochet",
+    "dash==3.0.4",
+    "dash_bootstrap_components==2.0.2",
+    "deepdiff",
+    "excel2img",
+    "excel2img; sys_platform=='win32'",
+    "fake_headers",
+    "finvizfinance==1.1.0",
+    "flask",
+    "flask_httpauth==4.8.0",
+    "flask_restful==0.3.10",
+    "flask_wtf==1.2.2",
+    "gitpython==3.1.31",
+    "jinja2",
+    "loguru",
+    "matplotlib",
+    "numpy",
+    "numpy_financial==1.0.0",
+    "openpyxl",
+    "pandas==2.2.3",
+    "pandoc",
+    "parsel",
+    "plantuml",
+    "playwright",
+    "plotly==6.0.1",
+    "PyPDF2",
+    "pytest",
+    "python-certifi-win32",
+    "python-docx",
+    "pyyaml==6.0.2",
+    "ruamel.yaml",
+    "ruff",
+    "scrapy==2.12",
+    "sec_edgar_downloader==5.0.3",
+    "selenium",
+    "sqlalchemy==2.0.40",
+    "sympy>=1.13.3",
+    "ta==0.11.0",
+    "tabula",
+    "twine",
+    "undetected-chromedriver",
+    "urllib3==2.4.0",
+    "utm",
+    "webcolors",
+    "wkhtmltopdf",
+    "xlsxwriter",
+    "xmltodict==0.14.2",
+    "yahoo_fin==0.8.9.1",
+    "yfinance==0.2.57"
 ]
 
 [project.optional-dependencies]
@@ -108,9 +104,6 @@ docs = [
 "Homepage" = "https://github.com/username/assethold"
 "Bug Tracker" = "https://github.com/username/assethold/issues"
 "Documentation" = "https://github.com/username/assethold#readme"
-
-[tool.setuptools]
-packages = ["src"]
 
 [tool.setuptools.packages.find]
 where = ["."]
