@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Create-Module-Agent Command for assethold
+Create-Module-Agent Command
 
 This script provides access to the /create-module-agent command.
 """

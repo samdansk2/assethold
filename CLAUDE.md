@@ -369,3 +369,13 @@ View all available commands:
 
 ---
 *This is MANDATORY and overrides any local command implementations*
+
+
+## 📚 Complete Slash Command Reference
+
+For the COMPLETE list of all available slash commands across the ecosystem, see:
+- Master List: @/mnt/github/github/SLASH_COMMAND_MASTER_LIST.md
+- Registry: @/mnt/github/github/.SLASH_COMMAND_ECOSYSTEM/
+
+Total Available Commands: 38
+Last Updated: 2025-08-22T15:56:48.322695
